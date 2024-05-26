@@ -11,8 +11,8 @@ const userSchema = new Schema(
     },
     studentId: {
       type: String,
-      required: [true, "Student ID is required!"],
       unique: true,
+      default: "",
     },
     firstname: {
       type: String,

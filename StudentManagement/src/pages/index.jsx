@@ -9,9 +9,9 @@ export const HomePage = () => {
 
   console.log(user.data[0].role);
 
-  if (user.data[1].role == "teacher") {
+  if (user.data[0].role == "teacher") {
     return <TeacherDashboard />;
-  } else if (user.data[1].role == "student") {
+  } else if (user.data[0].role == "student") {
     return <StudentDashboard />;
   }
 }
