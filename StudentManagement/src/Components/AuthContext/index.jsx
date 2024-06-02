@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }) => {
       // }
       if (res.data) {
         setToken(res.data);
-        const user = await userService.getUser();
+        const user = await userService.getUsers();
         _setUser(user.data);
         message.success("Login success!");
         navigate(PATH.Home);

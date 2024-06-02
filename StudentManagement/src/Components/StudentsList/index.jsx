@@ -1,15 +1,19 @@
 import { Link } from "react-router-dom";
 import { PATH } from "../../config/path";
 
-export const StudentList = ({ firstname, lastname, studentId, classcode, gender, date, phone, address, paidammounts, status}) => {
+export const StudentList = ({ firstname, lastname, studentID, classcode, gender, date, phone, address, paidammounts, status}) => {
   return (
     <tr>
-      <td>{studentId}</td>
+      <td>{studentID}</td>
       <td>
-        <Link to={PATH.Students.StudentDetails}>{firstname}</Link>
+        <Link className="text-black" to={PATH.Students.StudentDetails}>
+          {firstname}
+        </Link>
       </td>
       <td>
-        <Link to={PATH.Students.StudentDetails}>{lastname}</Link>
+        <Link className="text-black" to={PATH.Students.StudentDetails}>
+          {lastname}
+        </Link>
       </td>
       <td>{classcode}</td>
       <td>{gender}</td>

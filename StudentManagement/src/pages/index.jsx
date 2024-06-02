@@ -7,11 +7,11 @@ import { StudentDashboard } from "./student-dashboard";
 export const HomePage = () => {
   const { user } = useAuthRedux();
 
-  console.log(user.data[0].role);
+  console.log(user);
 
-  if (user.data[0].role == "teacher") {
+  if (user.role == "Teacher") {
     return <TeacherDashboard />;
-  } else if (user.data[0].role == "student") {
+  } else if (user.role == "Student") {
     return <StudentDashboard />;
   }
 }

@@ -27,6 +27,7 @@ export const PATH = {
   Login: "/login",
   Register: "/register",
   ForgotPassword: "/forget-password",
+  RecoverPassword: "/recover-password",
   Profile: {
     index: PROFILE,
     EditProfile: PROFILE + "/edit",

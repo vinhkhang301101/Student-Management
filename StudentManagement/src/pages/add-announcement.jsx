@@ -78,9 +78,7 @@ export const AddAnnouncements = () => {
                       <div className="form-group">
                         <Field
                           label="Description"
-                          renderInput={(props) => (
-                            <textarea {...props} placeholder="Description" className="form-control" />
-                          )}
+                          placeholder="Description"
                           {...announcementForm.register("description")}
                         />
                       </div>

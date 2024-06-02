@@ -107,9 +107,9 @@ export const Register = () => {
                             // error={registerForm.error}
                             placeholder={"Login as"}
                             option={[
-                              { value: "teacher", label: "Teacher" },
+                              { value: "Teacher", label: "Teacher" },
                               {
-                                value: "student",
+                                value: "Student",
                                 label: "Student",
                               },
                             ]}

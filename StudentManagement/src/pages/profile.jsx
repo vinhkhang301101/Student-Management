@@ -2,15 +2,76 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { PATH } from "../config/path";
 import { useAuthRedux } from "../hooks/useAuthRedux";
+import { useForm } from "../hooks/useForm";
+import { confirm, minMax, required, validate } from "../utils/validate";
+import Field from "../Components/Field";
+import { Button } from "../Components/Button";
+import { userService } from "../services/user";
+import { useQuery } from "../hooks/useQuery";
+import { message } from "antd";
+import { setUserAction } from "../store/auth";
+import { handleError } from "../utils/handleError";
+import { useDispatch } from "react-redux";
 // import { getUser } from "../utils/token";
+
+const rules = {
+  oldPassword: [
+    (_, forms) => {
+      if (forms.newPassword) {
+        const errorObj = validate(
+          {
+            oldPassword: [required(), minMax(6)],
+          },
+          forms
+        );
+        return errorObj.oldPassword;
+      }
+    },
+  ],
+  newPassword: [
+    (value, forms) => {
+      if (forms.oldPassword) {
+        if (forms.oldPassword === value) {
+          return "Please do not enter the same as old password!"
+        }
+        const errorObj = validate(
+          {
+            newPassword: [required(), minMax(6)],
+          },
+          forms
+        );
+        return errorObj.newPassword;
+      }
+    },
+  ],
+  confirmPassword: [confirm("newPassword")],
+};
 
 export const Profile = () => {
   const { user } = useAuthRedux();
-  // const { data, loading } = useQuery({
-  //   queryFn: () => classService.getClass(),
-  // });
+  const changePassForm = useForm(rules)
 
-  // if (loading) return null;
+  const { loading, refetch: changePasswordService } = useQuery({
+    enabled: false,
+    queryFn: ({ params }) => userService.changePassword(...params),
+  });
+
+  const onSubmit = async (ev) => {
+    ev.preventDefault();
+    if (changePassForm.validate()) {
+      if (changePassForm.values.newPassword) {
+        changePasswordService({
+          oldPassword: changePassForm.values.oldPassword,
+          newPassword: changePassForm.values.newPassword,
+        })
+          .then((res) => {
+            message.success("Changed password successfully!");
+            changePassForm.reset();
+          })
+          .catch(handleError);
+      }
+    } 
+  }
 
   return (
     <>
@@ -42,12 +103,11 @@ export const Profile = () => {
                   </a>
                 </div>
                 <div className="col ml-md-n2 profile-user-info">
-                  <h4 className="user-name mb-0">{user.data[0].fullname}</h4>
+                  <h4 className="user-name mb-0">{user.fullname}</h4>
                   <div className="user-Location">
-                    <i className="fas fa-map-marker-alt" />{" "}
-                    {user.data[0].address}
+                    <i className="fas fa-map-marker-alt" /> {user.address}
                   </div>
-                  <div className="about-text">{user.data[0].role}.</div>
+                  <div className="about-text">{user.role}</div>
                 </div>
                 <div className="col-auto profile-btn">
                   <Link
@@ -80,31 +140,31 @@ export const Profile = () => {
                         <p className="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">
                           Full Name
                         </p>
-                        <p className="col-sm-9">{user.data[0].fullname}</p>
+                        <p className="col-sm-9">{user.fullname}</p>
                       </div>
                       <div className="row">
                         <p className="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">
                           Date of Birth
                         </p>
-                        <p className="col-sm-9">{user.data[0].date}</p>
+                        <p className="col-sm-9">{user.date}</p>
                       </div>
                       <div className="row">
                         <p className="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">
                           Email Address
                         </p>
-                        <p className="col-sm-9">{user.data[0].email}</p>
+                        <p className="col-sm-9">{user.email}</p>
                       </div>
                       <div className="row">
                         <p className="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">
                           Phone Number
                         </p>
-                        <p className="col-sm-9">{user.data[0].phone}</p>
+                        <p className="col-sm-9">{user.phone}</p>
                       </div>
                       <div className="row">
                         <p className="col-sm-3 text-muted text-sm-right mb-0">
                           Address
                         </p>
-                        <p className="col-sm-9 mb-0">{user.data[0].address}.</p>
+                        <p className="col-sm-9 mb-0">{user.address}</p>
                       </div>
                     </div>
                   </div>
@@ -114,23 +174,45 @@ export const Profile = () => {
                 <div className="card-body">
                   <h5 className="card-title">Change Password</h5>
                   <div className="row">
-                    <div className="col-md-10 col-lg-6">
+                    <div className="col-md-10">
                       <form>
                         <div className="form-group">
-                          <label>Old Password</label>
-                          <input type="password" className="form-control" />
+                          <Field
+                            label="Old Password"
+                            placeholder="Old Password"
+                            type="password"
+                            required
+                            {...changePassForm.register("oldPassword")}
+                            autoComplete="new-password"
+                          />
                         </div>
                         <div className="form-group">
-                          <label>New Password</label>
-                          <input type="password" className="form-control" />
+                          <Field
+                            label="New Password"
+                            placeholder="New Password"
+                            type="password"
+                            required
+                            {...changePassForm.register("newPassword")}
+                            autoComplete="new-password"
+                          />
                         </div>
                         <div className="form-group">
-                          <label>Confirm Password</label>
-                          <input type="password" className="form-control" />
+                          <Field
+                            label="Confirm Password"
+                            placeholder="Confirm Password"
+                            type="password"
+                            required
+                            {...changePassForm.register("confirmPassword")}
+                            autoComplete="new-password"
+                          />
                         </div>
-                        <button className="btn btn-primary" type="submit">
+                        <Button
+                          loading={loading}
+                          onClick={onSubmit}
+                          className="btn btn-primary"
+                        >
                           Save Changes
-                        </button>
+                        </Button>
                       </form>
                     </div>
                   </div>

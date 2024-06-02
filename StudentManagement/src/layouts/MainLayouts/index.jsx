@@ -4,8 +4,10 @@ import { Dropdown } from "antd";
 import { PATH } from "../../config/path";
 import { useDispatch } from "react-redux";
 import { logoutAction } from "../../store/auth";
+import { useAuthRedux } from "../../hooks/useAuthRedux";
 
 export const MainLayouts = () => {
+  const { user } = useAuthRedux()
   const dispatch = useDispatch();
   const navigate = useNavigate()
 
@@ -225,6 +227,7 @@ export const MainLayouts = () => {
                         onClick={(ev) => {
                           ev.preventDefault();
                           dispatch(logoutAction());
+                          navigate(PATH.Login);
                         }}
                       >
                         Logout
@@ -240,14 +243,7 @@ export const MainLayouts = () => {
                   className="dropdown-toggle nav-link"
                   data-toggle="dropdown"
                 >
-                  <span className="user-img">
-                    <img
-                      className="rounded-circle"
-                      src="/img/avatar.png"
-                      width={31}
-                      alt="Ryan Taylor"
-                    />
-                  </span>
+                  <i className="fas fa-user mr-1" /> {user.fullname}
                 </a>
               </li>
             </Dropdown>
@@ -256,73 +252,125 @@ export const MainLayouts = () => {
         <div className="sidebar" id="sidebar">
           <div className="sidebar-inner">
             <div id="sidebar-menu" className="sidebar-menu">
-              <ul>
-                <li className="menu-title">
-                  <span>Main Menu</span>
-                </li>
-                <li className="submenu">
-                  <NavLink to="/">
-                    <i className="fas fa-home" /> <span> Home</span>{" "}
-                    <span className="menu-arrow" />
-                  </NavLink>
-                </li>
-                <li className="submenu">
-                  <NavLink to={PATH.Students.index}>
-                    <i className="fas fa-user-graduate" />{" "}
-                    <span> Students</span> <span className="menu-arrow" />
-                  </NavLink>
-                </li>
-                {/* <li className="submenu">
+              {user.role == "Teacher" ? (
+                <ul>
+                  <li className="menu-title">
+                    <span>Main Menu</span>
+                  </li>
+                  <li className="submenu">
+                    <NavLink to="/">
+                      <i className="fas fa-home" /> <span> Home</span>{" "}
+                      <span className="menu-arrow" />
+                    </NavLink>
+                  </li>
+                  <li className="submenu">
+                    <NavLink to={PATH.Students.index}>
+                      <i className="fas fa-user-graduate" />{" "}
+                      <span> Students</span> <span className="menu-arrow" />
+                    </NavLink>
+                  </li>
+                  {/* <li className="submenu">
                   <NavLink to={PATH.Teachers.index}>
                     <i className="fas fa-chalkboard-teacher" />{" "}
                     <span> Teachers</span> <span className="menu-arrow" />
                   </NavLink>
                 </li> */}
-                <li className="submenu">
-                  <NavLink to={PATH.Classes.index}>
-                    <i className="fas fa-book-reader" /> <span> Classes</span>{" "}
-                    <span className="menu-arrow" />
+                  <li className="submenu">
+                    <NavLink to={PATH.Classes.index}>
+                      <i className="fas fa-book-reader" /> <span> Classes</span>{" "}
+                      <span className="menu-arrow" />
+                    </NavLink>
+                  </li>
+                  <li className="submenu">
+                    <NavLink to={PATH.Profile.index}>
+                      <i className="fas fa-id-card" /> <span> Profile</span>{" "}
+                      <span className="menu-arrow" />
+                    </NavLink>
+                  </li>
+                  <li className="submenu">
+                    <NavLink to={PATH.Inbox}>
+                      <i className="fas fa-comment" /> <span> Inbox</span>{" "}
+                      <span className="menu-arrow" />
+                    </NavLink>
+                  </li>
+                  <li className="submenu">
+                    <NavLink to={PATH.Announcement.index}>
+                      <i className="fas fa-bell" /> <span> Annoucements</span>{" "}
+                      <span className="menu-arrow" />
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to={PATH.Fees.index}>
+                      <i className="fas fa-comment-dollar" /> <span>Fees</span>{" "}
+                      <span className="menu-arrow" />
+                    </NavLink>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      // className="dropdown-item text-center"
+                      onClick={(ev) => {
+                        ev.preventDefault();
+                        dispatch(logoutAction());
+                        navigate(PATH.Login);
+                      }}
+                    >
+                      <i className="fas fa-right-from-bracket" />{" "}
+                      <span>Logout</span> <span className="menu-arrow" />
+                    </a>
+                  </li>
+                </ul>
+              ) : (
+                <ul>
+                  <li className="menu-title">
+                    <span>Main Menu</span>
+                  </li>
+                  <li className="submenu">
+                    <NavLink to="/">
+                      <i className="fas fa-home" /> <span> Home</span>{" "}
+                      <span className="menu-arrow" />
+                    </NavLink>
+                  </li>
+                  {/* <li className="submenu">
+                  <NavLink to={PATH.Teachers.index}>
+                    <i className="fas fa-chalkboard-teacher" />{" "}
+                    <span> Teachers</span> <span className="menu-arrow" />
                   </NavLink>
-                </li>
-                <li className="submenu">
-                  <NavLink to={PATH.Profile.index}>
-                    <i className="fas fa-file-invoice-dollar" />{" "}
-                    <span> Profile</span> <span className="menu-arrow" />
-                  </NavLink>
-                </li>
-                <li className="submenu">
-                  <NavLink to={PATH.Inbox}>
-                    <i className="fas fa-download" /> <span> Inbox</span>{" "}
-                    <span className="menu-arrow" />
-                  </NavLink>
-                </li>
-                <li className="submenu">
-                  <NavLink to={PATH.Announcement.index}>
-                    <i className="fas fa-bell" /> <span> Annoucements</span>{" "}
-                    <span className="menu-arrow" />
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to={PATH.Fees.index}>
-                    <i className="fas fa-comment-dollar" /> <span>Fees</span>{" "}
-                    <span className="menu-arrow" />
-                  </NavLink>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    // className="dropdown-item text-center"
-                    onClick={(ev) => {
-                      ev.preventDefault();
-                      dispatch(logoutAction());
-                      navigate(PATH.Home);
-                    }}
-                  >
-                    <i className="fas fa-file" /> <span>Logout</span>{" "}
-                    <span className="menu-arrow" />
-                  </a>
-                </li>
-              </ul>
+                </li> */}
+                  <li className="submenu">
+                    <NavLink to={PATH.Profile.index}>
+                      <i className="fas fa-id-card" /> <span> Profile</span>{" "}
+                      <span className="menu-arrow" />
+                    </NavLink>
+                  </li>
+                  <li className="submenu">
+                    <NavLink to={PATH.Inbox}>
+                      <i className="fas fa-comment" /> <span> Inbox</span>{" "}
+                      <span className="menu-arrow" />
+                    </NavLink>
+                  </li>
+                  <li className="submenu">
+                    <NavLink to={PATH.Announcement.index}>
+                      <i className="fas fa-bell" /> <span> Annoucements</span>{" "}
+                      <span className="menu-arrow" />
+                    </NavLink>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      // className="dropdown-item text-center"
+                      onClick={(ev) => {
+                        ev.preventDefault();
+                        dispatch(logoutAction());
+                        navigate(PATH.Login);
+                      }}
+                    >
+                      <i className="fas fa-share" /> <span>Logout</span>{" "}
+                      <span className="menu-arrow" />
+                    </a>
+                  </li>
+                </ul>
+              )}
             </div>
           </div>
         </div>

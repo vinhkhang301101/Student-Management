@@ -59,8 +59,8 @@ export const EditAnnouncements = () => {
                         <textarea
                           className="form-control"
                           defaultValue="Submit the homework here.
-Due date: Sep 03, 11:59 pm
-IMPORTANT: Submit file in .pdf"
+                          Due date: Sep 03, 11:59 pm
+                          IMPORTANT: Submit file in .pdf"
                         />
                       </div>
                     </div>

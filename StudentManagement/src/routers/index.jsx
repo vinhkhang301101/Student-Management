@@ -17,6 +17,7 @@ import { classes } from "./classes";
 import { fees } from "./fees";
 import { announcement } from "./announcements";
 import { homepage } from "./homepage";
+import { RecoverPassword } from "../pages/recover-password";
 
 export const routers = (user, login, logout) => [
   {
@@ -46,63 +47,61 @@ export const routers = (user, login, logout) => [
   },
 
   {
+    path: PATH.RecoverPassword,
+    element: <RecoverPassword />,
+  },
+
+  {
     element: <MainLayouts />,
     children: [
-      // {
-      //   path: PATH.Home,
-      //   element: <TeacherDashboard />,
-      // },
-
       {
         element: <PrivateRoute redirect={PATH.Login} />,
-        children: homepage,
-        path: PATH.Home,
-      },
+        children: [
+          {
+            children: homepage,
+            path: PATH.Home,
+          },
 
-      {
-        path: PATH.StudentDashboard,
-        element: <StudentDashboard />,
-      },
+          {
+            children: students,
+            path: PATH.Students.index,
+          },
 
-      {
-        children: students,
-        path: PATH.Students.index,
-      },
+          {
+            children: teachers,
+            path: PATH.Teachers.index,
+          },
 
-      {
-        children: teachers,
-        path: PATH.Teachers.index,
-      },
+          {
+            children: classes,
+            path: PATH.Classes.index,
+          },
 
-      {
-        children: classes,
-        path: PATH.Classes.index,
-      },
+          {
+            path: PATH.Inbox,
+            element: <Inbox />,
+          },
 
-      {
-        path: PATH.Inbox,
-        element: <Inbox />,
-      },
+          {
+            path: PATH.NewMail,
+            element: <NewMail />,
+          },
 
-      {
-        path: PATH.NewMail,
-        element: <NewMail />,
-      },
+          {
+            children: fees,
+            path: PATH.Fees.index,
+          },
 
-      {
-        children: fees,
-        path: PATH.Fees.index,
-      },
+          {
+            children: announcement,
+            path: PATH.Announcement.index,
+          },
 
-      {
-        children: announcement,
-        path: PATH.Announcement.index,
-      },
-
-      {
-        element: <PrivateRoute redirect={PATH.Login} />,
-        children: profile,
-        path: PATH.Profile.index,
+          {
+            children: profile,
+            path: PATH.Profile.index,
+          },
+        ],
       },
     ],
   },

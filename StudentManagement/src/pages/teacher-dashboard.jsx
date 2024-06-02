@@ -4,8 +4,13 @@ import { PATH } from "../config/path";
 import { useQuery } from "../hooks/useQuery";
 import { announcementService } from "../services/announcement.js";
 import { AnnouncementFeed } from "../Components/AnnouncementFeed";
+import { useAnnouncement } from "../hooks/useAnnouncement.js";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+
 
 export const TeacherDashboard = () => {
+  const { announcement } = useAnnouncement();
   const { data, loading } = useQuery({
     queryFn: () => announcementService.getAnnouncement(),
   });
@@ -49,10 +54,21 @@ export const TeacherDashboard = () => {
                   </div>
                   <div className="card-body">
                     <div className="teaching-card">
-                      <ul className="activity-feed">                        
-                        {
-                          data.data.data.map(e => <AnnouncementFeed key={e._id} {...e} />)
-                        }
+                      {/* {announcement?.data.length ? (
+                        <ul className="activity-feed">
+                          {data.data.data.map((e) => (
+                            <AnnouncementFeed key={e._id} {...e} />
+                          ))}
+                        </ul>
+                      ) : (
+                        <h6 className="text-danger fw-bold text-center">
+                          There are no announcement now, update soon!!
+                        </h6>
+                      )} */}
+                      <ul className="activity-feed">
+                        {data.data.map((e) => (
+                          <AnnouncementFeed key={e._id} {...e} />
+                        ))}
                       </ul>
                     </div>
                   </div>
@@ -173,36 +189,7 @@ export const TeacherDashboard = () => {
               <div className="card-body">
                 <div id="calendar-doctor" className="calendar-container" />
                 <div className="calendar-info calendar-info1">
-                  <div className="calendar-details">
-                    <p>Thursday</p>
-                    <h6 className="calendar-blue d-flex justify-content-between align-items-center">
-                      Class 1 <span>9:00am - 10:00am</span>
-                    </h6>
-                  </div>
-                  <div className="calendar-details">
-                    <p>Thursday</p>
-                    <h6 className="calendar-violet d-flex justify-content-between align-items-center">
-                      Class 2 <span>10:00am - 11:00am</span>
-                    </h6>
-                  </div>
-                  <div className="calendar-details">
-                    <p>Thursday</p>
-                    <h6 className="calendar-red d-flex justify-content-between align-items-center">
-                      Break <span>11:00am - 11:30am</span>
-                    </h6>
-                  </div>
-                  <div className="calendar-details">
-                    <p>Thursday</p>
-                    <h6 className="calendar-orange d-flex justify-content-between align-items-center">
-                      Class 3 <span>11:30am - 12:00pm</span>
-                    </h6>
-                  </div>
-                  <div className="calendar-details">
-                    <p>Thursday</p>
-                    <h6 className="calendar-blue d-flex justify-content-between align-items-center">
-                      Class 4 <span>1:00pm - 2:00pm</span>
-                    </h6>
-                  </div>
+                  <Calendar className="w-100" />
                 </div>
               </div>
             </div>

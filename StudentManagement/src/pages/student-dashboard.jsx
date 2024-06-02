@@ -1,8 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { PATH } from "../config/path";
+import { useAnnouncement } from "../hooks/useAnnouncement";
+import { useQuery } from "../hooks/useQuery";
+import { announcementService } from "../services/announcement";
+import { AnnouncementFeed } from "../Components/AnnouncementFeed";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 
 export const StudentDashboard = () => {
+  const { announcement } = useAnnouncement();
+  const { data, loading } = useQuery({
+    queryFn: () => announcementService.getAnnouncement(),
+  });
+
+  if (loading) return null;
+
   return (
     <>
       <div className="content container-fluid">
@@ -38,43 +51,27 @@ export const StudentDashboard = () => {
               </div>
               <div className="card-body">
                 <div className="teaching-card">
+                  {/* {announcement?.data.length ? (
+                    <ul className="activity-feed">
+                      {data.data.data.map((e) => (
+                        <AnnouncementFeed key={e._id} {...e} />
+                      ))}
+                    </ul>
+                  ) : (
+                    <h6 className="text-danger fw-bold text-center">
+                      There are no announcement now, update soon!!
+                    </h6>
+                  )} */}
                   <ul className="activity-feed">
-                    <li className="feed-item">
-                      <div className="feed-date1">Sep 05, 9:00 am</div>
-                      <span className="feed-text1">
-                        <a>Homework 4 Submission (Due day: Sep 06, 11:59 pm)</a>
-                      </span>
-                      <p>
-                        <span>In Progress</span>
-                      </p>
-                    </li>
-                    <li className="feed-item">
-                      <div className="feed-date1">Sep 04, 2:00 pm</div>
-                      <span className="feed-text1">
-                        <a className="text-danger">
-                          Make-up class in Sep 10, 4:00 pm
-                        </a>
-                      </span>
-                    </li>
-                    <li className="feed-item">
-                      <div className="feed-date1">Sep 02, 1:00 pm</div>
-                      <span className="feed-text1">
-                        <a>Homework 3 Submission (Due day: Sep 03, 11:59 pm)</a>
-                      </span>
-                      <p>
-                        <span>In Progress</span>
-                      </p>
-                    </li>
-                    <li className="feed-item">
-                      <div className="feed-date1">Aug 30, 10:00 am</div>
-                      <span className="feed-text1">
-                        <a className="text-danger">Class 3 is postponed!</a>
-                      </span>
-                    </li>
+                    {data.data.map((e) => (
+                      <AnnouncementFeed key={e._id} {...e} />
+                    ))}
                   </ul>
                 </div>
               </div>
             </div>
+          </div>
+          <div className="col-12 col-lg-12 col-xl-12">
             <div className="card flex-fill">
               <div className="card-header">
                 <div className="row align-items-center">
@@ -86,36 +83,7 @@ export const StudentDashboard = () => {
               <div className="card-body">
                 <div id="calendar-doctor" className="calendar-container" />
                 <div className="calendar-info calendar-info1">
-                  <div className="calendar-details">
-                    <p>Thursday</p>
-                    <h6 className="calendar-blue d-flex justify-content-between align-items-center">
-                      Class 1 <span>9:00am - 10:00am</span>
-                    </h6>
-                  </div>
-                  <div className="calendar-details">
-                    <p>Thursday</p>
-                    <h6 className="calendar-violet d-flex justify-content-between align-items-center">
-                      Class 2 <span>10:00am - 11:00am</span>
-                    </h6>
-                  </div>
-                  <div className="calendar-details">
-                    <p>Thursday</p>
-                    <h6 className="calendar-red d-flex justify-content-between align-items-center">
-                      Break <span>11:00am - 11:30am</span>
-                    </h6>
-                  </div>
-                  <div className="calendar-details">
-                    <p>Thursday</p>
-                    <h6 className="calendar-orange d-flex justify-content-between align-items-center">
-                      Class 3 <span>11:30am - 12:00pm</span>
-                    </h6>
-                  </div>
-                  <div className="calendar-details">
-                    <p>Thursday</p>
-                    <h6 className="calendar-blue d-flex justify-content-between align-items-center">
-                      Class 4 <span>1:00pm - 2:00pm</span>
-                    </h6>
-                  </div>
+                  <Calendar className="w-100" />
                 </div>
               </div>
             </div>

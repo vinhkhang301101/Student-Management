@@ -1,8 +1,12 @@
-import axios from "axios";
 import { USER_API } from "../config/api.js";
+import { http } from "../utils/http.js";
 
 export const authService = {
   login(data) {
-    return axios.post(`${USER_API}/login`, data);
+    return http.post(`${USER_API}/login`, data);
+  },
+
+  refreshToken(data) {
+    return http.post(`${USER_API}/refresh-token`, data);
   },
 };

@@ -1,26 +1,30 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PATH } from "../config/path";
 import Field from "../Components/Field";
 import { Button } from "../Components/Button";
 import { useAuthRedux } from "../hooks/useAuthRedux";
 import { useForm } from "../hooks/useForm";
-import { required } from "../utils/validate";
+import { regexp, required } from "../utils/validate";
 import { useQuery } from "../hooks/useQuery";
 import { userService } from "../services/user";
 import { handleError } from "../utils/handleError";
+import { object } from "../utils/object";
 import { message } from "antd";
 import { useDispatch } from "react-redux";
 import { setUserAction } from "../store/auth";
+import { Select } from "../Components/Select";
+import _, { first } from "lodash";
 
 const rules = {
   fullname: [required()],
-}
+};
 
 export const EditProfile = () => {
   const { user } = useAuthRedux();
+  const navigate = useNavigate()
   const dispatch = useDispatch();
-  const userForm = useForm(rules, { initialValue: user.data[0] });
+  const userForm = useForm(rules, { initialValue: user });
 
   const { loading, refetch: updateProfileService } = useQuery({
     enabled: false,
@@ -29,14 +33,30 @@ export const EditProfile = () => {
 
   const onSubmit = async (ev) => {
     ev.preventDefault()
-    try {
-      if (userForm.validate()) {
-        const res = await updateProfileService(userForm.values);
-        dispatch(setUserAction(res.data))
-        message.success("Your profile has been updated successfully!")
-      }
-    } catch (err) {
-      handleError(err)
+    
+    if (
+      object.isEqual(
+        user,
+        userForm.values,
+        "firstname",
+        "lastname",
+        "gender",
+        "date",
+        "phone",
+        "address"
+      )
+    ) {
+      message.warning("Enter the information to change your profile!");
+    }
+
+    if (userForm.validate()) {
+      updateProfileService(userForm.values)
+        .then((res) => {
+          dispatch(setUserAction(res.data));
+          navigate(PATH.Profile.index);
+          message.success("Your profile has been updated successfully!");
+        })
+        .catch(handleError);
     }
   }
 
@@ -70,56 +90,202 @@ export const EditProfile = () => {
                         <span>Personal Details</span>
                       </h5>
                     </div>
-                    <div className="col-9">
-                      <div className="form-group">
-                        <Field
-                          label="Full Name"
-                          placeholder="Full Name"
-                          {...userForm.register("fullname")}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-9">
-                      <div className="form-group">
-                        <Field
-                          label="Date of Birth"
-                          placeholder="Date of Birth"
-                          {...userForm.register("date")}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-9">
-                      <div className="form-group">
-                        <Field
-                          label="Email"
-                          placeholder="Email"
-                          {...userForm.register("email")}
-                          disabled
-                        />
-                      </div>
-                    </div>
-                    <div className="col-9">
-                      <div className="form-group">
-                        <Field
-                          label="Phone Number"
-                          placeholder="Phone Number"
-                          {...userForm.register("phone")}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-9">
-                      <div className="form-group">
-                        <Field
-                          label="Address"
-                          renderInput={(props) => (
-                            <textarea  placeholder="Address" className="form-control" />
-                          )}
-                          {...userForm.register("address")}
-                        />
-                      </div>
-                    </div>
+                    {user.role == "Teacher" ? (
+                      <>
+                        <div className="col-6">
+                          <div className="form-group">
+                            <Field
+                              label="First Name"
+                              placeholder="First Name"
+                              required
+                              {...userForm.register("firstname")}
+                            />
+                          </div>
+                        </div>
+                        <div className="col-6">
+                          <div className="form-group">
+                            <Field
+                              label="Last Name"
+                              placeholder="Last Name"
+                              required
+                              {...userForm.register("lastname")}
+                            />
+                          </div>
+                        </div>
+                        <div className="col-6 mt-3">
+                          <div className="form-group">
+                            <Field
+                              label="Gender"
+                              placeholder="Gender"
+                              required
+                              {...userForm.register("gender")}
+                              renderInput={(props) => (
+                                <Select
+                                  {...props}
+                                  // error={registerForm.error}
+                                  placeholder={"Gender"}
+                                  option={[
+                                    { value: "Male", label: "Male" },
+                                    { value: "Female", label: "Female" },
+                                    { value: "Other", label: "Other" },
+                                  ]}
+                                />
+                              )}
+                            />
+                          </div>
+                        </div>
+                        <div className="col-6 mt-3">
+                          <div className="form-group">
+                            <Field
+                              label="Date of Birth"
+                              placeholder="Date of Birth"
+                              required
+                              {...userForm.register("date")}
+                            />
+                          </div>
+                        </div>
+                        <div className="col-6 mt-3">
+                          <div className="form-group">
+                            <Field
+                              label="Email"
+                              placeholder="Email"
+                              {...userForm.register("email")}
+                              disabled
+                            />
+                          </div>
+                        </div>
+                        <div className="col-6 mt-3">
+                          <div className="form-group">
+                            <Field
+                              label="Phone Number"
+                              placeholder="Phone Number"
+                              required
+                              {...userForm.register("phone")}
+                            />
+                          </div>
+                        </div>
+                        <div className="col-12 mt-3">
+                          <div className="form-group">
+                            <Field
+                              label="Address"
+                              placeholder="Address"
+                              required
+                              {...userForm.register("address")}
+                            />
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="col-6">
+                          <div className="form-group">
+                            <Field
+                              label="First Name"
+                              placeholder="First Name"
+                              required
+                              {...userForm.register("firstname")}
+                            />
+                          </div>
+                        </div>
+                        <div className="col-6">
+                          <div className="form-group">
+                            <Field
+                              label="Last Name"
+                              placeholder="Last Name"
+                              required
+                              {...userForm.register("lastname")}
+                            />
+                          </div>
+                        </div>
+                        <div className="col-6 mt-3">
+                          <div className="form-group">
+                            <Field
+                              label="Student Id"
+                              placeholder="Student Id"
+                              required
+                              {...userForm.register("studentID")}
+                            />
+                          </div>
+                        </div>
+                        <div className="col-6 mt-3">
+                          <div className="form-group">
+                            <Field
+                              label="Gender"
+                              placeholder="Gender"
+                              required
+                              {...userForm.register("gender")}
+                              renderInput={(props) => (
+                                <Select
+                                  {...props}
+                                  // error={registerForm.error}
+                                  placeholder={"Gender"}
+                                  option={[
+                                    { value: "Male", label: "Male" },
+                                    { value: "Female", label: "Female" },
+                                    { value: "Other", label: "Other" },
+                                  ]}
+                                />
+                              )}
+                            />
+                          </div>
+                        </div>
+                        <div className="col-6 mt-3">
+                          <div className="form-group">
+                            <Field
+                              label="Date of Birth"
+                              placeholder="Date of Birth"
+                              required
+                              {...userForm.register("date")}
+                            />
+                          </div>
+                        </div>
+                        <div className="col-6 mt-3">
+                          <div className="form-group">
+                            <Field
+                              label="Class"
+                              placeholder="Class"
+                              required
+                              {...userForm.register("classcode")}
+                            />
+                          </div>
+                        </div>
+                        <div className="col-6 mt-3">
+                          <div className="form-group">
+                            <Field
+                              label="Email"
+                              placeholder="Email"
+                              required
+                              {...userForm.register("email")}
+                              disabled
+                            />
+                          </div>
+                        </div>
+                        <div className="col-6 mt-3">
+                          <div className="form-group">
+                            <Field
+                              label="Phone Number"
+                              placeholder="Phone Number"
+                              required
+                              {...userForm.register("phone")}
+                            />
+                          </div>
+                        </div>
+                        <div className="col-9 mt-3">
+                          <div className="form-group">
+                            <Field
+                              label="Address"
+                              placeholder="Address"
+                              required
+                              {...userForm.register("address")}
+                            />
+                          </div>
+                        </div>
+                      </>
+                    )}
                     <div className="col-12">
-                      <Button onClick={onSubmit} className="btn btn-primary">Save Changes</Button>
+                      <Button onClick={onSubmit} className="btn btn-primary">
+                        Save Changes
+                      </Button>
                     </div>
                   </div>
                 </form>

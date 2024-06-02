@@ -1,17 +1,32 @@
-import axios from "axios";
 import { USER_API } from "../config/api.js";
+import { http } from "../utils/http.js";
 
 export const userService = {
     register(data) {
-        return axios.post(`${USER_API}/register`, data);
+        return http.post(`${USER_API}/register`, data);
     },
     getUser(data) {
-        return axios.get(`${USER_API}`, data);
+        return http.get(`${USER_API}`, data);
+    },
+    getUsers(data) {
+        return http.get(`${USER_API}/all`, data);
     },
     getAllStudents(data) {
-        return axios.get(`${USER_API}/all-students`, data);
+        return http.get(`${USER_API}/all-students`, data);
     },
     updateProfile(data) {
-        return axios.put(`${USER_API}`, data)
-    }
+        return http.put(`${USER_API}`, data)
+    },
+    updateStudents(data) {
+        return http.put(`${USER_API}/update-students`, data);
+    },
+    changePassword(data) {
+        return http.put(`${USER_API}/change-password`, data);
+    },
+    forgotPassword(data) {
+        return http.post(`${USER_API}/forgot-password`, data);
+    },
+    sendEmail(data) {
+        return http.post(`${USER_API}/send-email`, data);
+    },
 }

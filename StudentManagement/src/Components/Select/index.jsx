@@ -28,10 +28,17 @@ export const Select = ({ placeholder, error, option, onChange, ...props }) => {
 
   return (
     <SelectStyle className="select" onClick={(e) => handleOpen(e)}>
-      <div className="form-control head">{label}</div>
+      <div className="form-control head d-flex align-items-center justify-content-between">
+        {label}
+        <i className="fas fa-caret-down"></i>
+      </div>
       <div className="sub" style={{ display: isOpen ? "block" : "none" }}>
         {option.map((e, i) => (
-          <a className="form-control" key={e.value} onClick={handleClickLabel(i)}>
+          <a
+            className="form-control"
+            key={e.value}
+            onClick={handleClickLabel(i)}
+          >
             {e.label}
           </a>
         ))}

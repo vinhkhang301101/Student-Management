@@ -1,11 +1,11 @@
-import axios from "axios";
 import { ANNOUNCEMENT_API } from "../config/api";
+import { http } from "../utils/http";
 
 export const announcementService = {
   getAnnouncement() {
-    return axios.get(`${ANNOUNCEMENT_API}`);
+    return http.get(`${ANNOUNCEMENT_API}`);
   },
   addAnnouncement(data) {
-    return axios.post(`${ANNOUNCEMENT_API}/create`, data);
+    return http.post(`${ANNOUNCEMENT_API}/create`, data);
   },
 };

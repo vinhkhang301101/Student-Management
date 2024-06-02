@@ -4,7 +4,6 @@ export const SelectStyle = styled.div`
   position: relative;
   height: 40px;
   width: 100%;
-  flex: 1;
   .head {
     /* height: 100%;
     font-size: 15px;
