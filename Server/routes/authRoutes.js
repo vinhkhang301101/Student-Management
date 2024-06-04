@@ -4,12 +4,16 @@ import jwtAuth from "../middlewares/jwtAuth.js";
 
 const router = express.Router();
 
-router.get("/", authController.getUsers);
+router.post("/refresh-token", authController.refreshToken);
+router.get("/", jwtAuth, authController.getUser);
+router.get("/all", authController.getUsers);
 router.get("/all-students", authController.getAllStudents);
 router.post("/register", authController.register);
 router.post("/login", authController.login);
 router.put("/", jwtAuth, authController.updateProfile);
 router.put("/update-students", jwtAuth, authController.updateStudents);
-router.put("/update-email", jwtAuth, authController.updateEmail);
+router.post("/send-email", authController.sendEmail);
+router.post("/forgot-password", authController.forgotPassword);
+router.put("/change-password", jwtAuth, authController.changePassword);
 
 export default router;

@@ -1,5 +1,12 @@
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs"
+import bcrypt from "bcryptjs";
+import {
+  JWT_EXPIRES_ACCESS,
+  JWT_EXPIRES_REFRESH,
+  JWT_SECRET,
+  JWT_SECRET_REFRESH,
+} from "../config/index.js";
+import jwt from "jsonwebtoken";
 
 const Schema = mongoose.Schema;
 
@@ -9,9 +16,8 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Fullname is required!"],
     },
-    studentId: {
+    studentID: {
       type: String,
-      unique: true,
       default: "",
     },
     firstname: {
@@ -28,20 +34,16 @@ const userSchema = new Schema(
     },
     role: {
       type: String,
-      enum: ["teacher", "student"],
+      enum: ["Teacher", "Student"],
       required: [true, "Role is required!"],
     },
     gender: {
       type: String,
-      enum: ["male", "female", "other"],
+      enum: ["Male", "Female", "Other"],
     },
     status: {
       type: String,
-      enum: ["paid", "unpaid"],
-    },
-    subject: {
-      type: String,
-      default: "",
+      enum: ["Paid", "Unpaid"],
     },
     email: {
       type: String,
@@ -65,6 +67,10 @@ const userSchema = new Schema(
       type: String,
       default: "",
     },
+    recoverCode: {
+      type: String,
+      default: null,
+    },
   },
   {
     collection: "nb-users",
@@ -72,7 +78,31 @@ const userSchema = new Schema(
   }
 );
 
-userSchema.pre("save", function(next) {
+userSchema.methods.getJwtAccessToken = function () {
+  return jwt.sign(
+    {
+      role: this.role,
+      email: this.email,
+      fullname: this.fullname,
+    },
+    JWT_SECRET,
+    {
+      expiresIn: JWT_EXPIRES_ACCESS,
+    }
+  );
+};
+
+userSchema.methods.getJwtRefeshToken = function () {
+  return jwt.sign(
+    { fullname: this.fullname, role: this.role, email: this.email },
+    JWT_SECRET_REFRESH,
+    {
+      expiresIn: JWT_EXPIRES_REFRESH,
+    }
+  );
+};
+
+userSchema.pre("save", function (next) {
   if (this.isModified("password")) {
     // Hash Password
     // default rounds = 10
@@ -81,7 +111,7 @@ userSchema.pre("save", function(next) {
     this.password = hashedPassword;
   }
   next();
-})
+});
 
 mongoose.set("runValidators", true);
 

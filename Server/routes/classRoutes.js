@@ -5,10 +5,10 @@ import jwtAuth from "../middlewares/jwtAuth.js";
 
 const router = express.Router();
 
-router.post("/add-class", classController.addClass);
-router.get("/", classController.getClasses);
-router.get("/:id", classController.getClassDetail);
-router.put("/", classController.updateClass);
-router.delete("/:id", classController.deleteClass);
+router.post("/add-class", jwtAuth, classController.addClass);
+router.get("/", jwtAuth, classController.getClasses);
+router.get("/:id", jwtAuth, classController.getClassDetail);
+router.put("/", jwtAuth, classController.updateClass);
+router.delete("/:id", jwtAuth, classController.removeClass);
 
 export default router;

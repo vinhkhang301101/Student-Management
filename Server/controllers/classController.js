@@ -11,7 +11,11 @@ class classController {
     await classes.save().then(() =>
       res.status(201).json({
         success: true,
-        data: classes,
+        data: {
+          code: code,
+          subject: subject,
+          slot: slot,
+        },
       })
     );
   });
@@ -19,9 +23,17 @@ class classController {
   // [GET] /class
   getClasses = catchAsync(async (req, res, next) => {
     const classes = await Classes.find();
+    const classesArr = classes.map((classes, index) => {
+      return {
+        _id: classes._id,
+        code: classes.code,
+        subject: classes.subject,
+        slot: classes.slot,
+      };
+    });
     res.status(200).json({
       success: true,
-      data: classes,
+      data: classesArr,
     });
   });
 
@@ -40,16 +52,20 @@ class classController {
 
   // [PUT] /class/
   updateClass = catchAsync(async (req, res, next) => {
-    const { subjectCode, subject, code, slot } = req.body;
+    const { subjectCode, subject, slot } = req.body;
     try {
       const classes = await Classes.findOneAndUpdate(
         { code: subjectCode },
-        { subject, code, slot },
+        { subject, slot },
         { new: true }
       );
       res.status(200).json({
         success: true,
-        data: classes,
+        data: {
+          code: code,
+          subject: subject,
+          slot: slot,
+        },
       });
     } catch (error) {
       throw new ApiError(400, "Email is not existed!");
@@ -67,7 +83,7 @@ class classController {
   });
 
   // [DELETE] /class/:id
-  deleteClass = catchAsync(async (req, res, next) => {
+  removeClass = catchAsync(async (req, res, next) => {
     const { id } = req.params;
     await Classes.findByIdAndDelete(id);
     res.status(200).json({

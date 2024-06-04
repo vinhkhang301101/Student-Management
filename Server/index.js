@@ -4,6 +4,7 @@ import { PORT } from "./config/index.js";
 import Mongo from "./config/db.js";
 import router from "./routes/index.js"
 import { catchError } from "./middlewares/error.js";
+import EmailService from "./utils/EmailService.js";
 
 const app = express();
 

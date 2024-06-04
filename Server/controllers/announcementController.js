@@ -11,49 +11,71 @@ class announcementController {
       title,
       description,
       date,
-      //   users: userIdArr,
-      //   isAll,
     });
 
     res.status(200).json({
       success: true,
       data: announce,
     });
-    
-    // try {
-    //   await announce.save();
-      //   const users = await User.find({ _id: { $in: userIdArr } });
-      //   for (const user of users) {
-      //     user.announcements.push(announce);
-      //     user.markModified("announcements");
-      //     await user.save();
-      //   }
-    
-    // } catch (error) {
-    //   res.status(400, {
-    //     success: false,
-    //   });
-    // }
   });
 
   // [GET] /announcement/
-  getAnnouncements = catchAsync(async (req, res, next) => {
-    // if (req.user.role == "teacher") {
-      const allAnnounce = await Announcement.find();
-      res.status(200).json({
-        success: true,
-        data: allAnnounce,
-      });
-    // } else {
-    //   const { fullname } = req.user;
-    //   const user = await User.findOne({ fullname }).populate("announcements");
-    //   res.status(200).json({
-    //     success: true,
-    //     allAnnounce: user.announcements,
-    //   });
-    // }
+  getAllAnnouncements = catchAsync(async (req, res, next) => {
+    const allAnnounce = await Announcement.find();
+    const announcementsArr = allAnnounce.map((announcement, index) => {
+      return {
+        announcementID: announcement._id,
+        title: announcement.title,
+        description: announcement.description,
+        updatedAt: announcement.updatedAt,
+      };
+    });
+    res.status(200).json({
+      success: true,
+      data: announcementsArr,
+    });
   });
 
+  // [GET] /announcement/:id
+  getAnnouncementById = catchAsync(async (req, res, next) => {
+    const { id } = req.params;
+    const announcement = await Announcement.findById(id);
+    if (!announcement) {
+      throw new ApiError(400, "This announcement does not exist!");
+    } else {
+      res.status(200).json({
+        success: true,
+        data: {
+          announcementID: announcement._id,
+          title: announcement.title,
+          description: announcement.description,
+          updatedAt: announcement.updatedAt,
+        },
+      });
+    }
+  });
+
+  // [PUT] /announcement/update/:id
+  updateAnnouncement = catchAsync(async (req, res, next) => {
+    const { id } = req.params;
+    const { title, description } = req.body;
+    const announcement = await Announcement.findById(id);
+    if (!announcement) {
+      throw new ApiError(400, "This file does not exist");
+    }
+    announcement.title = title;
+    announcement.description = description;
+    try {
+      await announcement.save();
+      res.status(200).json({
+        success: true,
+      });
+    } catch (error) {
+      throw new ApiError(400, "Failed to update!");
+    }
+  });
+
+  // [DELETE] /announcement/:id
   deleteAnnouncements = catchAsync(async (req, res, next) => {
     const { id } = req.params;
     await Announcement.findByIdAndDelete(id);
