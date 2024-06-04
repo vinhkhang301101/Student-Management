@@ -4,13 +4,11 @@ import { PATH } from "../config/path";
 import { useQuery } from "../hooks/useQuery";
 import { announcementService } from "../services/announcement.js";
 import { AnnouncementFeed } from "../Components/AnnouncementFeed";
-import { useAnnouncement } from "../hooks/useAnnouncement.js";
-import Calendar from "react-calendar";
+import { Calendar } from "antd";
 import "react-calendar/dist/Calendar.css";
 
 
 export const TeacherDashboard = () => {
-  const { announcement } = useAnnouncement();
   const { data, loading } = useQuery({
     queryFn: () => announcementService.getAnnouncement(),
   });
@@ -54,22 +52,33 @@ export const TeacherDashboard = () => {
                   </div>
                   <div className="card-body">
                     <div className="teaching-card">
-                      {/* {announcement?.data.length ? (
+                      {data?.data.length ? (
                         <ul className="activity-feed">
-                          {data.data.data.map((e) => (
+                          {data.data.map((e) => (
                             <AnnouncementFeed key={e._id} {...e} />
                           ))}
                         </ul>
                       ) : (
-                        <h6 className="text-danger fw-bold text-center">
-                          There are no announcement now, update soon!!
-                        </h6>
-                      )} */}
-                      <ul className="activity-feed">
+                        <Empty
+                          description={
+                            <h4 className="text-danger fw-bold text-center">
+                              There are no announcements now!!
+                            </h4>
+                          }
+                        >
+                          <Link
+                            to={PATH.Announcement.AddAnnouncements}
+                            className="btn btn-primary mb-2"
+                          >
+                            Add Announcement Now
+                          </Link>
+                        </Empty>
+                      )}
+                      {/* <ul className="activity-feed">
                         {data.data.map((e) => (
                           <AnnouncementFeed key={e._id} {...e} />
                         ))}
-                      </ul>
+                      </ul> */}
                     </div>
                   </div>
                 </div>
@@ -177,7 +186,7 @@ export const TeacherDashboard = () => {
               </div>
             </div>
           </div>
-          <div className="col-12 col-lg-12 col-xl-6 d-flex">
+          <div className="col-12 col-lg-12 col-xl-6">
             <div className="card flex-fill">
               <div className="card-header">
                 <div className="row align-items-center">

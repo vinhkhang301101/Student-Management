@@ -28,11 +28,11 @@ export const Students = () => {
                 <li className="breadcrumb-item active">Students</li>
               </ul>
             </div>
-            <div className="col-auto text-right float-right ml-auto">
+            {/* <div className="col-auto text-right float-right ml-auto">
               <Link to={PATH.Students.AddStudents} className="btn btn-primary">
                 <i className="fas fa-plus" /> Add Students
               </Link>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="row">

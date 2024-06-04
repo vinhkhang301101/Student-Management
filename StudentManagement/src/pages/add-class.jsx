@@ -4,7 +4,7 @@ import { PATH } from '../config/path';
 import { useForm } from '../hooks/useForm';
 import { required } from '../utils/validate';
 import Field from '../Components/Field';
-import { Button } from "../Components/Button";
+import { ButtonCom } from "../Components/Button";
 import { useDispatch } from "react-redux";
 import { addClassAction } from '../store/class';
 import { message } from 'antd';
@@ -49,7 +49,7 @@ export const AddClasses = () => {
                   <Link to="/">Home</Link>
                 </li>
                 <li className="breadcrumb-item">
-                  <Link to={PATH.Classes.index}>Class</Link>
+                  <Link to={PATH.Classes.index}>Classes</Link>
                 </li>
                 <li className="breadcrumb-item active">Add Class</li>
               </ul>
@@ -98,9 +98,9 @@ export const AddClasses = () => {
                       </div>
                     </div>
                     <div className="col-12">
-                      <Button loading={loading} onClick={onAddClass} className="btn btn-primary">
+                      <ButtonCom loading={loading} onClick={onAddClass} className="btn btn-primary">
                         Submit
-                      </Button>
+                      </ButtonCom>
                     </div>
                   </div>
                 </form>

@@ -4,16 +4,12 @@ import { PATH } from "../config/path";
 import { useQuery } from "../hooks/useQuery";
 import { announcementService } from "../services/announcement.js";
 import { AnnouncementList } from "../Components/AnnouncementList/index.jsx";
-import { useAnnouncement } from "../hooks/useAnnouncement";
 
 export const Announcement = () => {
-  const { announcement } = useAnnouncement();
   const { data, loading } = useQuery({
     queryFn: () => announcementService.getAnnouncement(),
   });
-
-  console.log(announcement);
-
+  
   if (loading) return null;
 
   return (
@@ -42,24 +38,35 @@ export const Announcement = () => {
         </div>
         <div className="row">
           <div className="card">
-            {announcement?.data.length ? (
+            {data?.data.length ? (
               <div className="card-body">
-                {data.data.data.map((e) => (
+                {data.data.map((e) => (
                   <AnnouncementList key={e._id} {...e} />
                 ))}
               </div>
             ) : (
               <div className="card-body">
                 <div className="row mt-2">
-                  <h5 className="text-danger fw-bold text-center">
-                    There are no announcement now, update soon!!
-                  </h5>
+                  <Empty
+                    description={
+                      <h4 className="text-danger fw-bold text-center">
+                        There are no announcements now!!
+                      </h4>
+                    }
+                  >
+                    <Link
+                      to={PATH.Announcement.AddAnnouncements}
+                      className="btn btn-primary mb-2"
+                    >
+                      Add Announcement Now
+                    </Link>
+                  </Empty>
                 </div>
               </div>
             )}
             {/* <div className="card-body">
               {data.data.map((e) => (
-                <AnnouncementList key={e._id} {...e} />
+                <AnnouncementList key={e._id}  {...e} />
               ))}
             </div> */}
           </div>

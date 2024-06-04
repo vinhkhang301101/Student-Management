@@ -9,6 +9,6 @@ export const classService = {
         return http.post(`${CLASS_API}/add-class`, data);
     },
     removeClass(data) {
-        return http.post(`${CLASS_API}/${data._id}`, data);
+        return http.delete(`${CLASS_API}/${data._id}`, data);
     }
 }

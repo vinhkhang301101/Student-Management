@@ -5,7 +5,7 @@ import { PATH } from "../config/path";
 import Field from "../Components/Field";
 import { userService } from "../services/user";
 import { confirm, minMax, regexp, required } from "../utils/validate";
-import { Button } from "../Components/Button";
+import { ButtonCom } from "../Components/Button";
 import { useQuery } from "../hooks/useQuery";
 import { handleError } from "../utils/handleError"
 import { Select } from "../Components/Select";
@@ -118,9 +118,9 @@ export const Register = () => {
                       />
                     </div>
                     <div className="form-group mb-0">
-                      <Button onClick={onRegister} loading={loading}>
+                      <ButtonCom onClick={onRegister} loading={loading}>
                         Register
-                      </Button>
+                      </ButtonCom>
                     </div>
                   </form>
                   <div className="login-or">

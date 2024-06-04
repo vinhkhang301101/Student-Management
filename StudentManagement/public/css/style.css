@@ -42,7 +42,10 @@ body {
 	line-height: 1.5;
 	overflow-x: hidden;
 }
-
+i {
+	font-size: 16px;
+	width: 18px;
+}
 h1,
 h2,
 h3,
@@ -2353,6 +2356,10 @@ footer p {
 }
 .skill-info ul li {
 	margin-bottom: 25px;
+}
+.post-date {
+	color: rgb(167, 167, 167);
+	font-size: 15px;
 }
 
 /*-----------------

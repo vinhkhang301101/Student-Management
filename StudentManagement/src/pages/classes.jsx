@@ -1,15 +1,13 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { PATH } from '../config/path';
 import { useQuery } from "../hooks/useQuery.js";
 import { classService } from "../services/class.js";
 import { ClassList } from "../Components/ClassList/index.jsx";
-import { useClass } from "../hooks/useClass";
-import { useAuthRedux } from '../hooks/useAuthRedux.js';
 import { useDispatch } from 'react-redux';
+import { Empty } from 'antd';
 
 export const Classes = () => {
-  const { classes } = useClass();
   const dispatch = useDispatch()
   const {data, loading} = useQuery({
     queryFn: () => classService.getClass()
@@ -48,7 +46,7 @@ export const Classes = () => {
             <div className="card card-table">
               <div className="card-body">
                 <div className="table-responsive">
-                  {/* {classes?.data.length ? (
+                  {data?.data.length ? (
                     <table className="table table-hover table-center mb-0 datatable">
                       <thead>
                         <tr>
@@ -59,17 +57,28 @@ export const Classes = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {data.data.data.map((e) => (
+                        {data.data.map((e) => (
                           <ClassList key={e._id} {...e} />
                         ))}
                       </tbody>
                     </table>
                   ) : (
-                    <h5 className="text-danger fw-bold text-center">
-                      There are no classes now, update soon!!
-                    </h5>
-                  )} */}
-                  <table className="table table-hover table-center mb-0 datatable">
+                    <Empty
+                      description={
+                        <h4 className="text-danger fw-bold text-center">
+                          There are no classes now!!
+                        </h4>
+                      }
+                    >
+                      <Link
+                        to={PATH.Classes.AddClasses}
+                        className="btn btn-primary mb-2"
+                      >
+                        Add Class Now
+                      </Link>
+                    </Empty>
+                  )}
+                  {/* <table className="table table-hover table-center mb-0 datatable">
                     <thead>
                       <tr>
                         <th>ID</th>
@@ -83,7 +92,7 @@ export const Classes = () => {
                         <ClassList key={e._id} {...e} />
                       ))}
                     </tbody>
-                  </table>
+                  </table> */}
                 </div>
               </div>
             </div>

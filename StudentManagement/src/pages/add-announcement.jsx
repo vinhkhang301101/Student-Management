@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PATH } from "../config/path";
 import { useDispatch } from "react-redux";
 import { useQuery } from "../hooks/useQuery";
@@ -7,11 +7,12 @@ import { required } from "../utils/validate";
 import { useForm } from "../hooks/useForm";
 import { addAnnouncementAction } from "../store/announcement";
 import Field from "../Components/Field";
-import { Button } from "../Components/Button";
+import { ButtonCom } from "../Components/Button";
 import { handleError } from "../utils/handleError";
 import { message } from "antd";
 
 export const AddAnnouncements = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loading } = useQuery({
     enabled: false,
@@ -94,13 +95,13 @@ export const AddAnnouncements = () => {
                       </div>
                     </div> */}
                     <div className="col-12">
-                      <Button
+                      <ButtonCom
                         onClick={onAddAnnouncement}
                         loading={loading}
                         className="btn btn-primary"
                       >
                         Submit
-                      </Button>
+                      </ButtonCom>
                     </div>
                   </div>
                 </form>

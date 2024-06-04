@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { PATH } from "../config/path";
-import { Button } from "../Components/Button";
+import { ButtonCom } from "../Components/Button";
 import Field from "../Components/Field";
 import { useForm } from "../hooks/useForm";
 import { confirm, regexp, required } from "../utils/validate";
@@ -92,9 +92,9 @@ export const RecoverPassword = () => {
                       />
                     </div>
                     <div className="form-group mb-0">
-                      <Button loading={loading} onClick={onSubmit} className="btn btn-primary btn-block">
+                      <ButtonCom loading={loading} onClick={onSubmit} className="btn btn-primary btn-block">
                         Reset Password
-                      </Button>
+                      </ButtonCom>
                     </div>
                   </form>
                   <div className="text-center dont-have">

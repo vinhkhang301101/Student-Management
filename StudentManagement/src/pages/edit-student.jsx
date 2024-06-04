@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { PATH } from "../config/path";
 import Field from "../Components/Field";
 import { Select } from "../Components/Select";
-import { Button } from "../Components/Button";
+import { ButtonCom } from "../Components/Button";
 import { useDispatch } from "react-redux";
 import { useForm } from "../hooks/useForm";
 import { useAuthRedux } from "../hooks/useAuthRedux";
@@ -223,9 +223,9 @@ export const EditStudents = () => {
                       </div>
                     </div>
                     <div className="col-12">
-                      <Button onClick={onSubmit} className="btn btn-primary">
+                      <ButtonCom onClick={onSubmit} className="btn btn-primary">
                         Save Changes
-                      </Button>
+                      </ButtonCom>
                     </div>
                   </div>
                 </form>

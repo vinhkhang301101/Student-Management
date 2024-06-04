@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { PATH } from "../config/path";
 import Field from "../Components/Field";
-import { Button } from "../Components/Button";
+import { ButtonCom } from "../Components/Button";
 import { useAuthRedux } from "../hooks/useAuthRedux";
 import { useForm } from "../hooks/useForm";
 import { regexp, required } from "../utils/validate";
@@ -283,9 +283,9 @@ export const EditProfile = () => {
                       </>
                     )}
                     <div className="col-12">
-                      <Button onClick={onSubmit} className="btn btn-primary">
+                      <ButtonCom onClick={onSubmit} className="btn btn-primary">
                         Save Changes
-                      </Button>
+                      </ButtonCom>
                     </div>
                   </div>
                 </form>

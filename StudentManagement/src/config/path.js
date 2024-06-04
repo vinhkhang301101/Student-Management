@@ -41,7 +41,8 @@ export const PATH = {
   },
   Announcement: {
     index: ANNOUNCEMENT,
-    AddAnnouncements: ANNOUNCEMENT + "/add-announcement",
-    EditAnnouncements: ANNOUNCEMENT + "/edit-announcement",
+    AddAnnouncements: ANNOUNCEMENT + "/add",
+    EditAnnouncements: ANNOUNCEMENT + "/edit",
+    announcementDetails: ANNOUNCEMENT + "/details",
   },
 };

@@ -1,15 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { PATH } from "../config/path";
-import { useAnnouncement } from "../hooks/useAnnouncement";
 import { useQuery } from "../hooks/useQuery";
 import { announcementService } from "../services/announcement";
 import { AnnouncementFeed } from "../Components/AnnouncementFeed";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
+import { Calendar } from "antd";
 
 export const StudentDashboard = () => {
-  const { announcement } = useAnnouncement();
   const { data, loading } = useQuery({
     queryFn: () => announcementService.getAnnouncement(),
   });
@@ -51,22 +48,33 @@ export const StudentDashboard = () => {
               </div>
               <div className="card-body">
                 <div className="teaching-card">
-                  {/* {announcement?.data.length ? (
+                  {data?.data.length ? (
                     <ul className="activity-feed">
-                      {data.data.data.map((e) => (
+                      {data.data.map((e) => (
                         <AnnouncementFeed key={e._id} {...e} />
                       ))}
                     </ul>
                   ) : (
-                    <h6 className="text-danger fw-bold text-center">
-                      There are no announcement now, update soon!!
-                    </h6>
-                  )} */}
-                  <ul className="activity-feed">
+                    <Empty
+                      description={
+                        <h6 className="text-danger fw-bold text-center">
+                          There are no announcements now!!
+                        </h6>
+                      }
+                    >
+                      <Link
+                        to={PATH.Announcement.AddAnnouncements}
+                        className="btn btn-primary mb-2"
+                      >
+                        Add Announcement Now
+                      </Link>
+                    </Empty>
+                  )}
+                  {/* <ul className="activity-feed">
                     {data.data.map((e) => (
                       <AnnouncementFeed key={e._id} {...e} />
                     ))}
-                  </ul>
+                  </ul> */}
                 </div>
               </div>
             </div>

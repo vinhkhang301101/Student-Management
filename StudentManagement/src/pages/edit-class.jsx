@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { PATH } from "../config/path";
+import { ButtonCom } from "../Components/Button";
 
 export const EditClasses = () => {
   return (
@@ -15,7 +16,7 @@ export const EditClasses = () => {
                   <Link to="/">Home</Link>
                 </li>
                 <li className="breadcrumb-item">
-                  <Link to={PATH.Classes.index}>Class</Link>
+                  <Link to={PATH.Classes.index}>Classes</Link>
                 </li>
                 <li className="breadcrumb-item active">Edit Class</li>
               </ul>
@@ -64,9 +65,9 @@ export const EditClasses = () => {
                       </div>
                     </div>
                     <div className="col-12">
-                      <button type="submit" className="btn btn-primary">
+                      <ButtonCom type="submit" className="btn btn-primary">
                         Submit
-                      </button>
+                      </ButtonCom>
                     </div>
                   </div>
                 </form>

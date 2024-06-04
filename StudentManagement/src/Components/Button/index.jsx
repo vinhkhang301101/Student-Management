@@ -2,7 +2,7 @@ import React from 'react'
 import { ButtonStyle } from './style'
 import { LoadingOutlined } from "@ant-design/icons"
 
-export const Button = ({ children, loading, ...props }) => {
+export const ButtonCom = ({ children, loading, ...props }) => {
   return (
     <ButtonStyle
       disabled={loading}

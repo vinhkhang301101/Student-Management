@@ -4,7 +4,7 @@ import { PATH } from "../config/path";
 import { minMax, regexp, required, validate } from "../utils/validate";
 import Field from "../Components/Field";
 import { useAuth } from "../Components/AuthContext";
-import { Button } from "../Components/Button";
+import { ButtonCom } from "../Components/Button";
 import { handleError } from "../utils/handleError";
 import { useDispatch } from "react-redux";
 import { loginAction } from "../store/auth";
@@ -67,9 +67,9 @@ export const Login = () => {
                       />
                     </div>
                     <div className="form-group">
-                      <Button loading={loginLoading} onClick={onLogin}>
+                      <ButtonCom loading={loginLoading} onClick={onLogin}>
                         Login
-                      </Button>
+                      </ButtonCom>
                     </div>
                   </form>
                   <div className="text-center forgotpass">

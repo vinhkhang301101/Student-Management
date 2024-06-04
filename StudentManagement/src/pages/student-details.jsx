@@ -1,8 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { PATH } from "../config/path";
+import { useAuthRedux } from "../hooks/useAuthRedux";
 
 export const StudentDetails = () => {
+  const { user } = useAuthRedux()
   return (
     <>
       <div className="content container-fluid">

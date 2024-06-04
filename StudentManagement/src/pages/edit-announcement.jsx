@@ -1,8 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { PATH } from "../config/path";
+import { useForm } from "../hooks/useForm";
+import { required } from "../utils/validate";
+import Field from "../Components/Field";
+import { Button, Upload } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
+import { ButtonCom } from "../Components/Button";
+
+const rules = {
+  title: [required()],
+};
 
 export const EditAnnouncements = () => {
+  const announcementForm = useForm(rules)
   return (
     <>
       <div className="content container-fluid">
@@ -33,17 +44,33 @@ export const EditAnnouncements = () => {
                         <span>Announcement Information</span>
                       </h5>
                     </div>
-                    <div className="col-12 col-sm-12">
+                    <div className="col-9">
                       <div className="form-group">
-                        <label>Announcement Title</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          defaultValue="Homework 4 Submission"
+                        <Field
+                          label="Title"
+                          placeholder="Title"
+                          required
+                          {...announcementForm.register("title")}
                         />
                       </div>
                     </div>
-                    <div className="col-12 col-sm-12">
+                    <div className="col-9">
+                      <div className="form-group">
+                        <Field
+                          label="Description"
+                          placeholder="Description"
+                          {...announcementForm.register("description")}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-9">
+                      <div className="form-group">
+                        <Upload>
+                          <Button icon={<UploadOutlined />}>Select file</Button>
+                        </Upload>
+                      </div>
+                    </div>
+                    {/* <div className="col-12 col-sm-12">
                       <div className="form-group">
                         <label>Due Date</label>
                         <input
@@ -52,22 +79,11 @@ export const EditAnnouncements = () => {
                           defaultValue="Sep 06, 11:59 pm"
                         />
                       </div>
-                    </div>
-                    <div className="col-12 col-sm-12">
-                      <div className="form-group">
-                        <label>Description</label>
-                        <textarea
-                          className="form-control"
-                          defaultValue="Submit the homework here.
-                          Due date: Sep 03, 11:59 pm
-                          IMPORTANT: Submit file in .pdf"
-                        />
-                      </div>
-                    </div>
+                    </div> */}
                     <div className="col-12">
-                      <button type="submit" className="btn btn-primary">
+                      <ButtonCom className="btn btn-primary">
                         Submit
-                      </button>
+                      </ButtonCom>
                     </div>
                   </div>
                 </form>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
-import { Dropdown } from "antd";
+import { Badge, Dropdown } from "antd";
 import { PATH } from "../../config/path";
 import { useDispatch } from "react-redux";
 import { logoutAction } from "../../store/auth";
@@ -64,8 +64,14 @@ export const MainLayouts = () => {
                 className="dropdown-toggle nav-link"
                 data-toggle="dropdown"
               >
-                <i className="far fa-bell" />{" "}
-                <span className="badge badge-pill">3</span>
+                <Badge
+                  color="#18aefa"
+                  size="small"
+                  count={3}
+                  overflowCount={99}
+                >
+                  <i className="far fa-bell w-18" />
+                </Badge>
               </a>
               <div
                 className="dropdown-menu notifications"
@@ -243,7 +249,9 @@ export const MainLayouts = () => {
                   className="dropdown-toggle nav-link"
                   data-toggle="dropdown"
                 >
-                  <i className="fas fa-user mr-1" /> {user.fullname}
+                  <span>
+                    <i className="fas fa-user" /> {user.fullname}
+                  </span>
                 </a>
               </li>
             </Dropdown>
@@ -315,8 +323,8 @@ export const MainLayouts = () => {
                         navigate(PATH.Login);
                       }}
                     >
-                      <i className="fas fa-right-from-bracket" />{" "}
-                      <span>Logout</span> <span className="menu-arrow" />
+                      <i className="fas fa-share" /> <span>Logout</span>{" "}
+                      <span className="menu-arrow" />
                     </a>
                   </li>
                 </ul>

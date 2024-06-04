@@ -5,7 +5,7 @@ import { useAuthRedux } from "../hooks/useAuthRedux";
 import { useForm } from "../hooks/useForm";
 import { confirm, minMax, required, validate } from "../utils/validate";
 import Field from "../Components/Field";
-import { Button } from "../Components/Button";
+import { ButtonCom } from "../Components/Button";
 import { userService } from "../services/user";
 import { useQuery } from "../hooks/useQuery";
 import { message } from "antd";
@@ -206,13 +206,13 @@ export const Profile = () => {
                             autoComplete="new-password"
                           />
                         </div>
-                        <Button
+                        <ButtonCom
                           loading={loading}
                           onClick={onSubmit}
                           className="btn btn-primary"
                         >
                           Save Changes
-                        </Button>
+                        </ButtonCom>
                       </form>
                     </div>
                   </div>

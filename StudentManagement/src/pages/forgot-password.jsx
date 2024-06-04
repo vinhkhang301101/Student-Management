@@ -7,7 +7,7 @@ import { useForm } from '../hooks/useForm';
 import { useQuery } from '../hooks/useQuery';
 import { userService } from '../services/user';
 import { handleError } from '../utils/handleError';
-import { Button } from '../Components/Button';
+import { ButtonCom } from "../Components/Button";
 import { message } from 'antd';
 
 export const ForgotPassword = () => {
@@ -58,13 +58,13 @@ export const ForgotPassword = () => {
                       />
                     </div>
                     <div className="form-group mb-0">
-                      <Button
+                      <ButtonCom
                         onClick={onSubmit}
                         loading={loading}
                         className="btn btn-primary btn-block"
                       >
                         Send Recover Code
-                      </Button>
+                      </ButtonCom>
                     </div>
                   </form>
                   <div className="text-center dont-have">
