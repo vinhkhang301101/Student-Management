@@ -5,7 +5,7 @@ import { useQuery } from "../hooks/useQuery";
 import { announcementService } from "../services/announcement.js";
 import { required } from "../utils/validate";
 import Field from "../Components/Field";
-import { Button, Form, Upload, message } from "antd";
+import { Button, Form, Input, Upload, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { ButtonCom } from "../Components/Button";
 import { handleError } from "../utils/handleError.js";
@@ -80,7 +80,7 @@ export const EditAnnouncements = () => {
           <div className="col-sm-12">
             <div className="card">
               <div className="card-body">
-                <form>
+                <Form name="Edit announcement form" form={announcementForm}>
                   <div className="row">
                     <div className="col-12">
                       <h5 className="form-title">
@@ -89,21 +89,28 @@ export const EditAnnouncements = () => {
                     </div>
                     <div className="col-9">
                       <div className="form-group">
-                        <Field
+                        <Form.Item
+                          name={"title"}
                           label="Title"
-                          placeholder="Title"
-                          required
-                          {...announcementForm.register("title")}
-                        />
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please fill in this field!",
+                            },
+                          ]}
+                        >
+                          <Input placeholder={data?.data.title} />
+                        </Form.Item>
                       </div>
                     </div>
                     <div className="col-9">
                       <div className="form-group">
-                        <Field
+                        <Form.Item
+                          name={"description"}
                           label="Description"
-                          placeholder="Description"
-                          {...announcementForm.register("description")}
-                        />
+                        >
+                          <Input placeholder={data?.data.title} />
+                        </Form.Item>
                       </div>
                     </div>
                     <div className="col-9">
@@ -133,7 +140,7 @@ export const EditAnnouncements = () => {
                       </ButtonCom>
                     </div>
                   </div>
-                </form>
+                </Form>
               </div>
             </div>
           </div>
