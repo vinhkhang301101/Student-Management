@@ -1,28 +1,28 @@
-const PROFILE = "/profile"
+const PROFILE = "/profile";
 const STUDENT = "/students";
 const TEACHER = "/teachers";
 const CLASS = "/classes";
 const FEE = "/fees";
-const ANNOUNCEMENT = "/announcement"
+const ANNOUNCEMENT = "/announcement";
 
 export const PATH = {
   Home: "/",
   Students: {
     index: STUDENT,
-    StudentDetails: STUDENT + "/details",
+    StudentDetails: STUDENT + "/details/:id",
     AddStudents: STUDENT + "/add",
-    EditStudents: STUDENT + "/edit",
+    EditStudents: STUDENT + "/edit/:id",
   },
   Teachers: {
     index: TEACHER,
     AddTeachers: TEACHER + "/add",
-    EditTeachers: TEACHER + "/edit",
-    TeacherDetails: TEACHER + "/details",
+    EditTeachers: TEACHER + "/edit/:id",
+    TeacherDetails: TEACHER + "/details/:id",
   },
   Classes: {
     index: CLASS,
     AddClasses: CLASS + "/add",
-    EditClasses: CLASS + "/edit",
+    EditClasses: CLASS + "/edit/:id",
   },
   Login: "/login",
   Register: "/register",
@@ -33,7 +33,6 @@ export const PATH = {
     EditProfile: PROFILE + "/edit",
   },
   Inbox: "/inbox",
-  NewMail: "/new-mail",
   Fees: {
     index: FEE,
     AddFees: FEE + "/add",
@@ -42,7 +41,7 @@ export const PATH = {
   Announcement: {
     index: ANNOUNCEMENT,
     AddAnnouncements: ANNOUNCEMENT + "/add",
-    EditAnnouncements: ANNOUNCEMENT + "/edit",
-    announcementDetails: ANNOUNCEMENT + "/details",
+    EditAnnouncements: ANNOUNCEMENT + "/edit/:id",
+    announcementDetails: ANNOUNCEMENT + "/details/:id",
   },
 };

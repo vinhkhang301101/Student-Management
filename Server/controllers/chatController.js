@@ -1,20 +1,20 @@
 import { catchAsync } from "../middlewares/async.js";
 import Chat from "../models/Chat.js";
 
-class messageController {
-  getAllChats = catchAsync(async (req, res, next) => {
+class chatController {
+  getFullChats = catchAsync(async (req, res, next) => {
     const { id } = req.params;
-    const recipient = id;
+    const receiver = id;
     const sender = req.user.id;
-    if (recipient == null) {
+    if (receiver == null) {
       res.status(200).json({
         success: true,
         messages: [],
       });
     }
-    const messages = await Message.find({
-      sender: { $in: [recipient, sender] },
-      recipient: { $in: [recipient, sender] },
+    const messages = await Chat.find({
+      sender: { $in: [receiver, sender] },
+      receiver: { $in: [receiver, sender] },
     });
     res.status(200).json({
       success: true,
@@ -23,4 +23,4 @@ class messageController {
   });
 }
 
-export default new messageController();
+export default new chatController();

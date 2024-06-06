@@ -1,4 +1,4 @@
-// import ApiError from "../../utils/ApiError.js";
+import ApiError from "../utils/ApiError.js";
 import { catchAsync } from "../middlewares/async.js";
 import Announcement from "../models/Announcement.js";
 import User from "../models/User.js";

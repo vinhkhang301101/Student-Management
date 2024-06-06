@@ -1,17 +1,27 @@
-import { Link } from "react-router-dom";
+import { Link, generatePath, } from "react-router-dom";
 import { PATH } from "../../config/path";
 
-export const StudentList = ({ firstname, lastname, studentID, classcode, gender, date, phone, address, paidammounts, status}) => {
+export const StudentList = ({ _id, firstname, lastname, studentID, classcode, gender, date, phone, address, paidammounts, status}) => {
   return (
     <tr>
       <td>{studentID}</td>
       <td>
-        <Link className="text-black" to={PATH.Students.StudentDetails}>
+        <Link
+          className="text-black"
+          to={generatePath(PATH.Students.StudentDetails, {
+            id: _id,
+          })}
+        >
           {firstname}
         </Link>
       </td>
       <td>
-        <Link className="text-black" to={PATH.Students.StudentDetails}>
+        <Link
+          className="text-black"
+          to={generatePath(PATH.Students.StudentDetails, {
+            id: _id,
+          })}
+        >
           {lastname}
         </Link>
       </td>
@@ -26,7 +36,9 @@ export const StudentList = ({ firstname, lastname, studentID, classcode, gender,
       <td className="text-right">
         <div className="actions">
           <Link
-            to={PATH.Students.EditStudents}
+            to={generatePath(PATH.Students.EditStudents, {
+              id: _id,
+            })}
             className="btn btn-sm bg-success-light mr-2"
           >
             <i className="fas fa-pen" />

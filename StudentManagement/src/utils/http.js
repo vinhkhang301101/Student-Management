@@ -1,6 +1,7 @@
 import { authService } from "../services/auth";
 import axios from "axios";
 import { getToken, setToken } from "./token";
+import { handleError } from "./handleError";
 
 export const USER_API = import.meta.env.VITE_USER_API;
 export const CLASS_API = import.meta.env.VITE_CLASS_API;
@@ -14,31 +15,32 @@ http.interceptors.response.use(
   (res) => {
     return res.data;
   },
-  async (error) => {
-    try {
-      if (
-        error.response.status === 403 &&
-        error.response.data.error_code === "TOKEN_EXPIRED"
-      ) {
-        if (refreshTokenPromise) {
-          await refreshTokenPromise;
-        } else {
-          // refresh token
-          console.log("refreshToken");
-          const token = getToken();
-          const refreshTokenPromise = await authService.refreshToken({
-            refreshToken: token.refreshToken,
-          });
-
-          const res = await refreshTokenPromise;
-
-          setToken(res.data);
+  async (err) => {
+    if (err.response.status === 403 & err.response.data.message === "Token is expired!") {
+        try {
+            const curRefreshToken = getToken().refreshToken
+            const resToken = await authService.refreshToken({
+              refreshToken: curRefreshToken,
+            });
+            setToken({
+              accessToken: resToken.data.accessToken,
+              refreshToken: curRefreshToken
+            })
+            return api(err.config)
+        } catch (error) {
+            message.error('Your login session is expired!')
+            clearToken()
+            clearUser()
+            setTimeout(() => {
+                window.location.reload('/')
+            }, 2000)
         }
-        return http(error.config);
-      }
-    } catch (error) {}
-    throw error;
-  }
+    } else {
+        console.log(err);
+        handleError(err)
+        throw err
+    }
+}
 );
 
 http.interceptors.request.use((config) => {

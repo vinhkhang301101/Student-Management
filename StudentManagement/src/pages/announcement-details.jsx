@@ -1,12 +1,20 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { PATH } from '../config/path';
 import { useQuery } from '../hooks/useQuery';
 import { announcementService } from '../services/announcement';
 
 export const AnnouncementDetails = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
   const { data, loading } = useQuery({
-    queryFn: () => announcementService.getAnnouncement(),
+    queryFn: () => announcementService.getAnnouncementById(id),
+    enabled: !!id,
+    onError: () => {
+      message.error("Announcement is not exist!");
+      navigate(PATH.Announcement.index);
+    },
   });
 
   if (loading) return null;
@@ -35,8 +43,8 @@ export const AnnouncementDetails = () => {
             <div className="profile-header">
               <div className="row align-items-center">
                 <div className="col ml-md-n2">
-                  <h3 className="text-danger fw-bold">Testing</h3>
-                  <p className="post-date mb-0">Nov 30th</p>
+                  <h3 className="text-danger fw-bold">{data.data.title}</h3>
+                  <p className="post-date mb-0">{data.data.updatedAt}</p>
                 </div>
                 <div className="col-auto profile-btn">
                   <Link
@@ -57,7 +65,7 @@ export const AnnouncementDetails = () => {
                       <h5 className="card-title d-flex justify-content-between">
                         <span>Description</span>
                       </h5>
-                      <span>Testing...</span>
+                      <span>{data.data.description}</span>
                     </div>
                   </div>
                 </div>

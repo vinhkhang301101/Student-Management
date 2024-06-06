@@ -1,6 +1,6 @@
 const catchError = (err, req, res, next) => {
     // check error
-    // console.log(JSON.stringify(err, null, 2));
+    console.log(JSON.stringify(err, null, 2));
 
     // loi ve Validation
     if (err.name === "ValidationError") {

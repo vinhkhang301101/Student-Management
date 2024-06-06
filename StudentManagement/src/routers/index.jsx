@@ -7,7 +7,6 @@ import { StudentDashboard } from "../pages/student-dashboard";
 import { ForgotPassword } from "../pages/forgot-password";
 import { Page404 } from "../pages/page404";
 import { Inbox } from "../pages/inbox";
-import { NewMail } from "../pages/new-mail";
 import { GuestRoute } from "../Components/GuestRoute";
 import { PrivateRoute } from "../Components/PrivateRoute";
 import { profile } from "./profile";
@@ -80,11 +79,6 @@ export const routers = (user, login, logout) => [
           {
             path: PATH.Inbox,
             element: <Inbox />,
-          },
-
-          {
-            path: PATH.NewMail,
-            element: <NewMail />,
           },
 
           {

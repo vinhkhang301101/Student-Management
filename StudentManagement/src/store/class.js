@@ -27,19 +27,6 @@ export const getClassAction = createAsyncThunk(
   }
 );
 
-export const removeClassAction = createAsyncThunk(
-  "class/removeClass",
-  async (data, thunkApi) => {
-    try {
-      await classService.removeClass(data._id);
-      const classes = await classService.getClass();
-      thunkApi.dispatch(classActions.setClass(classes.data));
-    } catch (err) {
-      throw err.response.data;
-    }
-  }
-);
-
 export const { reducer: classReducer, action: classActions } = createSlice({
     name: "classes",
     initialState: {

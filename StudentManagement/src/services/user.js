@@ -5,8 +5,14 @@ export const userService = {
     register(data) {
         return http.post(`${USER_API}/register`, data);
     },
+    getPeople(data) {
+        return http.get(`${USER_API}/people`, data);
+    },
     getUser(data) {
         return http.get(`${USER_API}`, data);
+    },
+    getStudentById(id) {
+        return http.get(`${USER_API}/student/${id}`);
     },
     getUsers(data) {
         return http.get(`${USER_API}/all`, data);

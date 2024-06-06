@@ -1,10 +1,25 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, generatePath, useNavigate, useParams } from "react-router-dom";
 import { PATH } from "../config/path";
 import { useAuthRedux } from "../hooks/useAuthRedux";
+import { useQuery } from "../hooks/useQuery";
+import { userService } from "../services/user";
 
 export const StudentDetails = () => {
-  const { user } = useAuthRedux()
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const { data, loading } = useQuery({
+    queryFn: () => userService.getStudentById(id),
+    enabled: !!id,
+    onError: () => {
+      message.error("This student is not exist!");
+      navigate(PATH.Students.index);
+    },
+  });
+
+  if (loading) return null;
+
   return (
     <>
       <div className="content container-fluid">
@@ -36,28 +51,32 @@ export const StudentDetails = () => {
                       <ul>
                         <li>
                           <span className="title-span">Full Name: </span>
-                          <span className="info-span">Nguyen Van A</span>
+                          <span className="info-span">
+                            {data.data.fullname}
+                          </span>
                         </li>
                         <li>
                           <span className="title-span">Mobile : </span>
-                          <span className="info-span">0973584587</span>
+                          <span className="info-span">{data.data.phone}</span>
                         </li>
                         <li>
                           <span className="title-span">Email : </span>
-                          <span className="info-span">student1@gmail.com</span>
+                          <span className="info-span">{data.data.email}</span>
                         </li>
                         <li>
                           <span className="title-span">Gender : </span>
-                          <span className="info-span">Male</span>
+                          <span className="info-span">{data.data.gender}</span>
                         </li>
                         <li>
                           <span className="title-span">DOB : </span>
-                          <span className="info-span">2 Feb 2009</span>
+                          <span className="info-span">{data.data.date}</span>
                         </li>
                       </ul>
                     </div>
                     <Link
-                      to={PATH.Students.EditStudents}
+                      to={generatePath(PATH.Students.EditStudents, {
+                        id: data.data._id,
+                      })}
                       className="btn btn-primary"
                     >
                       <i className="fas fa-pen mr-2" />

@@ -1,5 +1,9 @@
 import { catchAsync } from "../middlewares/async.js";
-import { JWT_EXPIRES_ACCESS, JWT_SECRET, JWT_SECRET_REFRESH } from "../config/index.js";
+import {
+  JWT_EXPIRES_ACCESS,
+  JWT_SECRET,
+  JWT_SECRET_REFRESH,
+} from "../config/index.js";
 import User from "../models/User.js";
 import bcryptjs from "bcryptjs";
 import ApiError from "../utils/ApiError.js";
@@ -133,6 +137,15 @@ class authController {
     }
   });
 
+  // [GET] /people
+  getPeople = catchAsync(async (req, res, next) => {
+    const user = await User.find({}, { _id: 1, fullname: 1 });
+    res.status(200).json({
+      success: true,
+      people: user,
+    });
+  });
+
   // [GET] /
   getUser = catchAsync(async (req, res, next) => {
     const { email } = req.user;
@@ -145,13 +158,45 @@ class authController {
         firstname: user.firstname,
         lastname: user.lastname,
         classcode: user.classcode,
+        gender: user.gender,
         role: user.role,
         email: user.email,
         date: user.date,
         phone: user.phone,
+        paidStatus: user.paidStatus,
         address: user.address,
       },
     });
+  });
+
+  // [GET] /student/:id
+  getStudentById = catchAsync(async (req, res, next) => {
+    const { id } = req.params;
+    const student = await User.findById(id);
+    if (!student) {
+      throw new ApiError(400, "This student does not exist!");
+    } else if (!student.studentID) {
+      throw new ApiError(400, "This is not student!");
+    } else {
+      res.status(200).json({
+        success: true,
+        data: {
+          _id: student._id,
+          fullname: student.fullname,
+          studentID: student.studentID,
+          firstname: student.firstname,
+          lastname: student.lastname,
+          classcode: student.classcode,
+          gender: student.gender,
+          role: student.role,
+          email: student.email,
+          date: student.date,
+          phone: student.phone,
+          paidStatus: student.paidStatus,
+          address: student.address,
+        },
+      });
+    }
   });
 
   // [GET] /
@@ -171,7 +216,7 @@ class authController {
         subject: user.subject,
         classcode: user.classcode,
         phone: user.phone,
-        status: user.status,
+        paidStatus: user.paidStatus,
         address: user.address,
       };
     });
@@ -197,7 +242,7 @@ class authController {
         date: user.date,
         classcode: user.classcode,
         phone: user.phone,
-        status: user.status,
+        paidStatus: user.paidStatus,
         address: user.address,
       };
     });
@@ -217,7 +262,7 @@ class authController {
       lastname,
       gender,
       classcode,
-      status,
+      paidStatus,
       phone,
       address,
     } = req.body;
@@ -229,14 +274,14 @@ class authController {
     user.lastname = lastname;
     user.gender = gender;
     user.classcode = classcode;
-    user.status = status;
+    user.paidStatus = paidStatus;
     user.date = date;
     user.phone = phone;
     user.address = address;
     await user.save();
     res.status(200).json({
       success: true,
-      data: user
+      data: user,
     });
   });
 
@@ -251,7 +296,7 @@ class authController {
       lastname,
       gender,
       classcode,
-      status,
+      paidStatus,
       phone,
       address,
     } = req.body;
@@ -262,7 +307,7 @@ class authController {
     user.lastname = lastname;
     user.gender = gender;
     user.classcode = classcode;
-    user.status = status;
+    user.paidStatus = paidStatus;
     user.date = date;
     user.phone = phone;
     user.address = address;

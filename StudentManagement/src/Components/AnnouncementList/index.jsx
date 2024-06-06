@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, generatePath, useNavigate } from "react-router-dom";
 import { PATH } from "../../config/path";
 import { useAuthRedux } from "../../hooks/useAuthRedux";
 import { handleError } from "../../utils/handleError";
@@ -9,7 +9,7 @@ import { announcementService } from "../../services/announcement";
 import { useState } from "react";
 import { ButtonCom } from "../../Components/Button";
 
-export const AnnouncementList = ({ _id, title, description, updatedAt }) => {
+export const AnnouncementList = ({ announcementID, title, description, updatedAt }) => {
   const { user } = useAuthRedux();
   const navigate = useNavigate();
   const [selectedAnnoucement, setSelectedAnnouncement] = useState({});
@@ -17,13 +17,6 @@ export const AnnouncementList = ({ _id, title, description, updatedAt }) => {
   const { excute: deleteAnnouncement } = useAsync(
     announcementService.deleteAnnouncement
   );
-
-  const onSelectAnnouncement = async (ev) => {
-    // ev.preventDefault();
-    // setSelectedAnnouncement(ev);
-    // console.log(selectedAnnoucement);
-    navigate(PATH.Announcement.EditAnnouncements);
-  };
 
   const onDelete = async (ev) => {
     try {
@@ -35,12 +28,6 @@ export const AnnouncementList = ({ _id, title, description, updatedAt }) => {
     } catch (err) {
       handleError(err);
     }
-    // Popconfirm({
-    //   title: "Delete announcement?",
-    //   description:
-    //     "Are you sure you want to delete this announcement? All data also deleted!",
-      // onConfirm: 
-    // });
   };
 
   return (
@@ -48,7 +35,11 @@ export const AnnouncementList = ({ _id, title, description, updatedAt }) => {
       <div className="col-md-12">
         <div className="skill-info d-flex justify-content-between">
           <div className="right-content">
-            <Link to={PATH.Announcement.announcementDetails}>
+            <Link
+              to={generatePath(PATH.Announcement.announcementDetails, {
+                id: announcementID,
+              })}
+            >
               <h5 className="text-danger fw-bold">{title}</h5>
             </Link>
             <p className="post-date mt-3">{updatedAt}</p>
@@ -56,13 +47,15 @@ export const AnnouncementList = ({ _id, title, description, updatedAt }) => {
           </div>
           {user.role == "Teacher" ? (
             <div className="right-content">
-              <ButtonCom
-                onClick={onSelectAnnouncement}
+              <Link
+                to={generatePath(PATH.Announcement.EditAnnouncements, {
+                  id: announcementID,
+                })}
                 className="btn btn-info mr-3"
               >
                 <i className="fas fa-pen mr-2" />
                 Edit
-              </ButtonCom>
+              </Link>
               <Popconfirm
                 open={openPopconfirm}
                 onOpenChange={(visible) => setOpenPopconfirm(visible)}

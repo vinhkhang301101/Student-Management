@@ -4,22 +4,6 @@ import Classes from "../models/Class.js";
 // import User from "../models/User.js";
 
 class classController {
-  // [POST] /class/add-class
-  addClass = catchAsync(async (req, res, next) => {
-    const { subject, code, slot } = req.body;
-    const classes = await Classes.create({ subject, code, slot });
-    await classes.save().then(() =>
-      res.status(201).json({
-        success: true,
-        data: {
-          code: code,
-          subject: subject,
-          slot: slot,
-        },
-      })
-    );
-  });
-
   // [GET] /class
   getClasses = catchAsync(async (req, res, next) => {
     const classes = await Classes.find();
@@ -35,6 +19,22 @@ class classController {
       success: true,
       data: classesArr,
     });
+  });
+  
+  // [POST] /class/add-class
+  addClass = catchAsync(async (req, res, next) => {
+    const { subject, code, slot } = req.body;
+    const classes = await Classes.create({ subject, code, slot });
+    await classes.save().then(() =>
+      res.status(201).json({
+        success: true,
+        data: {
+          code: code,
+          subject: subject,
+          slot: slot,
+        },
+      })
+    );
   });
 
   // [GET] /class/:id/

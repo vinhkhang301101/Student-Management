@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { PATH } from "../config/path";
 import Field from "../Components/Field";
 import { Select } from "../Components/Select";
@@ -21,53 +21,46 @@ const rules = {
   date: [required()],
   classcode: [required()],
   phone: [required(), regexp("phone")],
-  status: [required()],
+  paidStatus: [required()],
   address: [required()],
 };
 
 export const EditStudents = () => {
-  const { user } = useAuthRedux();
+  const { id } = useParams();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const studentForm = useForm(rules, { initialValue: user });
-
-  const { loading, refetch: updateStudentService } = useQuery({
-    enabled: false,
-    queryFn: ({ params }) => userService.updateStudents(...params),
+  const { data, loading } = useQuery({
+    queryFn: () => userService.getStudentById(id),
+    enabled: !!id,
+    onError: () => {
+      message.error("This student is not exist!");
+      navigate(PATH.Students.index);
+    },
   });
+
+  const studentForm = useForm(rules, { initialValue: data.data });
+
+  const { loading: updateLoading, refetch: updateStudentService } =
+    useQuery({
+      enabled: false,
+      queryFn: () => userService.updateStudents(id),
+    });
 
   const onSubmit = async (ev) => {
     ev.preventDefault();
 
-    if (
-      object.isEqual(
-        user,
-        studentForm.values,
-        "firstname",
-        "lastname",
-        "studentID",
-        "gender",
-        "date",
-        "classcode",
-        "phone",
-        "status",
-        "address"
-      )
-    ) {
-      message.warning("Enter the information to change your profile!");
-    }
-
     if (studentForm.validate()) {
       updateStudentService(studentForm.values)
         .then((res) => {
-          dispatch(setUserAction(res.data));
-          navigate(PATH.Students);
-          message.success("This profile has been updated successfully!");
+          message.success("Student's profile has been updated successfully!");
+          navigate(PATH.Students.index);
         })
         .catch(handleError);
     }
   };
 
+  if (loading) return null;
+
+  
   return (
     <>
       <div className="content container-fluid">
@@ -197,7 +190,7 @@ export const EditStudents = () => {
                           label="Status"
                           placeholder="Status"
                           required
-                          {...studentForm.register("status")}
+                          {...studentForm.register("paidStatus")}
                           renderInput={(props) => (
                             <Select
                               {...props}
@@ -223,7 +216,11 @@ export const EditStudents = () => {
                       </div>
                     </div>
                     <div className="col-12">
-                      <ButtonCom onClick={onSubmit} className="btn btn-primary">
+                      <ButtonCom
+                        onClick={onSubmit}
+                        loading={updateLoading}
+                        className="btn btn-primary"
+                      >
                         Save Changes
                       </ButtonCom>
                     </div>

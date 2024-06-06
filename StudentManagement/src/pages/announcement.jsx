@@ -4,6 +4,7 @@ import { PATH } from "../config/path";
 import { useQuery } from "../hooks/useQuery";
 import { announcementService } from "../services/announcement.js";
 import { AnnouncementList } from "../Components/AnnouncementList/index.jsx";
+import { Empty } from 'antd';
 
 export const Announcement = () => {
   const { data, loading } = useQuery({

@@ -4,9 +4,12 @@ import { PORT } from "./config/index.js";
 import Mongo from "./config/db.js";
 import router from "./routes/index.js"
 import { catchError } from "./middlewares/error.js";
-import EmailService from "./utils/EmailService.js";
+import { createServer } from "http";
+import runServerChat from "./chatServer.js";
 
 const app = express();
+
+const serverHttp = createServer(app);
 
 app.use(cors())
 
@@ -20,6 +23,8 @@ router(app);
 
 // error Middlewares
 app.use(catchError)
+
+runServerChat(serverHttp);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}!`);

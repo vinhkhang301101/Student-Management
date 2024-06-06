@@ -4,7 +4,7 @@ import { PATH } from "../config/path";
 import { useQuery } from "../hooks/useQuery";
 import { announcementService } from "../services/announcement";
 import { AnnouncementFeed } from "../Components/AnnouncementFeed";
-import { Calendar } from "antd";
+import { Calendar, Empty } from "antd";
 
 export const StudentDashboard = () => {
   const { data, loading } = useQuery({

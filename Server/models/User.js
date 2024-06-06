@@ -41,7 +41,7 @@ const userSchema = new Schema(
       type: String,
       enum: ["Male", "Female", "Other"],
     },
-    status: {
+    paidStatus: {
       type: String,
       enum: ["Paid", "Unpaid"],
     },

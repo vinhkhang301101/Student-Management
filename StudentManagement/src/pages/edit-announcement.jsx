@@ -1,19 +1,62 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { PATH } from "../config/path";
-import { useForm } from "../hooks/useForm";
+import { useQuery } from "../hooks/useQuery";
+import { announcementService } from "../services/announcement.js";
 import { required } from "../utils/validate";
 import Field from "../Components/Field";
-import { Button, Upload } from "antd";
+import { Button, Form, Upload, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { ButtonCom } from "../Components/Button";
+import { handleError } from "../utils/handleError.js";
+import { useAsync } from "../hooks/useAsync.js";
 
 const rules = {
   title: [required()],
 };
 
 export const EditAnnouncements = () => {
-  const announcementForm = useForm(rules)
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { data, loading: getAnnouncementLoading } = useQuery({
+    queryFn: () => announcementService.getAnnouncementById(id),
+    enabled: !!id,
+    onError: () => {
+      message.error("Announcement is not exist!");
+      navigate(PATH.Announcement.index);
+    },
+  });
+
+  if (getAnnouncementLoading) return null;
+
+  const [announcementForm] = Form.useForm()
+  const { loading: updateLoading, execute: updateAnnouncementService } = useAsync(announcementService.updateAnnouncement(id));
+
+  const onSubmit = async (ev) => {
+    ev.preventDefault();
+
+    const errorField = announcementForm.getFieldsError();
+    const checkError = errorField.filter((fieldErr) => {
+      if (fieldErr.errors.length > 0) {
+        message.warning(fieldErr.errors[0]);
+        return true;
+      } else {
+        return false;
+      }
+    });
+
+    if (checkError.length == 0) {
+      const res = await updateAnnouncementService({
+        ...announcementForm.getFieldsValue(),
+        _id: data.data._id,
+      });
+      if (res.success == true) {
+        message.success("Update thesis successfully");
+        navigate(PATH.Announcement.index)
+      }
+    }
+  };
+
   return (
     <>
       <div className="content container-fluid">
@@ -81,7 +124,11 @@ export const EditAnnouncements = () => {
                       </div>
                     </div> */}
                     <div className="col-12">
-                      <ButtonCom className="btn btn-primary">
+                      <ButtonCom
+                        onClick={onSubmit}
+                        loading={updateLoading}
+                        className="btn btn-primary"
+                      >
                         Submit
                       </ButtonCom>
                     </div>

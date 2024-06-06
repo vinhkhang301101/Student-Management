@@ -283,7 +283,11 @@ export const EditProfile = () => {
                       </>
                     )}
                     <div className="col-12">
-                      <ButtonCom onClick={onSubmit} className="btn btn-primary">
+                      <ButtonCom
+                        onClick={onSubmit}
+                        loading={loading}
+                        className="btn btn-primary"
+                      >
                         Save Changes
                       </ButtonCom>
                     </div>

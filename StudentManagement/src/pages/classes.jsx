@@ -13,6 +13,8 @@ export const Classes = () => {
     queryFn: () => classService.getClass()
   });
 
+  console.log(data);
+
   if (loading) return null;
 
   const onRemoveClass = (ev) => {

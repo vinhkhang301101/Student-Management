@@ -5,13 +5,16 @@ export const announcementService = {
   getAnnouncement() {
     return http.get(`${ANNOUNCEMENT_API}`);
   },
+  getAnnouncementById(id) {
+    return http.get(`${ANNOUNCEMENT_API}/${id}`);
+  },
   addAnnouncement(data) {
     return http.post(`${ANNOUNCEMENT_API}/create`, data);
   },
   deleteAnnouncement(data) {
     return http.delete(`${ANNOUNCEMENT_API}/delete/${data._id}`, data);
   },
-  updateAnnouncement(data) {
-    return http.delete(`${ANNOUNCEMENT_API}/update/${data._id}`, data);
+  updateAnnouncement(id) {
+    return http.put(`${ANNOUNCEMENT_API}/update/${id}`);
   },
 };

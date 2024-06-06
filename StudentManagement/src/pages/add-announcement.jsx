@@ -9,7 +9,8 @@ import { addAnnouncementAction } from "../store/announcement";
 import Field from "../Components/Field";
 import { ButtonCom } from "../Components/Button";
 import { handleError } from "../utils/handleError";
-import { message } from "antd";
+import { Button, Upload, message } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 
 export const AddAnnouncements = () => {
   const navigate = useNavigate();
@@ -82,6 +83,13 @@ export const AddAnnouncements = () => {
                           placeholder="Description"
                           {...announcementForm.register("description")}
                         />
+                      </div>
+                    </div>
+                    <div className="col-9">
+                      <div className="form-group">
+                        <Upload>
+                          <Button icon={<UploadOutlined />}>Select file</Button>
+                        </Upload>
                       </div>
                     </div>
                     {/* <div className="col-9">
