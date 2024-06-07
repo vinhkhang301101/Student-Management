@@ -81,7 +81,9 @@ export const AnnouncementList = ({ announcementID, title, description, updatedAt
           ) : (
             <div className="actions">
               <Link
-                to={PATH.Announcement.announcementDetails}
+                to={generatePath(PATH.Announcement.announcementDetails, {
+                  id: announcementID,
+                })}
                 className="btn btn-info"
               >
                 View

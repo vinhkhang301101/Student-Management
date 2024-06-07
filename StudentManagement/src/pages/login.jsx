@@ -10,7 +10,6 @@ import { useDispatch } from "react-redux";
 import { loginAction } from "../store/auth";
 import { message } from "antd";
 import { useForm } from "../hooks/useForm";
-import { useAsync } from "../hooks/useAsync";
 
 export const Login = () => {
   const { loginLoading } = useAuth();
@@ -29,7 +28,7 @@ export const Login = () => {
         message.success("Login successfully!");
       }
     } catch (err) {
-      handleError(err);
+      // handleError(err);
     }
   }
 

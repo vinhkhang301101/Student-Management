@@ -3,7 +3,7 @@ import Chat from "./models/Chat.js";
 
 function handleOnlinePeople(wss, connection, req) {
   const clientProtocol = req.headers["sec-websocket-protocol"];
-  connection.studentID = clientProtocol.split(", ")[1];
+  connection._id = clientProtocol.split(", ")[1];
   connection.fullname = clientProtocol.split(", ")[2];
   console.log([...wss.clients].map((c) => c.fullname));
 
@@ -11,7 +11,7 @@ function handleOnlinePeople(wss, connection, req) {
     client.send(
       JSON.stringify({
         online: [...wss.clients].map((c) => ({
-          userId: c.studentID,
+          userId: c._id,
           username: c.fullname,
         })),
       })
@@ -23,20 +23,20 @@ async function handleSendMessage(message, wss, connection) {
   const messageData = JSON.parse(message.toString());
   const { receiver, text } = messageData;
   if (receiver && text) {
-    console.log("Connection.studentID is : ", connection.studentID);
+    console.log("Connection studentID is: ", connection._id);
     const messageDoc = await Chat.create({
-      sender: connection.studentID,
+      sender: connection._id,
       receiver,
       text,
     });
     console.log("Created success!");
     [...wss.clients]
-      .filter((client) => client.studentID == receiver)
+      .filter((client) => client._id == receiver)
       .forEach((c) =>
         c.send(
           JSON.stringify({
             text,
-            sender: connection.studentID,
+            sender: connection._id,
             receiver,
             _id: messageDoc._id,
           })

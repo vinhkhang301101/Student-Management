@@ -16,28 +16,22 @@ export const Inbox = () => {
   const [offlinePeople, setOfflinePeople] = useState({});
   const [messages, setMessages] = useState([]);
   const [newMessageText, setNewMessageText] = useState("");
-  const [selectedStudentId, setSelectedStudentId] = useState(null);
+  const [selectedUserId, setSelectedUserId] = useState(null);
   const divUnderMessage = useRef();
 
-  // const { data, loading } = useQuery({
-  //   queryFn: () => userService.getUsers(),
-  // });
-
-  // if (loading) return null;
-
   useEffect(() => {
-    // connectToWs();
-  }, [selectedStudentId]);
+    connectToWs();
+  }, [selectedUserId]);
 
   function connectToWs() {
-    console.log("connect to server");
+    console.log("Connected to Chat Server!");
     const ws = new WebSocket(CHAT_SERVER);
     setWs(ws);
     ws.addEventListener("message", handleMessage);
     ws.addEventListener("close", () => {
-      console.log("server chat close");
+      console.log("Server chat is closing...");
       setTimeout(() => {
-        console.log("Disconnected. Trying to reconnect");
+        console.log("Disconnected. Trying to reconnect!");
         // connectToWs();
       }, 1000);
     });
@@ -64,19 +58,19 @@ export const Inbox = () => {
   }, [onlinePeople]);
 
   useEffect(() => {
-    if (selectedStudentId) {
-      http.get(`${MESSAGE_API}/${selectedStudentId}`).then((res) => {
+    if (selectedUserId) {
+      http.get(`${MESSAGE_API}/${selectedUserId}`).then((res) => {
         setMessages(res.messages);
       });
     }
-  }, [selectedStudentId]);
+  }, [selectedUserId]);
 
   function handleMessage(ev) {
     const messageData = JSON.parse(ev.data);
     if ("online" in messageData) {
       showOnlinePeople(messageData.online);
     } else {
-      if (messageData.sender == selectedStudentId) {
+      if (messageData.sender == selectedUserId) {
         setMessages((prev) => [...prev, { ...messageData }]);
       }
     }
@@ -94,7 +88,7 @@ export const Inbox = () => {
     ev.preventDefault();
     ws.send(
       JSON.stringify({
-        recipient: selectedStudentId,
+        recipient: selectedUserId,
         text: newMessageText,
       })
     );
@@ -105,14 +99,16 @@ export const Inbox = () => {
       {
         text: newMessageText,
         sender: user._id,
-        recipient: selectedStudentId,
+        recipient: selectedUserId,
         _id: Date.now(),
       },
     ]);
   };
-  console.log(ws);
+
   const onlinePeopleExceptOurUser = { ...onlinePeople };
   delete onlinePeopleExceptOurUser[user._id];
+
+  console.log(offlinePeople);
 
   const messagesWithoutDupes = uniqBy(messages, "_id");
 
@@ -145,8 +141,8 @@ export const Inbox = () => {
                           id={_id}
                           online={true}
                           fullname={onlinePeopleExceptOurUser[_id]}
-                          onClick={() => setSelectedStudentId(_id)}
-                          selected={_id === selectedStudentId}
+                          onClick={() => setSelectedUserId(_id)}
+                          selected={_id === selectedUserId}
                         />
                       ))}
                       {Object.keys(offlinePeople).map((_id) => (
@@ -155,8 +151,8 @@ export const Inbox = () => {
                           id={_id}
                           online={false}
                           fullname={offlinePeople[_id]}
-                          onClick={() => setSelectedStudentId(_id)}
-                          selected={_id === selectedStudentId}
+                          onClick={() => setSelectedUserId(_id)}
+                          selected={_id === selectedUserId}
                         />
                       ))}
                     </>
@@ -171,17 +167,17 @@ export const Inbox = () => {
                       )}
                       fullname={"Nguyen Van A"}
                       onClick={() => {
-                        setSelectedStudentId("66542b01bb9c22fbd568ca5e");
+                        setSelectedUserId("66542b01bb9c22fbd568ca5e");
                       }}
                       selected={
-                        selectedStudentId === "66542b01bb9c22fbd568ca5e"
+                        selectedUserId === "66542b01bb9c22fbd568ca5e"
                       }
                     />
                   )}
                 </ul>
               </div>
               <div className="chat">
-                {!selectedStudentId && (
+                {!selectedUserId && (
                   <div className="chat-history">
                     <div className="not-selected text-dark">
                       <i className="fas fa-caret-left"></i>
@@ -189,7 +185,7 @@ export const Inbox = () => {
                     </div>
                   </div>
                 )}
-                {!!selectedStudentId && (
+                {!!selectedUserId && (
                   <>
                     <div className="chat-header clearfix">
                       <div className="row">
@@ -203,7 +199,7 @@ export const Inbox = () => {
                           </a>
                           <div className="chat-about">
                             <h6 className="fw-bold mb-0">
-                              {selectedStudentId}
+                              {selectedUserId}
                             </h6>
                           </div>
                         </div>
@@ -238,7 +234,7 @@ export const Inbox = () => {
                     </div>
                   </>
                 )}
-                {!!selectedStudentId && (
+                {!!selectedUserId && (
                   <form
                     onSubmit={(ev) => sendMessage(ev)}
                     className="chat-message clearfix"
