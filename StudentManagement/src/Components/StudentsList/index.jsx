@@ -1,7 +1,8 @@
 import { Link, generatePath, } from "react-router-dom";
 import { PATH } from "../../config/path";
+import { useState } from "react";
 
-export const StudentList = ({ _id, firstname, lastname, studentID, classcode, gender, date, phone, address, paidammounts, status}) => {
+export const StudentList = ({ _id, firstname, lastname, studentID, classcode, gender, date, phone, address, paidStatus}) => {
   return (
     <tr>
       <td>{studentID}</td>
@@ -31,7 +32,14 @@ export const StudentList = ({ _id, firstname, lastname, studentID, classcode, ge
       <td>{phone}</td>
       <td>{address}</td>
       <td className="text-right">
-        <span className="badge badge-success">{status}</span>
+        <span
+          className={
+            "badge " +
+            (paidStatus == "Paid" ? "badge-success" : "badge-danger")
+          }
+        >
+          {paidStatus}
+        </span>
       </td>
       <td className="text-right">
         <div className="actions">

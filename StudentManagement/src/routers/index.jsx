@@ -25,7 +25,7 @@ export const routers = (user, login, logout) => [
   },
 
   {
-    element: <GuestRoute redirect={PATH.Home} />,
+    element: <GuestRoute redirect={PATH.Profile.EditProfile} />,
     path: PATH.Login,
     children: [
       {

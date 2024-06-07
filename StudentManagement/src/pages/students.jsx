@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { PATH } from "../config/path";
 import { useQuery } from "../hooks/useQuery";
@@ -7,7 +7,6 @@ import { userService } from "../services/user";
 import { useAuthRedux } from "../hooks/useAuthRedux";
 
 export const Students = () => {
-  const { user } = useAuthRedux()
   const { data, loading } = useQuery({
     queryFn: () => userService.getAllStudents(),
   });
@@ -40,33 +39,6 @@ export const Students = () => {
             <div className="card card-table">
               <div className="card-body">
                 <div className="table-responsive">
-                  {/* {user?.data.length ? (
-                    <table className="table table-hover table-center mb-0 datatable">
-                      <thead>
-                        <tr>
-                          <th>ID</th>
-                          <th>First Name</th>
-                          <th>Last Name</th>
-                          <th>Class</th>
-                          <th>Gender</th>
-                          <th>DOB</th>
-                          <th>Phone Number</th>
-                          <th>Address</th>
-                          <th className="text-right">Status</th>
-                          <th className="text-right">Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {data.data.data.map((e) => (
-                          <StudentList key={e._id} {...e} />
-                        ))}
-                      </tbody>
-                    </table>
-                  ) : (
-                    <h5 className="text-danger fw-bold text-center">
-                      There are no students now, update soon!!
-                    </h5>
-                  )} */}
                   <table className="table table-hover table-center mb-0 datatable">
                     <thead>
                       <tr>

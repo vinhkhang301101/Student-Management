@@ -4,9 +4,10 @@ import { chatService } from "../services/chat.js";
 import { ChatList } from "../Components/ChatList/index.jsx";
 import { Link } from "react-router-dom";
 import { uniqBy } from "lodash";
-import { CHAT_SERVER } from "../config/api.js";
+import { CHAT_SERVER, MESSAGE_API, USER_API } from "../config/api.js";
 import { useAuthRedux } from "../hooks/useAuthRedux.js";
 import { ButtonCom } from "../Components/Button/index.jsx";
+import { http } from "../utils/http.js";
 
 export const Inbox = () => {
   const { user } = useAuthRedux();
@@ -25,23 +26,19 @@ export const Inbox = () => {
   // if (loading) return null;
 
   useEffect(() => {
-    connectToWs();
+    // connectToWs();
   }, [selectedStudentId]);
 
   function connectToWs() {
     console.log("connect to server");
-    const ws = new WebSocket(CHAT_SERVER, [
-      "draft",
-      `${user._id}`,
-      `${user.fullname}`,
-    ]);
+    const ws = new WebSocket(CHAT_SERVER);
     setWs(ws);
     ws.addEventListener("message", handleMessage);
     ws.addEventListener("close", () => {
       console.log("server chat close");
       setTimeout(() => {
         console.log("Disconnected. Trying to reconnect");
-        connectToWs();
+        // connectToWs();
       }, 1000);
     });
   }
@@ -54,7 +51,7 @@ export const Inbox = () => {
   }, [messages]);
 
   useEffect(() => {
-    userService.getPeople.then((res) => {
+    http.get(`${USER_API}/people`).then((res) => {
       const offlinePeopleArr = res.people
         .filter((p) => p._id !== user._id)
         .filter((p) => !Object.keys(onlinePeople).includes(p._id));
@@ -68,7 +65,7 @@ export const Inbox = () => {
 
   useEffect(() => {
     if (selectedStudentId) {
-      chatService.getFullChats(selectedStudentId).then((res) => {
+      http.get(`${MESSAGE_API}/${selectedStudentId}`).then((res) => {
         setMessages(res.messages);
       });
     }
@@ -113,7 +110,7 @@ export const Inbox = () => {
       },
     ]);
   };
-
+  console.log(ws);
   const onlinePeopleExceptOurUser = { ...onlinePeople };
   delete onlinePeopleExceptOurUser[user._id];
 
@@ -185,11 +182,14 @@ export const Inbox = () => {
               </div>
               <div className="chat">
                 {!selectedStudentId && (
-                  <div className="flex h-full flex-grow items-center justify-center">
-                    <div className="text-dark">Select a person to chat!</div>
+                  <div className="chat-history">
+                    <div className="not-selected text-dark">
+                      <i className="fas fa-caret-left"></i>
+                      Select a person to chat!
+                    </div>
                   </div>
                 )}
-                {!!selectedUserId && (
+                {!!selectedStudentId && (
                   <>
                     <div className="chat-header clearfix">
                       <div className="row">
@@ -202,7 +202,9 @@ export const Inbox = () => {
                             <img src="img/avatar.png" alt="avatar" />
                           </a>
                           <div className="chat-about">
-                            <h6 className="fw-bold mb-0">Nguyen Van B</h6>
+                            <h6 className="fw-bold mb-0">
+                              {selectedStudentId}
+                            </h6>
                           </div>
                         </div>
                       </div>
@@ -236,7 +238,7 @@ export const Inbox = () => {
                     </div>
                   </>
                 )}
-                {!!selectedUserId && (
+                {!!selectedStudentId && (
                   <form
                     onSubmit={(ev) => sendMessage(ev)}
                     className="chat-message clearfix"
@@ -253,16 +255,116 @@ export const Inbox = () => {
                       />
                       <ButtonCom
                         onClick={(ev) => sendMessage(ev)}
-                        className="input-group-prepend"
+                        className="input-group-text"
                       >
-                        <span className="input-group-text">
-                          <i className="fa fa-send" />
-                        </span>
+                        <i className="fa fa-send" />
                       </ButtonCom>
                     </div>
                   </form>
                 )}
               </div>
+              {/* <div className="chat">
+                <div className="chat-header clearfix">
+                  <div className="row">
+                    <div className="col-lg-6">
+                      <a
+                        href="javascript:void(0);"
+                        data-toggle="modal"
+                        data-target="#view_info"
+                      >
+                        <img
+                          src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                          alt="avatar"
+                        />
+                      </a>
+                      <div className="chat-about">
+                        <h6 className="m-b-0">Aiden Chavez</h6>
+                        <small>Last seen: 2 hours ago</small>
+                      </div>
+                    </div>
+                    <div className="col-lg-6 hidden-sm text-right">
+                      <a
+                        href="javascript:void(0);"
+                        className="btn btn-outline-secondary"
+                      >
+                        <i className="fa fa-camera" />
+                      </a>
+                      <a
+                        href="javascript:void(0);"
+                        className="btn btn-outline-primary"
+                      >
+                        <i className="fa fa-image" />
+                      </a>
+                      <a
+                        href="javascript:void(0);"
+                        className="btn btn-outline-info"
+                      >
+                        <i className="fa fa-cogs" />
+                      </a>
+                      <a
+                        href="javascript:void(0);"
+                        className="btn btn-outline-warning"
+                      >
+                        <i className="fa fa-question" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div className="chat-history">
+                  <ul className="m-b-0">
+                    <li className="clearfix">
+                      <div className="message-data text-right">
+                        <span className="message-data-time">
+                          10:10 AM, Today
+                        </span>
+                        <img
+                          src="https://bootdey.com/img/Content/avatar/avatar7.png"
+                          alt="avatar"
+                        />
+                      </div>
+                      <div className="message other-message float-right">
+                        {" "}
+                        Hi Aiden, how are you? How is the project coming along?{" "}
+                      </div>
+                    </li>
+                    <li className="clearfix">
+                      <div className="message-data">
+                        <span className="message-data-time">
+                          10:12 AM, Today
+                        </span>
+                      </div>
+                      <div className="message my-message">
+                        Are we meeting today?
+                      </div>
+                    </li>
+                    <li className="clearfix">
+                      <div className="message-data">
+                        <span className="message-data-time">
+                          10:15 AM, Today
+                        </span>
+                      </div>
+                      <div className="message my-message">
+                        Project has been already finished and I have results to
+                        show you.
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div className="chat-message clearfix">
+                  <div className="input-group mb-0">
+                    <div className="input-group-prepend">
+                      <span className="input-group-text">
+                        <i className="fa fa-send" />
+                      </span>
+                    </div>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Enter text here..."
+                    />
+                  </div>
+                </div>
+              </div> */}
             </div>
           </div>
         </div>

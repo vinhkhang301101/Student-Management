@@ -1883,7 +1883,7 @@ footer p {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	display: flex;
     margin: 1.875rem auto;
-    max-width: 800px;
+    max-width: 1000px;
     min-height: 500px;
     width: 100%;
 }
@@ -1895,7 +1895,7 @@ footer p {
     flex-direction: column;
     justify-content: center;
     padding: 80px;
-    width: 400px;
+    width: 500px;
     display: flex;
     background-blend-mode: multiply;
 }
@@ -1904,7 +1904,7 @@ footer p {
     display: flex;
     justify-content: center;
     padding: 40px;
-    width: 400px;
+    width: 500px;
 }
 .login-wrapper .loginbox .login-right .login-right-wrap {
     max-width: 100%;

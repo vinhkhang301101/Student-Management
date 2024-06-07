@@ -39,7 +39,7 @@
 	
 	$('body').append('<div class="sidebar-overlay"></div>');
 	$(document).on('click', '#mobile_btn', function() {
-		$wrapper.toggleClass('slide-nav');
+		$(".main-wrapper").toggleClass("slide-nav");
 		$('.sidebar-overlay').toggleClass('opened');
 		$('html').addClass('menu-opened');
 		return false;
@@ -48,7 +48,7 @@
 	// Sidebar overlay
 	
 	$(".sidebar-overlay").on("click", function () {
-		$wrapper.removeClass('slide-nav');
+		$(".main-wrapper").removeClass("slide-nav");
 		$(".sidebar-overlay").removeClass("opened");
 		$('html').removeClass('menu-opened');
 	});

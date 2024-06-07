@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { Badge, Dropdown } from "antd";
 import { PATH } from "../../config/path";
@@ -10,14 +10,6 @@ export const MainLayouts = () => {
   const { user } = useAuthRedux()
   const dispatch = useDispatch();
   const navigate = useNavigate()
-
-  const onOpenNoti = () => {
-    document.body.classList.add("show");
-  };
-
-  const onOpenMenu = () => {
-    document.body.classList.add("subdrop");
-  };
 
   return (
     <>
@@ -51,13 +43,12 @@ export const MainLayouts = () => {
               </button>
             </form>
           </div>
-          <a className="mobile_btn" id="mobile_btn">
+          <a href="#" className="mobile_btn " id="mobile_btn">
             <i className="fas fa-bars" />
           </a>
           <ul className="nav user-menu">
             <li
               className="nav-item dropdown noti-dropdown"
-              onClick={onOpenNoti()}
             >
               <a
                 href="#"
@@ -77,7 +68,7 @@ export const MainLayouts = () => {
                 className="dropdown-menu notifications"
                 x-placement="bottom-start"
               >
-                <div className="topnav-dropdown-header" onClick={onOpenNoti}>
+                <div className="topnav-dropdown-header">
                   <span className="notification-title">Notifications</span>
                   <a href="javascript:void(0)" className="clear-noti">
                     {" "}

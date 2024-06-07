@@ -1,11 +1,12 @@
 import React from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { PATH } from "../config/path";
+import { useForm } from "../hooks/useForm";
 import { useQuery } from "../hooks/useQuery";
 import { announcementService } from "../services/announcement.js";
 import { required } from "../utils/validate";
 import Field from "../Components/Field";
-import { Button, Form, Input, Upload, message } from "antd";
+import { Button, Form, Upload, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { ButtonCom } from "../Components/Button";
 import { handleError } from "../utils/handleError.js";
@@ -18,6 +19,7 @@ const rules = {
 export const EditAnnouncements = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+
   const { data, loading: getAnnouncementLoading } = useQuery({
     queryFn: () => announcementService.getAnnouncementById(id),
     enabled: !!id,
@@ -27,35 +29,31 @@ export const EditAnnouncements = () => {
     },
   });
 
-  if (getAnnouncementLoading) return null;
+  const announcementForm = useForm(rules, { initialValue: data.data });
 
-  const [announcementForm] = Form.useForm()
-  const { loading: updateLoading, execute: updateAnnouncementService } = useAsync(announcementService.updateAnnouncement(id));
+  console.log(id);
+  console.log(data);
+  console.log("re-render");
+  console.log(announcementForm.values);
+
+  const { loading: updateLoading, excute: updateAnnouncement } =
+    useAsync(announcementService.updateAnnouncement);
 
   const onSubmit = async (ev) => {
     ev.preventDefault();
-
-    const errorField = announcementForm.getFieldsError();
-    const checkError = errorField.filter((fieldErr) => {
-      if (fieldErr.errors.length > 0) {
-        message.warning(fieldErr.errors[0]);
-        return true;
-      } else {
-        return false;
-      }
-    });
-
-    if (checkError.length == 0) {
-      const res = await updateAnnouncementService({
-        ...announcementForm.getFieldsValue(),
-        _id: data.data._id,
-      });
-      if (res.success == true) {
-        message.success("Update thesis successfully");
-        navigate(PATH.Announcement.index)
-      }
+    console.log("test");
+    if (announcementForm.validate()) {
+      updateAnnouncement(announcementForm.values)
+        .then((res) => {
+          announcementForm.setValues(res.data)
+          navigate(PATH.Announcement.index);
+          message.success("Announce info has been updated successfully!");
+        })
+        .catch(handleError);
     }
   };
+
+  if (getAnnouncementLoading) return null;
 
   return (
     <>
@@ -80,7 +78,7 @@ export const EditAnnouncements = () => {
           <div className="col-sm-12">
             <div className="card">
               <div className="card-body">
-                <Form name="Edit announcement form" form={announcementForm}>
+                <form>
                   <div className="row">
                     <div className="col-12">
                       <h5 className="form-title">
@@ -89,28 +87,21 @@ export const EditAnnouncements = () => {
                     </div>
                     <div className="col-9">
                       <div className="form-group">
-                        <Form.Item
-                          name={"title"}
+                        <Field
                           label="Title"
-                          rules={[
-                            {
-                              required: true,
-                              message: "Please fill in this field!",
-                            },
-                          ]}
-                        >
-                          <Input placeholder={data?.data.title} />
-                        </Form.Item>
+                          placeholder="Title"
+                          required
+                          {...announcementForm.register("title")}
+                        />
                       </div>
                     </div>
                     <div className="col-9">
                       <div className="form-group">
-                        <Form.Item
-                          name={"description"}
+                        <Field
                           label="Description"
-                        >
-                          <Input placeholder={data?.data.title} />
-                        </Form.Item>
+                          placeholder="Description"
+                          {...announcementForm.register("description")}
+                        />
                       </div>
                     </div>
                     <div className="col-9">
@@ -140,7 +131,7 @@ export const EditAnnouncements = () => {
                       </ButtonCom>
                     </div>
                   </div>
-                </Form>
+                </form>
               </div>
             </div>
           </div>

@@ -14,7 +14,7 @@ export const announcementService = {
   deleteAnnouncement(data) {
     return http.delete(`${ANNOUNCEMENT_API}/delete/${data._id}`, data);
   },
-  updateAnnouncement(id) {
-    return http.put(`${ANNOUNCEMENT_API}/update/${id}`);
+  updateAnnouncement(data) {
+    return http.put(`${ANNOUNCEMENT_API}/update/${data._id}`), data;
   },
 };

@@ -38,7 +38,7 @@ export const Register = () => {
         if (res) {
           registerForm.reset();
           message.success("Register successfully!");
-          navigate(PATH.Home);
+          navigate(PATH.Profile.index);
         }
       } catch (err) {
         handleError(err);

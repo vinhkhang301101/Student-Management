@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.post("/refresh-token", authController.refreshToken);
 router.get("/", jwtAuth, authController.getUser);
+router.get("/people", jwtAuth, authController.getPeople);
 router.get("/student/:id", jwtAuth, authController.getStudentById);
 router.get("/all", authController.getUsers);
 router.get("/all-students", authController.getAllStudents);
