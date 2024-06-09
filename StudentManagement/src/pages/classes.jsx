@@ -5,21 +5,19 @@ import { useQuery } from "../hooks/useQuery.js";
 import { classService } from "../services/class.js";
 import { ClassList } from "../Components/ClassList/index.jsx";
 import { useDispatch } from 'react-redux';
-import { Empty } from 'antd';
+import { Empty, Spin } from 'antd';
 
 export const Classes = () => {
-  const dispatch = useDispatch()
   const {data, loading} = useQuery({
     queryFn: () => classService.getClass()
   });
 
-  console.log(data);
-
-  if (loading) return null;
-
-  const onRemoveClass = (ev) => {
-    ev.preventDefault()
-    dispatch(removeClassAction());
+  if (loading) {
+    return (
+      <div className="content container-fluid">
+        <Spin fullscreen size="large" />
+      </div>
+    );
   }
 
   return (

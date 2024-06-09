@@ -6,7 +6,7 @@ import { useQuery } from "../hooks/useQuery";
 import { announcementService } from "../services/announcement.js";
 import { required } from "../utils/validate";
 import Field from "../Components/Field";
-import { Button, Form, Upload, message } from "antd";
+import { Button, Form, Spin, Upload, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { ButtonCom } from "../Components/Button";
 import { handleError } from "../utils/handleError.js";
@@ -23,10 +23,6 @@ export const EditAnnouncements = () => {
   const { data, loading: getAnnouncementLoading } = useQuery({
     queryFn: () => announcementService.getAnnouncementById(id),
     enabled: !!id,
-    onError: () => {
-      message.error("Announcement is not exist!");
-      navigate(PATH.Announcement.index);
-    },
   });
 
   const announcementForm = useForm(rules, { initialValue: data.data });
@@ -34,26 +30,29 @@ export const EditAnnouncements = () => {
   console.log(id);
   console.log(data);
   console.log("re-render");
-  console.log(announcementForm.values);
 
   const { loading: updateLoading, excute: updateAnnouncement } =
     useAsync(announcementService.updateAnnouncement);
 
   const onSubmit = async (ev) => {
     ev.preventDefault();
-    console.log("test");
     if (announcementForm.validate()) {
-      updateAnnouncement(announcementForm.values)
+      updateAnnouncement(announcementForm.values, id)
         .then((res) => {
-          announcementForm.setValues(res.data)
           navigate(PATH.Announcement.index);
-          message.success("Announce info has been updated successfully!");
+          message.success("Announcement info has been updated successfully!");
         })
         .catch(handleError);
     }
   };
 
-  if (getAnnouncementLoading) return null;
+  if (getAnnouncementLoading) {
+    return (
+      <div className="content container-fluid">
+        <Spin fullscreen size="large" />
+      </div>
+    );
+  }
 
   return (
     <>

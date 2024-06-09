@@ -11,10 +11,10 @@ export const announcementService = {
   addAnnouncement(data) {
     return http.post(`${ANNOUNCEMENT_API}/create`, data);
   },
-  deleteAnnouncement(data) {
-    return http.delete(`${ANNOUNCEMENT_API}/delete/${data._id}`, data);
+  deleteAnnouncement(id) {
+    return http.delete(`${ANNOUNCEMENT_API}/delete/${id}`);
   },
   updateAnnouncement(data) {
-    return http.put(`${ANNOUNCEMENT_API}/update/${data._id}`), data;
+    return http.put(`${ANNOUNCEMENT_API}/update`, data);
   },
 };

@@ -10,17 +10,6 @@ const announcementSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    // users: [
-    //   {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "User",
-    //   },
-    // ],
-    // isAll: {
-    //   type: String,
-    //   enum: ["student", "teacher", "none"],
-    //   default: "none",
-    // },
   },
   {
     collection: "nb-announcements",

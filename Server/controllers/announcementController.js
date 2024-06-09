@@ -55,13 +55,12 @@ class announcementController {
     }
   });
 
-  // [PUT] /announcement/update/:id
+  // [PUT] /announcement/update
   updateAnnouncement = catchAsync(async (req, res, next) => {
-    const { id } = req.params;
-    const { title, description } = req.body;
-    const announcement = await Announcement.findById(id);
+    const { announcementID, title, description } = req.body;
+    const announcement = await Announcement.findById(announcementID);
     if (!announcement) {
-      throw new ApiError(400, "This file does not exist");
+      throw new ApiError(400, "This announcement does not exist");
     }
     announcement.title = title;
     announcement.description = description;

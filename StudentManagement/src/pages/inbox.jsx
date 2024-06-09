@@ -1,6 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { userService } from "../services/user.js";
-import { chatService } from "../services/chat.js";
 import { ChatList } from "../Components/ChatList/index.jsx";
 import { Link } from "react-router-dom";
 import { uniqBy } from "lodash";
@@ -108,7 +106,7 @@ export const Inbox = () => {
   const onlinePeopleExceptOurUser = { ...onlinePeople };
   delete onlinePeopleExceptOurUser[user._id];
 
-  console.log(offlinePeople);
+  console.log(onlinePeopleExceptOurUser);
 
   const messagesWithoutDupes = uniqBy(messages, "_id");
 

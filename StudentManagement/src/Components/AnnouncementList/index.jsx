@@ -23,10 +23,10 @@ export const AnnouncementList = ({ announcementID, title, description, updatedAt
       const res = await deleteAnnouncement(ev);
       if (res) {
         window.location.reload();
-        message.success("Successfully deleted the announcement!");
+        message.success(`Successfully deleted ${title} information!`);
       }
     } catch (err) {
-      handleError(err);
+      // handleError(err);
     }
   };
 
@@ -45,7 +45,7 @@ export const AnnouncementList = ({ announcementID, title, description, updatedAt
             <p className="post-date mt-3">{updatedAt}</p>
             <p className="mt-4">{description}</p>
           </div>
-          {user.role == "Teacher" ? (
+          {user?.role == "Teacher" ? (
             <div className="right-content">
               <Link
                 to={generatePath(PATH.Announcement.EditAnnouncements, {
@@ -66,7 +66,7 @@ export const AnnouncementList = ({ announcementID, title, description, updatedAt
                 description="Are you sure you want to delete this announcement? All data also deleted!"
                 onConfirm={() => {
                   setOpenPopconfirm(false);
-                  onDelete({ _id });
+                  onDelete(announcementID);
                 }}
               >
                 <a

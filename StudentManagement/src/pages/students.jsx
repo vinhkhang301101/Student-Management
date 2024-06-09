@@ -5,13 +5,20 @@ import { useQuery } from "../hooks/useQuery";
 import { StudentList } from "../Components/StudentsList";
 import { userService } from "../services/user";
 import { useAuthRedux } from "../hooks/useAuthRedux";
+import { Spin } from "antd";
 
 export const Students = () => {
   const { data, loading } = useQuery({
     queryFn: () => userService.getAllStudents(),
   });
 
-  if (loading) return null;
+  if (loading) {
+    return (
+      <div className="content container-fluid">
+        <Spin fullscreen size="large" />
+      </div>
+    );
+  }
 
   return (
     <>

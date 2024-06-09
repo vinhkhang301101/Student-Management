@@ -1,19 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { PATH } from "../config/path";
 import { useQuery } from "../hooks/useQuery";
 import { announcementService } from "../services/announcement.js";
+import { classService } from "../services/class.js";
 import { AnnouncementFeed } from "../Components/AnnouncementFeed";
-import { Calendar, Empty } from "antd";
+import { Calendar, Empty, Spin } from "antd";
 import "react-calendar/dist/Calendar.css";
+import { UpcomingClass } from "../Components/UpcomingClass/index.jsx";
 
 
 export const TeacherDashboard = () => {
-  const { data, loading } = useQuery({
+  const { data: announcement, loading: announcementLoading } = useQuery({
     queryFn: () => announcementService.getAnnouncement(),
   });
 
-  if (loading) return null;
+  const { data: classes, loading: classLoading } = useQuery({
+    queryFn: () => classService.getClass(),
+  });
+
+  if (announcementLoading && classLoading) {
+    return (
+      <div className="content container-fluid">
+        <Spin fullscreen size="large" />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -34,7 +46,7 @@ export const TeacherDashboard = () => {
         <div className="row">
           <div className="col-12 col-lg-12 col-xl-6">
             <div className="row">
-              <div className="col-12 col-lg-6 col-xl-12 d-flex">
+              <div className="col-12 col-lg-12 col-xl-12 d-flex">
                 <div className="card flex-fill">
                   <div className="card-header">
                     <div className="row align-items-center">
@@ -52,9 +64,9 @@ export const TeacherDashboard = () => {
                   </div>
                   <div className="card-body">
                     <div className="teaching-card">
-                      {data?.data.length ? (
+                      {announcement?.data.length ? (
                         <ul className="activity-feed">
-                          {data.data.map((e) => (
+                          {announcement.data.map((e) => (
                             <AnnouncementFeed key={e._id} {...e} />
                           ))}
                         </ul>
@@ -85,7 +97,7 @@ export const TeacherDashboard = () => {
               </div>
             </div>
             <div className="row">
-              <div className="col-12 col-lg-8 col-xl-12 d-flex">
+              <div className="col-12 col-lg-12 col-xl-12 d-flex">
                 <div className="card flex-fill">
                   <div className="card-header">
                     <div className="row align-items-center">
@@ -100,84 +112,31 @@ export const TeacherDashboard = () => {
                     </div>
                   </div>
                   <div className="pt-3 pb-3">
-                    <div className="table-responsive lesson">
+                    <div className="table-responsive class-list">
                       <table className="table table-center">
                         <tbody>
-                          <tr>
-                            <td>
-                              <div className="date">
-                                <b>Aug 4, Tuesday</b>
-                                <p>2.30pm - 3.30pm (60min)</p>
-                              </div>
-                            </td>
-                            <td>
-                              <div className="date">
-                                <b>Lessons 30</b>
-                                <p>3.1 Reading 4</p>
-                              </div>
-                            </td>
-                            <td>
-                              <a href="#">Confirmed</a>
-                            </td>
-                            <td>
+                          {classes?.data.length ? (
+                            <ul className="activity-feed">
+                              {classes.data.map((e) => (
+                                <UpcomingClass key={e._id} {...e} />
+                              ))}
+                            </ul>
+                          ) : (
+                            <Empty
+                              description={
+                                <h4 className="text-danger fw-bold text-center">
+                                  There are no classes now!!
+                                </h4>
+                              }
+                            >
                               <Link
-                                to={PATH.Classes.EditClasses}
-                                className="btn btn-info"
+                                to={PATH.Announcement.AddAnnouncements}
+                                className="btn btn-primary mb-2"
                               >
-                                Reschedule
+                                Add Class Now
                               </Link>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div className="date">
-                                <b>Aug 5, Wednesday</b>
-                                <p>3.00pm - 4.30pm (90min)</p>
-                              </div>
-                            </td>
-                            <td>
-                              <div className="date">
-                                <b>Lessons 31</b>
-                                <p>3.2 Listening 4</p>
-                              </div>
-                            </td>
-                            <td>
-                              <a href="#">Confirmed</a>
-                            </td>
-                            <td>
-                              <Link
-                                to={PATH.Classes.EditClasses}
-                                className="btn btn-info"
-                              >
-                                Reschedule
-                              </Link>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <div className="date">
-                                <b>Aug 6, Thursday</b>
-                                <p>11.00am - 12.00pm (20min)</p>
-                              </div>
-                            </td>
-                            <td>
-                              <div className="date">
-                                <b>Lessons 32</b>
-                                <p>3.3 Writing 4</p>
-                              </div>
-                            </td>
-                            <td>
-                              <a href="#">Confirmed</a>
-                            </td>
-                            <td>
-                              <Link
-                                to={PATH.Classes.EditClasses}
-                                className="btn btn-info"
-                              >
-                                Reschedule
-                              </Link>
-                            </td>
-                          </tr>
+                            </Empty>
+                          )}
                         </tbody>
                       </table>
                     </div>

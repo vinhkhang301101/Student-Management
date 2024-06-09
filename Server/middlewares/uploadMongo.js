@@ -3,9 +3,10 @@ import { nanoid } from "nanoid";
 import path, { join } from "path";
 import { GridFsStorage } from "multer-gridfs-storage";
 
-const filter = (req, file, cb) => {
+const fileFilter = (req, file, cb) => {
   const allowExtensions = [".jpg", ".png", ".jpeg", ".docx", ".pdf", ".pptx"];
   const fileExtension = path.extname(file.originalname);
+
   const regex = new RegExp(`(${allowExtensions.join("|")})$`, "i");
   if (regex.test(fileExtension)) {
     // console.log("File is allowed!");
@@ -26,4 +27,4 @@ const storage = new GridFsStorage({
   },
 });
 
-export const uploadMongo = multer({ storage, fileFilter: filter });
+export const uploadMongo = multer({ storage, fileFilter });

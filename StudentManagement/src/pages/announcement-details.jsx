@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { PATH } from '../config/path';
 import { useQuery } from '../hooks/useQuery';
 import { announcementService } from '../services/announcement';
+import { Spin } from 'antd';
 
 export const AnnouncementDetails = () => {
   const { id } = useParams();
@@ -17,7 +18,13 @@ export const AnnouncementDetails = () => {
     },
   });
 
-  if (loading) return null;
+  if (loading) {
+    return (
+      <div className="content container-fluid">
+        <Spin fullscreen size="large" />
+      </div>
+    );
+  }
 
   return (
     <>

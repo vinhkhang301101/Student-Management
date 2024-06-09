@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, generatePath, useNavigate } from "react-router-dom";
 import { PATH } from "../../config/path";
 import { useAuthRedux } from "../../hooks/useAuthRedux";
 import { handleError } from "../../utils/handleError";
@@ -7,40 +7,31 @@ import { useAsync } from "../../hooks/useAsync";
 import { useReload } from "../../hooks/useReload";
 import { announcementService } from "../../services/announcement";
 import { useState } from "react";
-import { ButtonCom } from "../../Components/Button";
 
-export const AnnouncementFeed = ({ _id, title, description, updatedAt }) => {
+export const AnnouncementFeed = ({
+  announcementID,
+  title,
+  description,
+  updatedAt,
+}) => {
   const { user } = useAuthRedux();
   const navigate = useNavigate();
-  const [selectedAnnoucement, setSelectedAnnouncement] = useState({})
+  const [selectedAnnoucement, setSelectedAnnouncement] = useState({});
   const [openPopconfirm, setOpenPopconfirm] = useState(false);
   const { excute: deleteAnnouncement } = useAsync(
     announcementService.deleteAnnouncement
   );
-
-  const onSelectAnnouncement = async (ev) => {
-    // ev.preventDefault();
-    // setSelectedAnnouncement(ev);
-    // console.log(ev);
-    navigate(PATH.Announcement.EditAnnouncements);
-  }
 
   const onDelete = async (ev) => {
     try {
       const res = await deleteAnnouncement(ev);
       if (res) {
         window.location.reload();
-        message.success("Successfully deleted the announcement!");
+        message.success(`Successfully deleted ${title} information!`);
       }
     } catch (err) {
       handleError(err);
     }
-    // Popconfirm({
-    //   title: "Delete announcement?",
-    //   description:
-    //     "Are you sure you want to delete this announcement? All data also deleted!",
-    // onConfirm:
-    // });
   };
 
   return (
@@ -54,13 +45,15 @@ export const AnnouncementFeed = ({ _id, title, description, updatedAt }) => {
       </div>
       {user.role == "Teacher" ? (
         <div className="right-content">
-          <ButtonCom
-            onClick={onSelectAnnouncement}
+          <Link
+            to={generatePath(PATH.Announcement.EditAnnouncements, {
+              id: announcementID,
+            })}
             className="btn btn-info mr-3"
           >
             <i className="fas fa-pen mr-2" />
             Edit
-          </ButtonCom>
+          </Link>
           <Popconfirm
             open={openPopconfirm}
             onOpenChange={(visible) => setOpenPopconfirm(visible)}
@@ -85,7 +78,12 @@ export const AnnouncementFeed = ({ _id, title, description, updatedAt }) => {
         </div>
       ) : (
         <div className="actions">
-          <Link to={PATH.Announcement} className="btn btn-info">
+          <Link
+            to={generatePath(PATH.Announcement.announcementDetails, {
+              id: announcementID,
+            })}
+            className="btn btn-info"
+          >
             View
           </Link>
         </div>

@@ -10,21 +10,29 @@ const ErrorText = styled.span`
   top: 100%;
 `;
 
-export default function Field({ label, error, required, type = "text", renderInput, ...props }) {
-  // const _onChange = (ev) => {
-  //   onChange?.(ev.target.value);
-  // };
+export default function Field({
+  label,
+  error,
+  required,
+  type = "text",
+  renderInput,
+  onChange,
+  ...props
+}) {
+  const _onChange = (ev) => {
+    onChange?.(ev.target.value);
+  };
 
   return (
     <label>
       <p>{label}:</p>
       {renderInput ? (
-        renderInput?.(props)
+        renderInput({ ...props, onChange, error, label })
       ) : (
         <input
           {...props}
           type={type}
-          // onChange={_onChange}
+          onChange={_onChange}
           className="form-control"
         />
       )}

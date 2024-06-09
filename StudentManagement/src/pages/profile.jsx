@@ -73,6 +73,14 @@ export const Profile = () => {
     } 
   }
 
+  if (loading) {
+    return (
+      <div className="content container-fluid">
+        <Spin fullscreen size="large" />
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="content container-fluid">

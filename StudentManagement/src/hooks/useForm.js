@@ -22,8 +22,8 @@ export const useForm = (
     return {
       error: error[name],
       value: values[name] || "",
-      onChange: (ev) => {
-        let _values = { ...values, [name]: ev.target.value };
+      onChange: (value) => {
+        let _values = { ...values, [name]: value };
         const _errorObj = {};
 
         if (rules[name]) {
@@ -46,7 +46,7 @@ export const useForm = (
         }
 
         setError((prev) => ({ ...prev, ..._errorObj }));
-        setValues((prev) => ({ ...prev, [name]: ev.target.value }));
+        setValues((prev) => ({ ...prev, [name]: value }));
       },
     };
   };

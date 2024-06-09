@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { PATH } from '../config/path';
 import { useForm } from '../hooks/useForm';
 import { required } from '../utils/validate';
@@ -13,6 +13,7 @@ import { useQuery } from '../hooks/useQuery';
 
 export const AddClasses = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate();
   const { loading } = useQuery({
     enabled: false,
     limitDuration: 1000,

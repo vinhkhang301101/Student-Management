@@ -14,6 +14,7 @@ router.post("/register", authController.register);
 router.post("/login", authController.login);
 router.put("/", jwtAuth, authController.updateProfile);
 router.put("/update-students", jwtAuth, authController.updateStudents);
+router.delete("/delete-student/:id", jwtAuth, authController.deleteStudent);
 router.post("/send-email", authController.sendEmail);
 router.post("/forgot-password", authController.forgotPassword);
 router.put("/change-password", jwtAuth, authController.changePassword);

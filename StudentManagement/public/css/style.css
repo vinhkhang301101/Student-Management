@@ -2802,46 +2802,47 @@ table.table-inbox tbody tr.checked {
 	background-color: #19affb;
 	padding: 13px 21px;
 }
-.lesson {
+.class-list {
 	white-space: nowrap;
 }
-.lesson .table td {
+.class-list .table td {
     border-top: transparent;
     padding-left: 4px;
     padding-right: 4px;
     padding-top: 0;
 }
-.lesson .table td + td {
+.class-list .table td + td {
 	padding-top: .75rem;
 }
-.lesson .table td:first-child {
+.class-list .table td:first-child {
 	padding-left: 1.5rem;
 }
-.lesson .table td:last-child {
+.class-list .table td:last-child {
 	padding-right: 1.5rem;
 	text-align: right;
 }
-.lesson .table tbody tr:last-child {
+.class-list .table tbody tr:last-child {
 	border-bottom: transparent;
 }
-.lesson .date b {
-	font-size: 13px;
+.class-list .class-info b {
+	font-size: 15px;
 	font-weight: 500;
 	color: #3b3b3b;
+    margin-bottom: 0;
 }
-.lesson .date p {
-    font-size: 12px;
+.class-list .class-info p {
+    font-size: 15px;
     font-weight: 400;
     color: #777777;
     margin-bottom: 0;
 }
-.lesson a {
+.class-list a {
 	font-size: 12px;
 	font-weight: 500;
 	color: #3bbafd;
 	text-decoration: none;
 }
-.lesson .btn {
+.class-list .btn {
 	font-size: 14px;
 	font-weight: 500;
 	color: #000;

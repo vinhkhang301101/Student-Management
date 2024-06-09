@@ -4,6 +4,7 @@ import { PATH } from "../config/path";
 import { useAuthRedux } from "../hooks/useAuthRedux";
 import { useQuery } from "../hooks/useQuery";
 import { userService } from "../services/user";
+import { Spin } from "antd";
 
 export const StudentDetails = () => {
   const { id } = useParams();
@@ -18,7 +19,13 @@ export const StudentDetails = () => {
     },
   });
 
-  if (loading) return null;
+  if (loading) {
+    return (
+      <div className="content container-fluid">
+        <Spin fullscreen size="large" />
+      </div>
+    );
+  }
 
   return (
     <>

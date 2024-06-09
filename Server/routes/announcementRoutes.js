@@ -7,7 +7,7 @@ import jwtAuth from "../middlewares/jwtAuth.js";
 router.post("/create", jwtAuth, announcementController.createAnnouncement);
 router.get("/", jwtAuth, announcementController.getAllAnnouncements);
 router.get("/:id", jwtAuth, announcementController.getAnnouncementById);
-router.put("/update/:id", jwtAuth, announcementController.updateAnnouncement);
+router.put("/update", jwtAuth, announcementController.updateAnnouncement);
 router.delete(
   "/delete/:id",
   jwtAuth,

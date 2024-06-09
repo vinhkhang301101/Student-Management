@@ -4,14 +4,20 @@ import { PATH } from "../config/path";
 import { useQuery } from "../hooks/useQuery";
 import { announcementService } from "../services/announcement";
 import { AnnouncementFeed } from "../Components/AnnouncementFeed";
-import { Calendar, Empty } from "antd";
+import { Calendar, Empty, Spin } from "antd";
 
 export const StudentDashboard = () => {
   const { data, loading } = useQuery({
     queryFn: () => announcementService.getAnnouncement(),
   });
 
-  if (loading) return null;
+  if (loading) {
+    return (
+      <div className="content container-fluid">
+        <Spin fullscreen size="large" />
+      </div>
+    );
+  }
 
   return (
     <>

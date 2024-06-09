@@ -50,45 +50,38 @@ class classController {
     });
   });
 
-  // [PUT] /class/
+  // [PUT] /class/update/:id
   updateClass = catchAsync(async (req, res, next) => {
-    const { subjectCode, subject, slot } = req.body;
+    const { id } = req.params;
+    const { code, subject, slot } = req.body;
+    const classes = await Classes.findById(id);
+    if (!classes) {
+      throw new ApiError(400, "This classes does not exist");
+    }
+    classes.code = code;
+    classes.subject = subject;
+    classes.slot = slot;
     try {
-      const classes = await Classes.findOneAndUpdate(
-        { code: subjectCode },
-        { subject, slot },
-        { new: true }
-      );
+      await classes.save();
       res.status(200).json({
         success: true,
-        data: {
-          code: code,
-          subject: subject,
-          slot: slot,
-        },
       });
     } catch (error) {
-      throw new ApiError(400, "Email is not existed!");
+      throw new ApiError(400, "Failed to update!");
     }
-
-    // // Filter only admin and teacher of class
-    // if (req.user.role == "teacher" && req.user.id != classes.teacher) {
-    //   throw new ApiError(400, "No permission!");
-    // } else {
-    //   classes.subject = subject;
-    //   classes.code = code;
-    //   classes.slot = slot;
-    //   await classes.save();
-    // }
   });
 
-  // [DELETE] /class/:id
+  // [DELETE] /class/delete/:id
   removeClass = catchAsync(async (req, res, next) => {
-    const { id } = req.params;
-    await Classes.findByIdAndDelete(id);
-    res.status(200).json({
-      success: true,
-    });
+    try {
+      const { id } = req.params;
+      await Classes.findByIdAndDelete(id);
+      res.status(200).json({
+        success: true,
+      });
+    } catch (error) {
+      throw new ApiError(400, "Failed to delete!");
+    }
   });
 }
 

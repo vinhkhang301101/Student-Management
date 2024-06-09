@@ -77,23 +77,6 @@ class authController {
       throw new ApiError(400, "Wrong email or password, please check again!");
     }
 
-    // const accessToken = jwt.sign(
-    //   {
-    //     email: existedEmail.email,
-    //     fullname: existedEmail.fullname,
-    //     role: existedEmail.role,
-    //   },
-    //   JWT_SECRET,
-    //   {
-    //     expiresIn: "1d",
-    //   }
-    // );
-
-    // res.json({
-    //   success: true,
-    //   accessToken,
-    // });
-
     const accessToken = await existedEmail.getJwtAccessToken();
     const refreshToken = await existedEmail.getJwtRefeshToken();
     existedEmail.refresh_token = refreshToken;
@@ -312,6 +295,15 @@ class authController {
     user.phone = phone;
     user.address = address;
     await user.save();
+    res.status(200).json({
+      success: true,
+    });
+  });
+
+  // [DELETE] /delete-student/:id
+  deleteStudent = catchAsync(async (req, res, next) => {
+    const { id } = req.params;
+    await User.findByIdAndDelete(id);
     res.status(200).json({
       success: true,
     });

@@ -4,14 +4,22 @@ import { PATH } from "../config/path";
 import { useQuery } from "../hooks/useQuery";
 import { announcementService } from "../services/announcement.js";
 import { AnnouncementList } from "../Components/AnnouncementList/index.jsx";
-import { Empty } from 'antd';
+import { Empty, Spin } from 'antd';
+import { useAuthRedux } from "../hooks/useAuthRedux.js";
 
 export const Announcement = () => {
+  const { user } = useAuthRedux()
   const { data, loading } = useQuery({
     queryFn: () => announcementService.getAnnouncement(),
   });
   
-  if (loading) return null;
+  if (loading) {
+    return (
+      <div className="content container-fluid">
+        <Spin fullscreen size="large" />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -27,14 +35,20 @@ export const Announcement = () => {
                 <li className="breadcrumb-item active">Announcements</li>
               </ul>
             </div>
-            <div className="col-auto text-right float-right ml-auto">
-              <Link
-                to={PATH.Announcement.AddAnnouncements}
-                className="btn btn-primary"
-              >
-                <i className="fas fa-plus" /> Add Announcement
-              </Link>
-            </div>
+            {
+              user?.role == "Teacher" ? (
+                <div className="col-auto text-right float-right ml-auto">
+                  <Link
+                    to={PATH.Announcement.AddAnnouncements}
+                    className="btn btn-primary"
+                  >
+                    <i className="fas fa-plus" /> Add Announcement
+                  </Link>
+                </div>
+              ) : (
+                <div></div>
+              )
+            }
           </div>
         </div>
         <div className="row">
