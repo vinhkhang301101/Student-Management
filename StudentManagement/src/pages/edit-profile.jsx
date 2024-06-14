@@ -90,7 +90,7 @@ export const EditProfile = () => {
                         <span>Personal Details</span>
                       </h5>
                     </div>
-                    {user.role == "Teacher" ? (
+                    {user?.role == "Teacher" ? (
                       <>
                         <div className="col-6">
                           <div className="form-group">

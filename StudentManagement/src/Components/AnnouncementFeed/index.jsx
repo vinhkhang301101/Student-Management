@@ -43,7 +43,7 @@ export const AnnouncementFeed = ({
         </p>
         <p className="text-sm text-dark">{description}</p>
       </div>
-      {user.role == "Teacher" ? (
+      {user?.role == "Teacher" ? (
         <div className="right-content">
           <Link
             to={generatePath(PATH.Announcement.EditAnnouncements, {

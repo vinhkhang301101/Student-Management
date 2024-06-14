@@ -11,6 +11,10 @@ export const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  if (!user) {
+    navigate(PATH.Login)
+  }
+
   return (
     <>
         <div className="header">

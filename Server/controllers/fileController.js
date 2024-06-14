@@ -16,15 +16,6 @@ class fileController {
       Mongo.gridfs.openDownloadStreamByName(filename).pipe(res);
     });
   });
-
-  // [GET] /
-  getAllFile = catchAsync(async (req, res, next) => {
-    const files = await Files.find();
-    res.status(200).json({
-      success: true,
-      files,
-    });
-  });
 }
 
 export default new fileController();

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { ChatList } from "../Components/ChatList/index.jsx";
 import { Link } from "react-router-dom";
 import { uniqBy } from "lodash";
-import { CHAT_SERVER, MESSAGE_API, USER_API } from "../config/api.js";
+import { CHAT_SERVER, CHAT_API, USER_API } from "../config/api.js";
 import { useAuthRedux } from "../hooks/useAuthRedux.js";
 import { ButtonCom } from "../Components/Button/index.jsx";
 import { http } from "../utils/http.js";
@@ -23,14 +23,18 @@ export const Inbox = () => {
 
   function connectToWs() {
     console.log("Connected to Chat Server!");
-    const ws = new WebSocket(CHAT_SERVER);
+    const ws = new WebSocket(CHAT_SERVER, [
+      "draft",
+      `${user._id}`,
+      `${user.fullname}`,
+    ]);
     setWs(ws);
     ws.addEventListener("message", handleMessage);
     ws.addEventListener("close", () => {
       console.log("Server chat is closing...");
       setTimeout(() => {
         console.log("Disconnected. Trying to reconnect!");
-        // connectToWs();
+        connectToWs();
       }, 1000);
     });
   }
@@ -57,7 +61,7 @@ export const Inbox = () => {
 
   useEffect(() => {
     if (selectedUserId) {
-      http.get(`${MESSAGE_API}/${selectedUserId}`).then((res) => {
+      http.get(`${CHAT_API}/${selectedUserId}`).then((res) => {
         setMessages(res.messages);
       });
     }
@@ -131,7 +135,7 @@ export const Inbox = () => {
             <div className="card chat-app">
               <div id="plist" className="people-list">
                 <ul className="list-unstyled chat-list mt-2 mb-0">
-                  {user.role == "Teacher" && (
+                  {user?.role == "Teacher" && (
                     <>
                       {Object.keys(onlinePeopleExceptOurUser).map((_id) => (
                         <ChatList
@@ -155,7 +159,7 @@ export const Inbox = () => {
                       ))}
                     </>
                   )}
-                  {user.role == "Student" && (
+                  {user?.role == "Student" && (
                     <ChatList
                       key={"66542b01bb9c22fbd568ca5e"}
                       id={"66542b01bb9c22fbd568ca5e"}

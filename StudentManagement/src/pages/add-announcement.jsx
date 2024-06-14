@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { PATH } from "../config/path";
 import { useDispatch } from "react-redux";
@@ -11,31 +11,58 @@ import { ButtonCom } from "../Components/Button";
 import { handleError } from "../utils/handleError";
 import { Button, Upload, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
+import { useAsync } from "../hooks/useAsync";
+import { fileService } from "../services/file"
 
 export const AddAnnouncements = () => {
+  const uploadRef = useRef()
+  const [file, setFile] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { excute: uploadFileService } = useAsync(fileService.upload);
   const { loading } = useQuery({
     enabled: false,
     limitDuration: 1000,
   });
+  
+  if (loading) {
+    return (
+      <div className="content container-fluid">
+        <Spin fullscreen size="large" />
+      </div>
+    );
+  }
 
   const announcementForm = useForm({
     title: [required()],
   });
 
-  const onAddAnnouncement = (ev) => {
+  const onAddAnnouncement = async (ev) => {
     ev.preventDefault();
+    const formData = new FormData();
+    formData.append("file", file);
     try {
       if (announcementForm.validate()) {
         dispatch(addAnnouncementAction(announcementForm.values));
-        announcementForm.reset();
+        await uploadFileService(formData);
         message.success("Added announcement successfully!");
+        announcementForm.reset();
+        setFile(null)
       }
     } catch (err) {
       handleError(err);
     }
   };
+
+  const onFileChange = (info) => {
+    console.log(info);
+    setFile(info.file);
+    if (info.file.status === "removed") {
+      setFile(null);
+      console.log("This file has been removed!");
+    }
+  };
+  
   return (
     <>
       <div className="content container-fluid">
@@ -87,7 +114,15 @@ export const AddAnnouncements = () => {
                     </div>
                     <div className="col-9">
                       <div className="form-group">
-                        <Upload>
+                        <Upload
+                          ref={uploadRef}
+                          accept="application/pdf, image/png, image/jpeg, image/jpg, .doc, .docx, .pptx"
+                          fileList={
+                            file == null ? [] : [file]
+                          }
+                          beforeUpload={() => false}
+                          onChange={onFileChange}
+                        >
                           <Button icon={<UploadOutlined />}>Select file</Button>
                         </Upload>
                       </div>

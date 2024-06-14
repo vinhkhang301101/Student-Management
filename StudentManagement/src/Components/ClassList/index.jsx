@@ -35,7 +35,7 @@ export const ClassList = ({ _id, code, subject, slot }) => {
       </td>
       <td>{slot}</td>
       <td className="text-right">
-        {user.role == "Teacher" ? (
+        {user?.role == "Teacher" ? (
           <div className="actions">
             <Link
               to={generatePath(PATH.Classes.EditClasses, {

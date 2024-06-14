@@ -8,7 +8,7 @@ import { Empty, Spin } from 'antd';
 import { useAuthRedux } from "../hooks/useAuthRedux.js";
 
 export const Announcement = () => {
-  const { user } = useAuthRedux()
+  const { user } = useAuthRedux();
   const { data, loading } = useQuery({
     queryFn: () => announcementService.getAnnouncement(),
   });

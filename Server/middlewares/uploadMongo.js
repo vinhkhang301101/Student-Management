@@ -4,7 +4,15 @@ import path, { join } from "path";
 import { GridFsStorage } from "multer-gridfs-storage";
 
 const fileFilter = (req, file, cb) => {
-  const allowExtensions = [".jpg", ".png", ".jpeg", ".docx", ".pdf", ".pptx"];
+  const allowExtensions = [
+    ".jpg",
+    ".png",
+    ".jpeg",
+    ".doc",
+    ".docx",
+    ".pdf",
+    ".pptx",
+  ];
   const fileExtension = path.extname(file.originalname);
 
   const regex = new RegExp(`(${allowExtensions.join("|")})$`, "i");

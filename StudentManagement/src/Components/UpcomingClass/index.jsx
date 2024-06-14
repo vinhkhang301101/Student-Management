@@ -1,8 +1,10 @@
 import React from 'react'
 import { Link, generatePath } from 'react-router-dom';
 import { PATH } from '../../config/path';
+import { useAuthRedux } from '../../hooks/useAuthRedux';
 
 export const UpcomingClass = ({ _id, code, subject, slot }) => {
+  const { user } = useAuthRedux();
   return (
     <>
       <tr className="d-flex align-items-center justify-content-between">
@@ -17,7 +19,13 @@ export const UpcomingClass = ({ _id, code, subject, slot }) => {
           </div>
         </td>
         <td>
-          <a href="#">Confirmed</a>
+          {
+            user?.role == "Teacher" ? (
+              <a href="#">Confirmed</a>
+            ) : (
+              <></>
+            )
+          }
           <Link to={PATH.Classes.EditClasses} className="btn btn-info ml-5">
             Reschedule
           </Link>

@@ -10,12 +10,16 @@ export const Sidebar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  if (!user) {
+    navigate(PATH.Login);
+  }
+
   return (
     <>
         <div className="sidebar" id="sidebar">
             <div className="sidebar-inner">
             <div id="sidebar-menu" className="sidebar-menu">
-                {user.role == "Teacher" ? (
+                {user?.role == "Teacher" ? (
                 <ul>
                     <li className="menu-title">
                     <span>Main Menu</span>

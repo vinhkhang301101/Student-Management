@@ -6,8 +6,8 @@ export const authService = {
     return http.post(`${USER_API}/login`, data);
   },
   refreshToken(data) {
-    return axios.post(
-      `${AUTHENTICATION_API}/refresh-token`,
+    return http.post(
+      `${USER_API}/refresh-token`,
       {},
       {
         headers: {
