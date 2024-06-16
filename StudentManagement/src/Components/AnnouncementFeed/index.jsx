@@ -36,10 +36,10 @@ export const AnnouncementFeed = ({
 
   return (
     <li className="feed-item d-flex justify-content-between align-items-center">
-      <div>
+      <div className="left-feed-item">
         <div className="feed-date1">{updatedAt}</div>
         <p className="feed-text1">
-          <a className="text-danger">{title}</a>
+          <Link to={generatePath(PATH.Announcement.announcementDetails, { id: announcementID })} className="text-danger">{title}</Link>
         </p>
         <p className="text-sm text-dark">{description}</p>
       </div>

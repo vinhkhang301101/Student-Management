@@ -2195,6 +2195,9 @@ footer p {
     margin-left: 5px;
     padding: 0;
 }
+.left-feed-item {
+	max-width: 170px;
+}
 .activity-feed .feed-item {
     border-left: 2px solid #e4e8eb;
     padding-bottom: 20px;
