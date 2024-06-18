@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Badge, Dropdown } from "antd";
 import { PATH } from "../../config/path";
 import { useDispatch } from "react-redux";
-import { logoutAction } from "../../store/auth";
+import { logoutAction } from "../../stores/auth";
 import { useAuthRedux } from "../../hooks/useAuthRedux";
 
 export const Header = () => {

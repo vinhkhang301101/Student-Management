@@ -38,7 +38,7 @@ export const Register = () => {
         if (res) {
           registerForm.reset();
           message.success("Register successfully!");
-          navigate(PATH.Profile.index);
+          navigate(PATH.Login);
         }
       } catch (err) {
         handleError(err);
@@ -100,21 +100,22 @@ export const Register = () => {
                       <Field
                         label="Login as"
                         placeholder="Login as"
+                        required
                         {...registerForm.register("role")}
-                        renderInput={(props) => (
-                          <Select
-                            {...props}
-                            // error={registerForm.error}
-                            placeholder={"Login as"}
-                            option={[
-                              { value: "Teacher", label: "Teacher" },
-                              {
-                                value: "Student",
-                                label: "Student",
-                              },
-                            ]}
-                          />
-                        )}
+                        // renderInput={(props) => (
+                        //   <Select
+                        //     {...props}
+                        //     // error={registerForm.error}
+                        //     placeholder={"Login as"}
+                        //     option={[
+                        //       { value: "Teacher", label: "Teacher" },
+                        //       {
+                        //         value: "Student",
+                        //         label: "Student",
+                        //       },
+                        //     ]}
+                        //   />
+                        // )}
                       />
                     </div>
                     <div className="form-group mb-0">

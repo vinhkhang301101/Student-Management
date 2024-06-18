@@ -12,7 +12,7 @@ import { handleError } from "../utils/handleError";
 import { object } from "../utils/object";
 import { message } from "antd";
 import { useDispatch } from "react-redux";
-import { setUserAction } from "../store/auth";
+import { setUserAction } from "../stores/auth";
 import { Select } from "../Components/Select";
 import _, { first } from "lodash";
 
@@ -38,8 +38,7 @@ export const EditProfile = () => {
       object.isEqual(
         user,
         userForm.values,
-        "firstname",
-        "lastname",
+        "fullname",
         "gender",
         "date",
         "phone",
@@ -95,20 +94,20 @@ export const EditProfile = () => {
                         <div className="col-6">
                           <div className="form-group">
                             <Field
-                              label="First Name"
-                              placeholder="First Name"
+                              label="Full Name"
+                              placeholder="Full Name"
                               required
-                              {...userForm.register("firstname")}
+                              {...userForm.register("fullname")}
                             />
                           </div>
                         </div>
                         <div className="col-6">
                           <div className="form-group">
                             <Field
-                              label="Last Name"
-                              placeholder="Last Name"
-                              required
-                              {...userForm.register("lastname")}
+                              label="Email"
+                              placeholder="Email"
+                              {...userForm.register("email")}
+                              disabled
                             />
                           </div>
                         </div>
@@ -119,18 +118,18 @@ export const EditProfile = () => {
                               placeholder="Gender"
                               required
                               {...userForm.register("gender")}
-                              renderInput={(props) => (
-                                <Select
-                                  {...props}
-                                  // error={registerForm.error}
-                                  placeholder={"Gender"}
-                                  option={[
-                                    { value: "Male", label: "Male" },
-                                    { value: "Female", label: "Female" },
-                                    { value: "Other", label: "Other" },
-                                  ]}
-                                />
-                              )}
+                              // renderInput={(props) => (
+                              //   <Select
+                              //     {...props}
+                              //     // error={registerForm.error}
+                              //     placeholder={"Gender"}
+                              //     option={[
+                              //       { value: "Male", label: "Male" },
+                              //       { value: "Female", label: "Female" },
+                              //       { value: "Other", label: "Other" },
+                              //     ]}
+                              //   />
+                              // )}
                             />
                           </div>
                         </div>
@@ -147,16 +146,6 @@ export const EditProfile = () => {
                         <div className="col-6 mt-3">
                           <div className="form-group">
                             <Field
-                              label="Email"
-                              placeholder="Email"
-                              {...userForm.register("email")}
-                              disabled
-                            />
-                          </div>
-                        </div>
-                        <div className="col-6 mt-3">
-                          <div className="form-group">
-                            <Field
                               label="Phone Number"
                               placeholder="Phone Number"
                               required
@@ -164,7 +153,7 @@ export const EditProfile = () => {
                             />
                           </div>
                         </div>
-                        <div className="col-12 mt-3">
+                        <div className="col-6 mt-3">
                           <div className="form-group">
                             <Field
                               label="Address"
@@ -180,20 +169,21 @@ export const EditProfile = () => {
                         <div className="col-6">
                           <div className="form-group">
                             <Field
-                              label="First Name"
-                              placeholder="First Name"
+                              label="Full Name"
+                              placeholder="Full Name"
                               required
-                              {...userForm.register("firstname")}
+                              {...userForm.register("fullname")}
                             />
                           </div>
                         </div>
                         <div className="col-6">
                           <div className="form-group">
                             <Field
-                              label="Last Name"
-                              placeholder="Last Name"
+                              label="Email"
+                              placeholder="Email"
                               required
-                              {...userForm.register("lastname")}
+                              {...userForm.register("email")}
+                              disabled
                             />
                           </div>
                         </div>
@@ -246,17 +236,6 @@ export const EditProfile = () => {
                               placeholder="Class"
                               required
                               {...userForm.register("classcode")}
-                            />
-                          </div>
-                        </div>
-                        <div className="col-6 mt-3">
-                          <div className="form-group">
-                            <Field
-                              label="Email"
-                              placeholder="Email"
-                              required
-                              {...userForm.register("email")}
-                              disabled
                             />
                           </div>
                         </div>

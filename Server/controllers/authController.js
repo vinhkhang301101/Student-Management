@@ -138,8 +138,6 @@ class authController {
       data: {
         fullname: user.fullname,
         studentID: user.studentID,
-        firstname: user.firstname,
-        lastname: user.lastname,
         classcode: user.classcode,
         gender: user.gender,
         role: user.role,
@@ -167,8 +165,6 @@ class authController {
           _id: student._id,
           fullname: student.fullname,
           studentID: student.studentID,
-          firstname: student.firstname,
-          lastname: student.lastname,
           classcode: student.classcode,
           gender: student.gender,
           role: student.role,
@@ -190,8 +186,6 @@ class authController {
         _id: user._id,
         studentID: user.studentID,
         fullname: user.fullname,
-        firstname: user.firstname,
-        lastname: user.lastname,
         email: user.email,
         role: user.role,
         gender: user.gender,
@@ -217,8 +211,6 @@ class authController {
         _id: user._id,
         studentID: user.studentID,
         fullname: user.fullname,
-        firstname: user.firstname,
-        lastname: user.lastname,
         email: user.email,
         role: user.role,
         gender: user.gender,
@@ -240,9 +232,7 @@ class authController {
     const {
       fullname,
       studentID,
-      firstname,
       date,
-      lastname,
       gender,
       classcode,
       paidStatus,
@@ -253,8 +243,6 @@ class authController {
     const user = await User.findOne({ email });
     user.fullname = fullname;
     user.studentID = studentID;
-    user.firstname = firstname;
-    user.lastname = lastname;
     user.gender = gender;
     user.classcode = classcode;
     user.paidStatus = paidStatus;
@@ -274,29 +262,37 @@ class authController {
       fullname,
       email,
       studentID,
-      firstname,
-      date,
-      lastname,
       gender,
+      date,
       classcode,
       paidStatus,
       phone,
       address,
     } = req.body;
-    const user = await User.findOne({ email });
-    user.fullname = fullname;
-    user.studentID = studentID;
-    user.firstname = firstname;
-    user.lastname = lastname;
-    user.gender = gender;
-    user.classcode = classcode;
-    user.paidStatus = paidStatus;
-    user.date = date;
-    user.phone = phone;
-    user.address = address;
-    await user.save();
+    const student = await User.findOne({ email });
+    student.fullname = fullname;
+    student.email = email;
+    student.studentID = studentID;
+    student.gender = gender;
+    student.classcode = classcode;
+    student.paidStatus = paidStatus;
+    student.date = date;
+    student.phone = phone;
+    student.address = address;
+    await student.save();
     res.status(200).json({
       success: true,
+      data: {
+        fullname: student.fullname,
+        email: student.email,
+        studentID: student.studentID,
+        gender: student.gender,
+        classcode: student.classcode,
+        paidStatus: student.paidStatus,
+        date: student.date,
+        phone: student.phone,
+        address: student.address,
+      },
     });
   });
 

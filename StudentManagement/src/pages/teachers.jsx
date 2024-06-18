@@ -33,8 +33,7 @@ export const Teachers = () => {
                     <thead>
                       <tr>
                         <th>ID</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
+                        <th>Full Name</th>
                         <th>Gender</th>
                         <th>Subject</th>
                         <th>Mobile Number</th>

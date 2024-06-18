@@ -10,7 +10,7 @@ router.get("/:id", fileController.getFile);
 // router.get("/", jwtAuth, fileController.getAllFile);
 router.post("/upload", uploadMongo.single("file"), (req, res) => {
   if (req.file) {
-    console.log(req.file.path);
+    // console.log(req.file.path);
     res.json({
       success: true,
       message: `Upload successfully!`,

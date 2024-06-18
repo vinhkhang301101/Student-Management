@@ -4,20 +4,16 @@ import { PATH } from "../config/path";
 import Field from "../Components/Field";
 import { Select } from "../Components/Select";
 import { ButtonCom } from "../Components/Button";
-import { useDispatch } from "react-redux";
 import { useForm } from "../hooks/useForm";
-import { useAuthRedux } from "../hooks/useAuthRedux";
 import { useQuery } from "../hooks/useQuery";
 import { userService } from "../services/user";
 import { handleError } from "../utils/handleError";
 import { DatePicker, Spin, message } from "antd";
 import { regexp, required } from "../utils/validate";
-import dayjs from "dayjs";
+import { useAsync } from "../hooks/useAsync";
 
 const rules = {
   fullname: [required()],
-  firstname: [required()],
-  lastname: [required()],
   studentID: [required()],
   gender: [required()],
   date: [required()],
@@ -40,18 +36,15 @@ export const EditStudents = () => {
     },
   });
 
-  const studentForm = useForm(rules, { initialValue: data });
+  const studentForm = useForm(rules, { initialValue: data.data });
 
-  const { loading: updateLoading, refetch: updateStudentService } =
-    useQuery({
-      enabled: false,
-      queryFn: () => userService.updateStudents,
-    });
+  const { loading: updateLoading, excute: updateStudentService } = useAsync(userService.updateStudents);
 
   const onSubmit = async (ev) => {
     ev.preventDefault();
 
     if (studentForm.validate()) {
+      console.log(studentForm.values);
       updateStudentService(studentForm.values)
         .then((res) => {
           message.success("Student's profile has been updated successfully!");
@@ -103,8 +96,8 @@ export const EditStudents = () => {
                     <div className="col-6">
                       <div className="form-group">
                         <Field
-                          label="First Name"
-                          placeholder="First Name"
+                          label="Full Name"
+                          placeholder="Full Name"
                           required
                           {...studentForm.register("fullname")}
                         />
@@ -118,26 +111,6 @@ export const EditStudents = () => {
                           required
                           {...studentForm.register("email")}
                           disabled
-                        />
-                      </div>
-                    </div>
-                    <div className="col-6 mt-3">
-                      <div className="form-group">
-                        <Field
-                          label="First Name"
-                          placeholder="First Name"
-                          required
-                          {...studentForm.register("firstname")}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-6 mt-3">
-                      <div className="form-group">
-                        <Field
-                          label="Last Name"
-                          placeholder="Last Name"
-                          required
-                          {...studentForm.register("lastname")}
                         />
                       </div>
                     </div>
@@ -158,19 +131,19 @@ export const EditStudents = () => {
                           placeholder="Gender"
                           required
                           {...studentForm.register("gender")}
-                          renderInput={(props) => (
-                            <Select
-                              {...props}
-                              defaultValue={props.value}
-                              onChange={(value) => props?.onChange?.(value)}
-                              placeholder={"Gender"}
-                              option={[
-                                { value: "Male", label: "Male" },
-                                { value: "Female", label: "Female" },
-                                { value: "Other", label: "Other" },
-                              ]}
-                            />
-                          )}
+                          // renderInput={(props) => (
+                          //   <Select
+                          //     {...props}
+                          //     // defaultValue={props.value}
+                          //     // onChange={(value) => props?.onChange?.(value)}
+                          //     placeholder={"Gender"}
+                          //     option={[
+                          //       { value: "Male", label: "Male" },
+                          //       { value: "Female", label: "Female" },
+                          //       { value: "Other", label: "Other" },
+                          //     ]}
+                          //   />
+                          // )}
                         />
                       </div>
                     </div>
@@ -180,16 +153,16 @@ export const EditStudents = () => {
                           label="Date of Birth"
                           placeholder="Date of Birth"
                           {...studentForm.register("date")}
-                          renderInput={(props) => (
-                            <DatePicker
-                              format="DD/MM/YYYY"
-                              value={
-                                props.values ? dayjs(props.values) : undefined
-                              }
-                              onChange={(date) => props.onChange(date)}
-                              className="form-control"
-                            ></DatePicker>
-                          )}
+                          // renderInput={(props) => (
+                          //   <DatePicker
+                          //     format="DD/MM/YYYY"
+                          //     // value={
+                          //     //   props.values ? dayjs(props.values) : undefined
+                          //     // }
+                          //     // onChange={(date) => props.onChange(date)}
+                          //     className="form-control"
+                          //   ></DatePicker>
+                          // )}
                         ></Field>
                       </div>
                     </div>
@@ -220,18 +193,18 @@ export const EditStudents = () => {
                           placeholder="Status"
                           required
                           {...studentForm.register("paidStatus")}
-                          renderInput={(props) => (
-                            <Select
-                              {...props}
-                              value={props.values}
-                              onChange={(values) => props?.onChange?.(values)}
-                              placeholder={"Status"}
-                              option={[
-                                { value: "Paid", label: "Paid" },
-                                { value: "Unpaid", label: "Unpaid" },
-                              ]}
-                            />
-                          )}
+                          // renderInput={(props) => (
+                          //   <Select
+                          //     {...props}
+                          //     // value={props.values}
+                          //     // onChange={(values) => props?.onChange?.(values)}
+                          //     placeholder={"Status"}
+                          //     option={[
+                          //       { value: "Paid", label: "Paid" },
+                          //       { value: "Unpaid", label: "Unpaid" },
+                          //     ]}
+                          //   />
+                          // )}
                         />
                       </div>
                     </div>

@@ -35,21 +35,11 @@ export const EditTeachers = () => {
                     </div>
                     <div className="col-12 col-sm-6">
                       <div className="form-group">
-                        <label>First Name</label>
+                        <label>Full Name</label>
                         <input
                           type="text"
                           className="form-control"
                           defaultValue="Huynh Thi"
-                        />
-                      </div>
-                    </div>
-                    <div className="col-12 col-sm-6">
-                      <div className="form-group">
-                        <label>Last Name</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          defaultValue="D"
                         />
                       </div>
                     </div>

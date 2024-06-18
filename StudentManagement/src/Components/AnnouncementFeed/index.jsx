@@ -4,9 +4,9 @@ import { useAuthRedux } from "../../hooks/useAuthRedux";
 import { handleError } from "../../utils/handleError";
 import { Popconfirm, message } from "antd";
 import { useAsync } from "../../hooks/useAsync";
-import { useReload } from "../../hooks/useReload";
 import { announcementService } from "../../services/announcement";
 import { useState } from "react";
+import { useReload } from "../../hooks/useReload";
 
 export const AnnouncementFeed = ({
   announcementID,
@@ -64,7 +64,7 @@ export const AnnouncementFeed = ({
             description="Are you sure you want to delete this announcement? All data also deleted!"
             onConfirm={() => {
               setOpenPopconfirm(false);
-              onDelete({ _id });
+              onDelete(announcementID);
             }}
           >
             <a

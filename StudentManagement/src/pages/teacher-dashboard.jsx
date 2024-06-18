@@ -6,7 +6,6 @@ import { announcementService } from "../services/announcement.js";
 import { classService } from "../services/class.js";
 import { AnnouncementFeed } from "../Components/AnnouncementFeed";
 import { Calendar, Empty, Spin } from "antd";
-import "react-calendar/dist/Calendar.css";
 import { UpcomingClass } from "../Components/UpcomingClass/index.jsx";
 
 

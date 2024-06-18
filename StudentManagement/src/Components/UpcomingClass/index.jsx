@@ -18,18 +18,18 @@ export const UpcomingClass = ({ _id, code, subject, slot }) => {
             <b>{subject}</b>
           </div>
         </td>
-        <td>
-          {
-            user?.role == "Teacher" ? (
-              <a href="#">Confirmed</a>
-            ) : (
-              <></>
-            )
-          }
+        {user?.role == "Teacher" ? (
+          <td>
+            <a href="#">Confirmed</a>
+            <Link to={PATH.Classes.EditClasses} className="btn btn-info ml-5">
+              Reschedule
+            </Link>
+          </td>
+        ) : (
           <Link to={PATH.Classes.EditClasses} className="btn btn-info ml-5">
-            Reschedule
+            View
           </Link>
-        </td>
+        )}
       </tr>
     </>
   );

@@ -7,9 +7,9 @@ class fileController {
   // [GET] /:filename
   getFile = catchAsync(async (req, res, next) => {
     const { filename } = req.params;
-    console.log(filename);
+    // console.log(filename);
     Mongo.gridfs.find({ filename }).toArray((err, files) => {
-      console.log("filessssss: ", files);
+      // console.log("filessssss: ", files);
       if (err || !files || !files.length) {
         throw new ApiError(500, "Cannot get file!!");
       }

@@ -9,8 +9,6 @@ message.config({
 })
 
 function App() {
-  // const [count, setCount] = useState(0)
-
   const element = useRoutes(routers());
 
   return (

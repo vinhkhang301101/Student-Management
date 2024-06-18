@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { PATH } from "../../config/path";
 import { useDispatch } from "react-redux";
-import { logoutAction } from "../../store/auth";
+import { logoutAction } from "../../stores/auth";
 import { useAuthRedux } from "../../hooks/useAuthRedux";
 
 export const Sidebar = () => {

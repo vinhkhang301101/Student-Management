@@ -50,8 +50,7 @@ export const Students = () => {
                     <thead>
                       <tr>
                         <th>ID</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
+                        <th>Full Name</th>
                         <th>Class</th>
                         <th>Gender</th>
                         <th>DOB</th>

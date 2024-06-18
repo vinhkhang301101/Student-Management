@@ -23,11 +23,7 @@ export const Inbox = () => {
 
   function connectToWs() {
     console.log("Connected to Chat Server!");
-    const ws = new WebSocket(CHAT_SERVER, [
-      "draft",
-      `${user._id}`,
-      `${user.fullname}`,
-    ]);
+    const ws = new WebSocket(CHAT_SERVER);
     setWs(ws);
     ws.addEventListener("message", handleMessage);
     ws.addEventListener("close", () => {

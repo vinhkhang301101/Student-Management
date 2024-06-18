@@ -9,8 +9,6 @@ export const ANNOUNCEMENT_API = import.meta.env.VITE_ANNOUNCEMENT_API;
 export const MESSAGE_API = import.meta.env.VITE_MESSAGE_API;
 export const CHAT_SERVER = import.meta.env.VITE_CHAT_SERVER;
 
-let refreshTokenPromise = null;
-
 export const http = axios.create();
 
 http.interceptors.response.use(

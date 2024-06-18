@@ -9,7 +9,7 @@ import { ButtonCom } from "../Components/Button";
 import { userService } from "../services/user";
 import { useQuery } from "../hooks/useQuery";
 import { message } from "antd";
-import { setUserAction } from "../store/auth";
+import { setUserAction } from "../stores/auth";
 import { handleError } from "../utils/handleError";
 import { useDispatch } from "react-redux";
 // import { getUser } from "../utils/token";

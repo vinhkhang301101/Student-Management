@@ -7,7 +7,7 @@ import { useAuth } from "../Components/AuthContext";
 import { ButtonCom } from "../Components/Button";
 import { handleError } from "../utils/handleError";
 import { useDispatch } from "react-redux";
-import { loginAction } from "../store/auth";
+import { loginAction } from "../stores/auth";
 import { message } from "antd";
 import { useForm } from "../hooks/useForm";
 

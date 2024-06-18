@@ -5,7 +5,7 @@ import { Popconfirm } from "antd";
 import { userService } from "../../services/user";
 import { useAsync } from "../../hooks/useAsync";
 
-export const StudentList = ({ _id, fullname, firstname, lastname, studentID, classcode, gender, date, phone, address, paidStatus}) => {
+export const StudentList = ({ _id, fullname, studentID, classcode, gender, date, phone, address, paidStatus }) => {
   const [openPopconfirm, setOpenPopconfirm] = useState(false);
   const { excute: deleteStudent } = useAsync(userService.deleteStudent);
 
@@ -31,17 +31,7 @@ export const StudentList = ({ _id, fullname, firstname, lastname, studentID, cla
             id: _id,
           })}
         >
-          {firstname}
-        </Link>
-      </td>
-      <td>
-        <Link
-          className="text-black"
-          to={generatePath(PATH.Students.StudentDetails, {
-            id: _id,
-          })}
-        >
-          {lastname}
+          {fullname}
         </Link>
       </td>
       <td>{classcode}</td>
@@ -75,7 +65,7 @@ export const StudentList = ({ _id, fullname, firstname, lastname, studentID, cla
             cancelText="Nah!"
             placement="bottomRight"
             title="Alert! Delete Announcement?"
-            description="Are you sure you want to delete this announcement? All data also deleted!"
+            description={`Are you sure you want to delete ${fullname}? All data also deleted!`}
             onConfirm={() => {
               setOpenPopconfirm(false);
               onDelete(_id);

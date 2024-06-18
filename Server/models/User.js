@@ -20,14 +20,6 @@ const userSchema = new Schema(
       type: String,
       default: "",
     },
-    firstname: {
-      type: String,
-      default: "",
-    },
-    lastname: {
-      type: String,
-      default: "",
-    },
     classcode: {
       type: String,
       default: "",

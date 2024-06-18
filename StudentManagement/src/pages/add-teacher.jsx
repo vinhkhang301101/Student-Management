@@ -35,13 +35,7 @@ export const AddTeachers = () => {
                     </div>
                     <div className="col-12 col-sm-6">
                       <div className="form-group">
-                        <label>First Name</label>
-                        <input type="text" className="form-control" />
-                      </div>
-                    </div>
-                    <div className="col-12 col-sm-6">
-                      <div className="form-group">
-                        <label>Last Name</label>
+                        <label>Full Name</label>
                         <input type="text" className="form-control" />
                       </div>
                     </div>

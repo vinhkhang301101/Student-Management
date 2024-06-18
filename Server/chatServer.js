@@ -5,7 +5,6 @@ function handleOnlinePeople(wss, connection, req) {
   const clientProtocol = req.headers["sec-websocket-protocol"];
   connection._id = clientProtocol.split(", ")[1];
   connection.fullname = clientProtocol.split(", ")[2];
-  console.log([...wss.clients].map((c) => c.fullname));
 
   [...wss.clients].forEach((client) => {
     client.send(
