@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { PATH } from '../config/path';
 import { useQuery } from "../hooks/useQuery.js";
 import { classService } from "../services/class.js";
-import { ClassList } from "../Components/ClassList/index.jsx";
+import { ClassList } from "../components/ClassList/index.jsx";
 import { useDispatch } from 'react-redux';
 import { Empty, Spin } from 'antd';
 
@@ -50,7 +50,7 @@ export const Classes = () => {
                     <table className="table table-hover table-center mb-0 datatable">
                       <thead>
                         <tr>
-                          <th>ID</th>
+                          <th>Code</th>
                           <th>Name</th>
                           <th>Slot</th>
                           <th className="text-right">Action</th>

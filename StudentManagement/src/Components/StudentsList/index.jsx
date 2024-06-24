@@ -5,7 +5,17 @@ import { Popconfirm } from "antd";
 import { userService } from "../../services/user";
 import { useAsync } from "../../hooks/useAsync";
 
-export const StudentList = ({ _id, fullname, studentID, classcode, gender, date, phone, address, paidStatus }) => {
+export const StudentList = ({
+  _id,
+  fullname,
+  userID,
+  classcode,
+  gender,
+  date,
+  phone,
+  address,
+  paidStatus,
+}) => {
   const [openPopconfirm, setOpenPopconfirm] = useState(false);
   const { excute: deleteStudent } = useAsync(userService.deleteStudent);
 
@@ -23,7 +33,7 @@ export const StudentList = ({ _id, fullname, studentID, classcode, gender, date,
 
   return (
     <tr>
-      <td>{studentID}</td>
+      <td>{userID}</td>
       <td>
         <Link
           className="text-black"

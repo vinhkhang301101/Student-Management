@@ -27,7 +27,6 @@ export const AuthProvider = ({ children }) => {
           fullname: decoded.fullname,
           email: decoded.role,
           role: decoded.role,
-          role: decoded.role,
         });
       }
       if (res.data) {

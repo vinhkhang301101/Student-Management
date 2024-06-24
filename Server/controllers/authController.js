@@ -23,7 +23,7 @@ function generateMixedString(length) {
   }
 
   return result;
-}
+} 
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
@@ -136,8 +136,9 @@ class authController {
     res.status(200).json({
       success: true,
       data: {
+        _id: user._id,
         fullname: user.fullname,
-        studentID: user.studentID,
+        userID: user.userID,
         classcode: user.classcode,
         gender: user.gender,
         role: user.role,
@@ -156,7 +157,7 @@ class authController {
     const student = await User.findById(id);
     if (!student) {
       throw new ApiError(400, "This student does not exist!");
-    } else if (!student.studentID) {
+    } else if (!student.userID) {
       throw new ApiError(400, "This is not student!");
     } else {
       res.status(200).json({
@@ -164,7 +165,7 @@ class authController {
         data: {
           _id: student._id,
           fullname: student.fullname,
-          studentID: student.studentID,
+          userID: student.userID,
           classcode: student.classcode,
           gender: student.gender,
           role: student.role,
@@ -184,7 +185,7 @@ class authController {
     const userArr = user.map((user, index) => {
       return {
         _id: user._id,
-        studentID: user.studentID,
+        userID: user.userID,
         fullname: user.fullname,
         email: user.email,
         role: user.role,
@@ -209,7 +210,7 @@ class authController {
     const userArr = user.map((user, index) => {
       return {
         _id: user._id,
-        studentID: user.studentID,
+        userID: user.userID,
         fullname: user.fullname,
         email: user.email,
         role: user.role,
@@ -231,7 +232,7 @@ class authController {
   updateProfile = catchAsync(async (req, res, next) => {
     const {
       fullname,
-      studentID,
+      userID,
       date,
       gender,
       classcode,
@@ -242,7 +243,7 @@ class authController {
     const { email } = req.user;
     const user = await User.findOne({ email });
     user.fullname = fullname;
-    user.studentID = studentID;
+    user.userID = userID;
     user.gender = gender;
     user.classcode = classcode;
     user.paidStatus = paidStatus;
@@ -261,7 +262,7 @@ class authController {
     const {
       fullname,
       email,
-      studentID,
+      userID,
       gender,
       date,
       classcode,
@@ -272,7 +273,7 @@ class authController {
     const student = await User.findOne({ email });
     student.fullname = fullname;
     student.email = email;
-    student.studentID = studentID;
+    student.userID = userID;
     student.gender = gender;
     student.classcode = classcode;
     student.paidStatus = paidStatus;
@@ -285,7 +286,7 @@ class authController {
       data: {
         fullname: student.fullname,
         email: student.email,
-        studentID: student.studentID,
+        userID: student.userID,
         gender: student.gender,
         classcode: student.classcode,
         paidStatus: student.paidStatus,
@@ -359,24 +360,6 @@ class authController {
       throw new ApiError(400, "Failed to update password!");
     }
   });
-
-  // // [PUT] /update-email
-  // updateEmail = catchAsync(async (req, res, next) => {
-  //   const { oldEmail, newEmail } = req.body;
-  //   try {
-  //     const user = await User.findOneAndUpdate(
-  //       { email: oldEmail },
-  //       { oldEmail, email: newEmail },
-  //       { new: true }
-  //     );
-  //     res.status(200).json({
-  //       success: true,
-  //       data: user,
-  //     });
-  //   } catch (error) {
-  //     throw new ApiError(400, "Email is not existed!");
-  //   }
-  // });
 }
 
 export default new authController();

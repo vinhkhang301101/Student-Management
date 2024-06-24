@@ -1,7 +1,6 @@
 import ApiError from "../utils/ApiError.js";
 import { catchAsync } from "../middlewares/async.js";
 import Classes from "../models/Class.js";
-// import User from "../models/User.js";
 
 class classController {
   // [GET] /class
@@ -9,7 +8,7 @@ class classController {
     const classes = await Classes.find();
     const classesArr = classes.map((classes, index) => {
       return {
-        _id: classes._id,
+        classID: classes._id,
         code: classes.code,
         subject: classes.subject,
         slot: classes.slot,
@@ -38,7 +37,7 @@ class classController {
   });
 
   // [GET] /class/:id/
-  getClassDetail = catchAsync(async (req, res, next) => {
+  getClassById = catchAsync(async (req, res, next) => {
     const { id } = req.params;
     const classes = await Classes.findById(id);
     if (!classes) {
@@ -46,15 +45,19 @@ class classController {
     }
     res.json({
       success: true,
-      data: classes,
+      data: {
+        classID: classes._id,
+        code: classes.code,
+        subject: classes.subject,
+        slot: classes.slot,
+      },
     });
   });
 
-  // [PUT] /class/update/:id
+  // [PUT] /class/update/
   updateClass = catchAsync(async (req, res, next) => {
-    const { id } = req.params;
-    const { code, subject, slot } = req.body;
-    const classes = await Classes.findById(id);
+    const { classID, code, subject, slot } = req.body;
+    const classes = await Classes.findById(classID);
     if (!classes) {
       throw new ApiError(400, "This classes does not exist");
     }

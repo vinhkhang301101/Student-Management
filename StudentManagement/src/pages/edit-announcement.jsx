@@ -7,7 +7,6 @@ import { announcementService } from "../services/announcement.js";
 import { required } from "../utils/validate";
 import Field from "../Components/Field";
 import { Button, Form, Spin, Upload, message } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
 import { ButtonCom } from "../Components/Button";
 import { handleError } from "../utils/handleError.js";
 import { useAsync } from "../hooks/useAsync.js";
@@ -26,10 +25,6 @@ export const EditAnnouncements = () => {
   });
 
   const announcementForm = useForm(rules, { initialValue: data.data });
-
-  console.log(id);
-  console.log(data);
-  console.log("re-render");
 
   const { loading: updateLoading, excute: updateAnnouncement } =
     useAsync(announcementService.updateAnnouncement);
@@ -101,13 +96,6 @@ export const EditAnnouncements = () => {
                           placeholder="Description"
                           {...announcementForm.register("description")}
                         />
-                      </div>
-                    </div>
-                    <div className="col-9">
-                      <div className="form-group">
-                        <Upload>
-                          <Button icon={<UploadOutlined />}>Select file</Button>
-                        </Upload>
                       </div>
                     </div>
                     {/* <div className="col-12 col-sm-12">

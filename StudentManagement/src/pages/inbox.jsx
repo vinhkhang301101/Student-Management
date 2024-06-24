@@ -23,7 +23,11 @@ export const Inbox = () => {
 
   function connectToWs() {
     console.log("Connected to Chat Server!");
-    const ws = new WebSocket(CHAT_SERVER);
+    const ws = new WebSocket(CHAT_SERVER, [
+      "draft",
+      `${user._id}`,
+      `${user.userID}`,
+    ]);
     setWs(ws);
     ws.addEventListener("message", handleMessage);
     ws.addEventListener("close", () => {
@@ -106,8 +110,6 @@ export const Inbox = () => {
   const onlinePeopleExceptOurUser = { ...onlinePeople };
   delete onlinePeopleExceptOurUser[user._id];
 
-  console.log(onlinePeopleExceptOurUser);
-
   const messagesWithoutDupes = uniqBy(messages, "_id");
 
   return (
@@ -167,9 +169,7 @@ export const Inbox = () => {
                       onClick={() => {
                         setSelectedUserId("66542b01bb9c22fbd568ca5e");
                       }}
-                      selected={
-                        selectedUserId === "66542b01bb9c22fbd568ca5e"
-                      }
+                      selected={selectedUserId === "66542b01bb9c22fbd568ca5e"}
                     />
                   )}
                 </ul>
@@ -196,9 +196,7 @@ export const Inbox = () => {
                             <img src="img/avatar.png" alt="avatar" />
                           </a>
                           <div className="chat-about">
-                            <h6 className="fw-bold mb-0">
-                              {selectedUserId}
-                            </h6>
+                            <h6 className="fw-bold mb-0">{selectedUserId}</h6>
                           </div>
                         </div>
                       </div>
@@ -206,22 +204,31 @@ export const Inbox = () => {
                     <div className="chat-history">
                       <ul className="m-b-0">
                         {messagesWithoutDupes.map((message) => (
-                          <li key={message._id} className="clearfix">
+                          <li
+                            key={message._id}
+                            className="clearfix d-flex align-items-center gap-3"
+                          >
                             <div
-                              className={"message-data"(
-                                message.sender == user.id
+                              className={
+                                "message-data" +
+                                (message.sender == user._id
                                   ? "text-right"
-                                  : "text-left"
-                              )}
+                                  : "text-left")
+                              }
                             >
-                              <img src="img/avatar.png" alt="avatar" />
+                              <img
+                                className="avatar"
+                                src="img/avatar.png"
+                                alt="avatar"
+                              />
                             </div>
                             <div
-                              className={"message"(
-                                message.sender == user.id
+                              className={
+                                "message" +
+                                (message.sender == user._id
                                   ? "other-message text-right"
-                                  : "my-message text-left"
-                              )}
+                                  : "my-message text-left")
+                              }
                             >
                               {message.text}
                             </div>

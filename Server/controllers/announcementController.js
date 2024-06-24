@@ -6,11 +6,10 @@ import User from "../models/User.js";
 class announcementController {
   // [POST] /announcement
   createAnnouncement = catchAsync(async (req, res, next) => {
-    const { title, description, date } = req.body;
+    const { title, description } = req.body;
     const announce = await Announcement.create({
       title,
       description,
-      date,
     });
 
     res.status(200).json({

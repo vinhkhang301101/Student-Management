@@ -111,7 +111,9 @@ export const Profile = () => {
                   </a>
                 </div>
                 <div className="col ml-md-n2 profile-user-info">
-                  <h4 className="user-name mb-0">{user.fullname}</h4>
+                  <h4 className="user-name mb-0">
+                    {user.fullname} - {user.userID}
+                  </h4>
                   <div className="user-Location">
                     <i className="fas fa-map-marker-alt" /> {user.address}
                   </div>
@@ -149,6 +151,18 @@ export const Profile = () => {
                           Full Name
                         </p>
                         <p className="col-sm-9">{user.fullname}</p>
+                      </div>
+                      <div className="row">
+                        <p className="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">
+                          Email
+                        </p>
+                        <p className="col-sm-9">{user.email}</p>
+                      </div>
+                      <div className="row">
+                        <p className="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">
+                          Teacher ID
+                        </p>
+                        <p className="col-sm-9">{user.userID}</p>
                       </div>
                       <div className="row">
                         <p className="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">

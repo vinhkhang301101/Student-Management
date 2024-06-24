@@ -7,7 +7,7 @@ const chatSchema = new mongoose.Schema(
     text: String,
   },
   {
-    collection: "nb-classes",
+    collection: "nb-chats",
     minimize: false,
     timestamps: true,
   }

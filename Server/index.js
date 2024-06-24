@@ -26,6 +26,6 @@ app.use(catchError)
 
 runServerChat(serverHttp);
 
-app.listen(PORT, () => {
+serverHttp.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}!`);
 });

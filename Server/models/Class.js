@@ -18,6 +18,7 @@ const classSchema = new mongoose.Schema(
   {
     collection: "nb-classes",
     minimize: false,
+    timestamps: true,
   }
 );
 

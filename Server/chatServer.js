@@ -5,6 +5,7 @@ function handleOnlinePeople(wss, connection, req) {
   const clientProtocol = req.headers["sec-websocket-protocol"];
   connection._id = clientProtocol.split(", ")[1];
   connection.fullname = clientProtocol.split(", ")[2];
+  console.log([...wss.clients].map((c) => c.fullname));
 
   [...wss.clients].forEach((client) => {
     client.send(
@@ -22,7 +23,7 @@ async function handleSendMessage(message, wss, connection) {
   const messageData = JSON.parse(message.toString());
   const { receiver, text } = messageData;
   if (receiver && text) {
-    console.log("Connection studentID is: ", connection._id);
+    console.log("Connection ID is: ", connection._id);
     const messageDoc = await Chat.create({
       sender: connection._id,
       receiver,

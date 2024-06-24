@@ -7,8 +7,8 @@ const router = express.Router();
 
 router.post("/add-class", jwtAuth, classController.addClass);
 router.get("/", jwtAuth, classController.getClasses);
-router.get("/:id", jwtAuth, classController.getClassDetail);
-router.put("/update/:id", jwtAuth, classController.updateClass);
+router.get("/:id", jwtAuth, classController.getClassById);
+router.put("/update", jwtAuth, classController.updateClass);
 router.delete("/delete/:id", jwtAuth, classController.removeClass);
 
 export default router;

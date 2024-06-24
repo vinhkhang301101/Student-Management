@@ -5,7 +5,7 @@ export const classService = {
   getClass() {
     return http.get(`${CLASS_API}`);
   },
-  getClassDetail(id) {
+  getClassById(id) {
     return http.get(`${CLASS_API}/${id}`);
   },
   addClass(data) {
@@ -14,7 +14,7 @@ export const classService = {
   removeClass(id) {
     return http.delete(`${CLASS_API}/delete/${id}`);
   },
-  updateClass(id) {
-    return http.put(`${CLASS_API}/update/${id}`);
+  updateClass(data) {
+    return http.put(`${CLASS_API}/update`, data);
   },
 };

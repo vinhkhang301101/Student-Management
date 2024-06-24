@@ -1,9 +1,55 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { PATH } from "../config/path";
 import { ButtonCom } from "../Components/Button";
+import { required } from "../utils/validate";
+import { useQuery } from "../hooks/useQuery";
+import { classService } from "../services/class";
+import { useAsync } from "../hooks/useAsync";
+import { handleError } from "../utils/handleError";
+import { Spin, message } from "antd";
+import Field from "../Components/Field";
+import { useForm } from "../hooks/useForm";
+
+const rules = {
+  code: [required()],
+  subject: [required()],
+};
 
 export const EditClasses = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const { data, loading: getClassesLoading } = useQuery({
+    queryFn: () => classService.getClassById(id),
+    enabled: !!id,
+  });
+
+  const classForm = useForm(rules, { initialValue: data.data });
+
+  const { loading: updateLoading, excute: updateClass } = useAsync(
+    classService.updateClass
+  );
+
+  const onSubmit = async (ev) => {
+    ev.preventDefault();
+    if (classForm.validate()) {
+      updateClass(classForm.values, id)
+        .then((res) => {
+          navigate(PATH.Classes.index);
+          message.success("Class info has been updated successfully!");
+        })
+        .catch(handleError);
+    }
+  };
+
+  if (getClassesLoading) {
+    return (
+      <div className="content container-fluid">
+        <Spin fullscreen size="large" />
+      </div>
+    );
+  }
   return (
     <>
       <div className="content container-fluid">
@@ -34,38 +80,41 @@ export const EditClasses = () => {
                         <span>Class Information</span>
                       </h5>
                     </div>
-                    <div className="col-12 col-sm-6">
+                    <div className="col-9">
                       <div className="form-group">
-                        <label>Class ID</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          defaultValue="PRE2209"
+                        <Field
+                          label="Class Code"
+                          placeholder="Class Code"
+                          required
+                          {...classForm.register("code")}
                         />
                       </div>
                     </div>
-                    <div className="col-12 col-sm-6">
+                    <div className="col-9">
                       <div className="form-group">
-                        <label>Class Name</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          defaultValue="Mathematics"
+                        <Field
+                          label="Class Name"
+                          placeholder="Class Name"
+                          required
+                          {...classForm.register("subject")}
                         />
                       </div>
                     </div>
-                    <div className="col-12 col-sm-6">
+                    <div className="col-9">
                       <div className="form-group">
-                        <label>Slot</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          defaultValue={5}
+                        <Field
+                          label="Slot"
+                          placeholder="Slot"
+                          {...classForm.register("slot")}
                         />
                       </div>
                     </div>
                     <div className="col-12">
-                      <ButtonCom type="submit" className="btn btn-primary">
+                      <ButtonCom
+                        onClick={onSubmit}
+                        loading={updateLoading}
+                        className="btn btn-primary"
+                      >
                         Submit
                       </ButtonCom>
                     </div>

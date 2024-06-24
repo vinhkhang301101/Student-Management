@@ -6,7 +6,7 @@ import { useAsync } from "../../hooks/useAsync";
 import { Popconfirm } from "antd";
 import { classService } from "../../services/class";
 
-export const ClassList = ({ _id, code, subject, slot }) => {
+export const ClassList = ({ classID, code, subject, slot }) => {
   const { user } = useAuthRedux();
   const navigate = useNavigate();
   const [selectedClass, setSelectedClass] = useState({});
@@ -39,7 +39,7 @@ export const ClassList = ({ _id, code, subject, slot }) => {
           <div className="actions">
             <Link
               to={generatePath(PATH.Classes.EditClasses, {
-                id: _id,
+                id: classID,
               })}
               className="btn btn-info mr-3"
             >
@@ -56,7 +56,7 @@ export const ClassList = ({ _id, code, subject, slot }) => {
               description="Are you sure you want to delete this class? All data also deleted!"
               onConfirm={() => {
                 setOpenPopconfirm(false);
-                onDelete(_id);
+                onDelete(classID);
               }}
             >
               <a

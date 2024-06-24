@@ -24,11 +24,12 @@ export const Register = () => {
 
   const registerForm = useForm({
     fullname: [required()],
+    userID: [required()],
     email: [required(), regexp("email")],
     role: [required()],
     password: [required(), minMax(6)],
     confirmed: [required(), confirm("password")],
-  })
+  });
 
   const onRegister = async (ev) => {
     ev.preventDefault();
@@ -68,6 +69,14 @@ export const Register = () => {
                         placeholder="Fullname"
                         required
                         {...registerForm.register("fullname")}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <Field
+                        label="User ID"
+                        placeholder="User ID"
+                        required
+                        {...registerForm.register("userID")}
                       />
                     </div>
                     <div className="form-group">

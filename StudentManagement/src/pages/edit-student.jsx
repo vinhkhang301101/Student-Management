@@ -14,7 +14,7 @@ import { useAsync } from "../hooks/useAsync";
 
 const rules = {
   fullname: [required()],
-  studentID: [required()],
+  userID: [required()],
   gender: [required()],
   date: [required()],
   classcode: [required()],
@@ -44,7 +44,6 @@ export const EditStudents = () => {
     ev.preventDefault();
 
     if (studentForm.validate()) {
-      console.log(studentForm.values);
       updateStudentService(studentForm.values)
         .then((res) => {
           message.success("Student's profile has been updated successfully!");
@@ -117,10 +116,10 @@ export const EditStudents = () => {
                     <div className="col-6 mt-3">
                       <div className="form-group">
                         <Field
-                          label="Student Id"
-                          placeholder="Student Id"
+                          label="Student ID"
+                          placeholder="Student ID"
                           required
-                          {...studentForm.register("studentID")}
+                          {...studentForm.register("userID")}
                         />
                       </div>
                     </div>

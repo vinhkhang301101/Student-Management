@@ -18,6 +18,7 @@ import _, { first } from "lodash";
 
 const rules = {
   fullname: [required()],
+  userID: [required()],
 };
 
 export const EditProfile = () => {
@@ -114,6 +115,16 @@ export const EditProfile = () => {
                         <div className="col-6 mt-3">
                           <div className="form-group">
                             <Field
+                              label="Teacher ID"
+                              placeholder="Teacher ID"
+                              required
+                              {...userForm.register("userID")}
+                            />
+                          </div>
+                        </div>
+                        <div className="col-6 mt-3">
+                          <div className="form-group">
+                            <Field
                               label="Gender"
                               placeholder="Gender"
                               required
@@ -153,7 +164,7 @@ export const EditProfile = () => {
                             />
                           </div>
                         </div>
-                        <div className="col-6 mt-3">
+                        <div className="col-9 mt-3">
                           <div className="form-group">
                             <Field
                               label="Address"
@@ -190,10 +201,10 @@ export const EditProfile = () => {
                         <div className="col-6 mt-3">
                           <div className="form-group">
                             <Field
-                              label="Student Id"
-                              placeholder="Student Id"
+                              label="Student ID"
+                              placeholder="Student ID"
                               required
-                              {...userForm.register("studentID")}
+                              {...userForm.register("userID")}
                             />
                           </div>
                         </div>

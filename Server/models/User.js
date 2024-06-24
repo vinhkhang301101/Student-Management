@@ -16,9 +16,10 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Fullname is required!"],
     },
-    studentID: {
+    userID: {
       type: String,
-      default: "",
+      required: [true, "User ID is required!"],
+      unique: true,
     },
     classcode: {
       type: String,
