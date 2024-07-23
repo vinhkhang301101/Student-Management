@@ -1,13 +1,13 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { PATH } from '../config/path';
-import Field from '../Components/Field';
+import Field from '../components/Field';
 import { regexp, required } from '../utils/validate';
 import { useForm } from '../hooks/useForm';
 import { useQuery } from '../hooks/useQuery';
 import { userService } from '../services/user';
 import { handleError } from '../utils/handleError';
-import { ButtonCom } from "../Components/Button";
+import { ButtonCom } from "../components/Button";
 import { message } from 'antd';
 
 export const ForgotPassword = () => {

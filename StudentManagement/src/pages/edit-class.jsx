@@ -25,7 +25,7 @@ export const EditClasses = () => {
     enabled: !!id,
   });
 
-  const classForm = useForm(rules, { initialValue: data.data });
+  const classForm = useForm(rules, { initialValue: data });
 
   const { loading: updateLoading, excute: updateClass } = useAsync(
     classService.updateClass

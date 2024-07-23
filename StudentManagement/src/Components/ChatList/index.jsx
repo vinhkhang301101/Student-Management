@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const ChatList = ({ id, fullname, onClick, selected, online }) => {
+export const ChatList = ({ id, userID, onClick, selected, online }) => {
   return (
     <li
       key={id}
@@ -18,7 +18,7 @@ export const ChatList = ({ id, fullname, onClick, selected, online }) => {
         {!online && <div className="offline"></div>}
       </div>
       <div className="about">
-        <div className="name fw-bold">{fullname}</div>
+        <div className="name fw-bold">{userID}</div>
       </div>
     </li>
   );

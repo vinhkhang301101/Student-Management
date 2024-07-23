@@ -6,21 +6,20 @@ class chatController {
     const { id } = req.params;
     const receiver = id;
     const sender = req.user._id;
-    console.log(id);
+    console.log(req.user);
     if (receiver == null) {
       res.status(200).json({
         success: true,
-        messages: [],
+        messages: messages,
       });
     }
     const messages = await Chat.find({
       sender: { $in: [receiver, sender] },
       receiver: { $in: [receiver, sender] },
     });
-    console.log(messages);
     res.status(200).json({
       success: true,
-      messages,
+      messages: messages,
     });
   });
 }

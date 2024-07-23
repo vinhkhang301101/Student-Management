@@ -7,16 +7,11 @@ const fileSchema = new mongoose.Schema(
       required: true,
       default: "",
     },
-    description: {
-      type: String,
-      required: true,
-      default: "",
-    },
-    name: {
+    filename: {
       type: String,
       required: true,
     },
-    path: {
+    pdf: {
       type: String,
       required: true,
     },

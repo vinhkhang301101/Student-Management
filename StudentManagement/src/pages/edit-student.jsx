@@ -1,9 +1,9 @@
 import React from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { PATH } from "../config/path";
-import Field from "../Components/Field";
-import { Select } from "../Components/Select";
-import { ButtonCom } from "../Components/Button";
+import Field from "../components/Field";
+import { Select } from "../components/Select";
+import { ButtonCom } from "../components/Button";
 import { useForm } from "../hooks/useForm";
 import { useQuery } from "../hooks/useQuery";
 import { userService } from "../services/user";

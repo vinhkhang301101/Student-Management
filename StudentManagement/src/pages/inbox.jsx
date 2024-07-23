@@ -17,6 +17,8 @@ export const Inbox = () => {
   const [selectedUserId, setSelectedUserId] = useState(null);
   const divUnderMessage = useRef();
 
+  console.log(messages);
+
   useEffect(() => {
     connectToWs();
   }, [selectedUserId]);
@@ -39,6 +41,47 @@ export const Inbox = () => {
     });
   }
 
+  function handleMessage(ev) {
+    const messageData = JSON.parse(ev.data);
+    console.log(messageData);
+    if ("online" in messageData) {
+      showOnlinePeople(messageData.online);
+    } else if ("text" in messageData) {
+      if (messageData.sender == selectedUserId) {
+        setMessages((prev) => ([...prev, { ...messageData }]));
+      }
+    }
+  }
+
+  function showOnlinePeople(peopleArr) {
+    const people = {};
+    peopleArr.forEach(({ _id, userID }) => {
+      people[_id] = userID;
+    });
+    setOnlinePeople(people);
+  }
+
+  const sendMessage = (ev) => {
+    ev.preventDefault();
+    ws.send(
+      JSON.stringify({
+        receiver: selectedUserId,
+        text: newMessageText,
+      })
+    );
+    setNewMessageText("");
+
+    setMessages((prev) => ([
+      ...prev,
+      {
+        text: newMessageText,
+        sender: user._id,
+        receiver: selectedUserId,
+        _id: Date.now(),
+      },
+    ]));
+  };
+
   useEffect(() => {
     const div = divUnderMessage.current;
     if (div) {
@@ -53,60 +96,22 @@ export const Inbox = () => {
         .filter((p) => !Object.keys(onlinePeople).includes(p._id));
       const offlinePeople = {};
       offlinePeopleArr.forEach((p) => {
-        offlinePeople[p._id] = p.fullname;
+        offlinePeople[p._id] = p.userID;
       });
       setOfflinePeople(offlinePeople);
     });
   }, [onlinePeople]);
 
+  
   useEffect(() => {
     if (selectedUserId) {
+      console.log(selectedUserId);
       http.get(`${CHAT_API}/${selectedUserId}`).then((res) => {
         setMessages(res.messages);
       });
     }
   }, [selectedUserId]);
-
-  function handleMessage(ev) {
-    const messageData = JSON.parse(ev.data);
-    if ("online" in messageData) {
-      showOnlinePeople(messageData.online);
-    } else {
-      if (messageData.sender == selectedUserId) {
-        setMessages((prev) => [...prev, { ...messageData }]);
-      }
-    }
-  }
-
-  function showOnlinePeople(peopleArr) {
-    const people = {};
-    peopleArr.forEach(({ _id, fullname, role }) => {
-      people[_id] = fullname;
-    });
-    setOnlinePeople(people);
-  }
-
-  const sendMessage = (ev) => {
-    ev.preventDefault();
-    ws.send(
-      JSON.stringify({
-        recipient: selectedUserId,
-        text: newMessageText,
-      })
-    );
-    setNewMessageText("");
-
-    setMessages((prev) => [
-      ...prev,
-      {
-        text: newMessageText,
-        sender: user._id,
-        recipient: selectedUserId,
-        _id: Date.now(),
-      },
-    ]);
-  };
-
+  
   const onlinePeopleExceptOurUser = { ...onlinePeople };
   delete onlinePeopleExceptOurUser[user._id];
 
@@ -140,7 +145,7 @@ export const Inbox = () => {
                           key={_id}
                           id={_id}
                           online={true}
-                          fullname={onlinePeopleExceptOurUser[_id]}
+                          userID={onlinePeopleExceptOurUser[_id]}
                           onClick={() => setSelectedUserId(_id)}
                           selected={_id === selectedUserId}
                         />
@@ -150,7 +155,7 @@ export const Inbox = () => {
                           key={_id}
                           id={_id}
                           online={false}
-                          fullname={offlinePeople[_id]}
+                          userID={offlinePeople[_id]}
                           onClick={() => setSelectedUserId(_id)}
                           selected={_id === selectedUserId}
                         />
@@ -165,7 +170,7 @@ export const Inbox = () => {
                         (onlinePersonID) =>
                           onlinePersonID == "66542b01bb9c22fbd568ca5e"
                       )}
-                      fullname={"Nguyen Van A"}
+                      userID={"T001"}
                       onClick={() => {
                         setSelectedUserId("66542b01bb9c22fbd568ca5e");
                       }}
@@ -188,49 +193,42 @@ export const Inbox = () => {
                     <div className="chat-header clearfix">
                       <div className="row">
                         <div className="col-lg-6 d-flex align-items-center">
-                          <a
-                            href="#"
-                            data-toggle="modal"
-                            data-target="#view_info"
-                          >
-                            <img src="img/avatar.png" alt="avatar" />
-                          </a>
+                          <div className="chat-avatar">
+                            <div className="avatar">
+                              <img src="img/avatar.png" alt="avatar" />
+                            </div>
+                          </div>
                           <div className="chat-about">
-                            <h6 className="fw-bold mb-0">{selectedUserId}</h6>
+                            <h6 className="fw-bold mb-0">
+                              {selectedUserId}
+                            </h6>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div className="chat-history">
                       <ul className="m-b-0">
-                        {messagesWithoutDupes.map((message) => (
-                          <li
-                            key={message._id}
-                            className="clearfix d-flex align-items-center gap-3"
-                          >
+                        {messagesWithoutDupes.map((messages) => (
+                          <li key={messages._id} className="clearfix">
                             <div
                               className={
-                                "message-data" +
-                                (message.sender == user._id
+                                "message-data " +
+                                (messages.sender == user._id
                                   ? "text-right"
                                   : "text-left")
                               }
                             >
-                              <img
-                                className="avatar"
-                                src="img/avatar.png"
-                                alt="avatar"
-                              />
+                              <img src="img/avatar.png" alt="avatar" />
                             </div>
                             <div
                               className={
-                                "message" +
-                                (message.sender == user._id
-                                  ? "other-message text-right"
-                                  : "my-message text-left")
+                                "message " +
+                                (messages.sender == user._id
+                                  ? "my-message float-right"
+                                  : "other-message float-left")
                               }
                             >
-                              {message.text}
+                              {messages.text}
                             </div>
                           </li>
                         ))}
@@ -264,108 +262,6 @@ export const Inbox = () => {
                   </form>
                 )}
               </div>
-              {/* <div className="chat">
-                <div className="chat-header clearfix">
-                  <div className="row">
-                    <div className="col-lg-6">
-                      <a
-                        href="javascript:void(0);"
-                        data-toggle="modal"
-                        data-target="#view_info"
-                      >
-                        <img
-                          src="https://bootdey.com/img/Content/avatar/avatar2.png"
-                          alt="avatar"
-                        />
-                      </a>
-                      <div className="chat-about">
-                        <h6 className="m-b-0">Aiden Chavez</h6>
-                        <small>Last seen: 2 hours ago</small>
-                      </div>
-                    </div>
-                    <div className="col-lg-6 hidden-sm text-right">
-                      <a
-                        href="javascript:void(0);"
-                        className="btn btn-outline-secondary"
-                      >
-                        <i className="fa fa-camera" />
-                      </a>
-                      <a
-                        href="javascript:void(0);"
-                        className="btn btn-outline-primary"
-                      >
-                        <i className="fa fa-image" />
-                      </a>
-                      <a
-                        href="javascript:void(0);"
-                        className="btn btn-outline-info"
-                      >
-                        <i className="fa fa-cogs" />
-                      </a>
-                      <a
-                        href="javascript:void(0);"
-                        className="btn btn-outline-warning"
-                      >
-                        <i className="fa fa-question" />
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div className="chat-history">
-                  <ul className="m-b-0">
-                    <li className="clearfix">
-                      <div className="message-data text-right">
-                        <span className="message-data-time">
-                          10:10 AM, Today
-                        </span>
-                        <img
-                          src="https://bootdey.com/img/Content/avatar/avatar7.png"
-                          alt="avatar"
-                        />
-                      </div>
-                      <div className="message other-message float-right">
-                        {" "}
-                        Hi Aiden, how are you? How is the project coming along?{" "}
-                      </div>
-                    </li>
-                    <li className="clearfix">
-                      <div className="message-data">
-                        <span className="message-data-time">
-                          10:12 AM, Today
-                        </span>
-                      </div>
-                      <div className="message my-message">
-                        Are we meeting today?
-                      </div>
-                    </li>
-                    <li className="clearfix">
-                      <div className="message-data">
-                        <span className="message-data-time">
-                          10:15 AM, Today
-                        </span>
-                      </div>
-                      <div className="message my-message">
-                        Project has been already finished and I have results to
-                        show you.
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-                <div className="chat-message clearfix">
-                  <div className="input-group mb-0">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text">
-                        <i className="fa fa-send" />
-                      </span>
-                    </div>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter text here..."
-                    />
-                  </div>
-                </div>
-              </div> */}
             </div>
           </div>
         </div>

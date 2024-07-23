@@ -74,6 +74,7 @@ const userSchema = new Schema(
 userSchema.methods.getJwtAccessToken = function () {
   return jwt.sign(
     {
+      _id: this._id,
       role: this.role,
       email: this.email,
       fullname: this.fullname,

@@ -13,6 +13,8 @@ const serverHttp = createServer(app);
 
 app.use(cors())
 
+app.use("/files", express.static("uploads"));
+
 app.use(express.json());
 
 // connect DB

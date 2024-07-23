@@ -1,7 +1,7 @@
 import ApiError from "../utils/ApiError.js";
 import { catchAsync } from "../middlewares/async.js";
 import Announcement from "../models/Announcement.js";
-import User from "../models/User.js";
+import Files from "../models/File.js";
 
 class announcementController {
   // [POST] /announcement
@@ -38,7 +38,7 @@ class announcementController {
   // [GET] /announcement/:id
   getAnnouncementById = catchAsync(async (req, res, next) => {
     const { id } = req.params;
-    const announcement = await Announcement.findById(id);
+    const announcement = await Announcement.findById(id).populate("files");
     if (!announcement) {
       throw new ApiError(400, "This announcement does not exist!");
     } else {
@@ -49,6 +49,7 @@ class announcementController {
           title: announcement.title,
           description: announcement.description,
           updatedAt: announcement.updatedAt,
+          files: announcement.files
         },
       });
     }
@@ -76,6 +77,12 @@ class announcementController {
   // [DELETE] /announcement/:id
   deleteAnnouncements = catchAsync(async (req, res, next) => {
     const { id } = req.params;
+    const announcement = await Announcement.findById(id);
+    for (const file of announcement.files) {
+      if (file) {
+        await Files.findByIdAndDelete(file);
+      }
+    }
     await Announcement.findByIdAndDelete(id);
     res.status(200).json({
       success: true,

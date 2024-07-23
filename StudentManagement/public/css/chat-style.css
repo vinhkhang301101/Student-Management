@@ -170,7 +170,7 @@ body {
 
 .chat .chat-history .message {
     color: #444;
-    padding: 18px 20px;
+    padding: 7px 20px;
     line-height: 26px;
     font-size: 16px;
     border-radius: 7px;
@@ -218,7 +218,7 @@ body {
 
 .chat .chat-history .my-message:after {
     border-bottom-color: #18aefa;
-    left: 93%
+    left: 70%
 }
 
 .chat .chat-message {

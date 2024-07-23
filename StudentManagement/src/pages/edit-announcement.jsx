@@ -5,9 +5,9 @@ import { useForm } from "../hooks/useForm";
 import { useQuery } from "../hooks/useQuery";
 import { announcementService } from "../services/announcement.js";
 import { required } from "../utils/validate";
-import Field from "../Components/Field";
+import Field from "../components/Field";
 import { Button, Form, Spin, Upload, message } from "antd";
-import { ButtonCom } from "../Components/Button";
+import { ButtonCom } from "../components/Button";
 import { handleError } from "../utils/handleError.js";
 import { useAsync } from "../hooks/useAsync.js";
 
@@ -24,7 +24,7 @@ export const EditAnnouncements = () => {
     enabled: !!id,
   });
 
-  const announcementForm = useForm(rules, { initialValue: data.data });
+  const announcementForm = useForm(rules, { initialValue: data });
 
   const { loading: updateLoading, excute: updateAnnouncement } =
     useAsync(announcementService.updateAnnouncement);

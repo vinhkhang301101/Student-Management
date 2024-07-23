@@ -50,9 +50,10 @@ async function sendMailTo(receiver) {
 
 class authController {
   register = catchAsync(async (req, res) => {
-    const { fullname, email, password, role } = req.body;
+    const { fullname, userID, email, password, role } = req.body;
     const user = await User.create({
       fullname,
+      userID,
       email,
       password,
       role,
@@ -122,7 +123,7 @@ class authController {
 
   // [GET] /people
   getPeople = catchAsync(async (req, res, next) => {
-    const user = await User.find({}, { _id: 1, fullname: 1 });
+    const user = await User.find({}, { _id: 1, userID: 1 });
     res.status(200).json({
       success: true,
       people: user,

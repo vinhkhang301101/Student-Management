@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { message } from "antd";
 import { PATH } from "../config/path";
-import Field from "../Components/Field";
+import Field from "../components/Field";
 import { userService } from "../services/user";
-import { confirm, minMax, regexp, required } from "../utils/validate";
-import { ButtonCom } from "../Components/Button";
+import { confirm, minMax, regexp, required, loginAs } from "../utils/validate";
+import { ButtonCom } from "../components/Button";
 import { useQuery } from "../hooks/useQuery";
 import { handleError } from "../utils/handleError"
-import { Select } from "../Components/Select";
+import { Select } from "../components/Select";
 import { useForm } from "../hooks/useForm";
 import { useAsync } from "../hooks/useAsync";
 
@@ -26,7 +26,7 @@ export const Register = () => {
     fullname: [required()],
     userID: [required()],
     email: [required(), regexp("email")],
-    role: [required()],
+    role: [required(), loginAs()],
     password: [required(), minMax(6)],
     confirmed: [required(), confirm("password")],
   });
@@ -65,8 +65,8 @@ export const Register = () => {
                   <form action="">
                     <div className="form-group">
                       <Field
-                        label="Fullname"
-                        placeholder="Fullname"
+                        label="Full Name"
+                        placeholder="Full Name"
                         required
                         {...registerForm.register("fullname")}
                       />
@@ -108,7 +108,7 @@ export const Register = () => {
                     <div className="form-group">
                       <Field
                         label="Login as"
-                        placeholder="Login as"
+                        placeholder="Student or Teacher"
                         required
                         {...registerForm.register("role")}
                         // renderInput={(props) => (

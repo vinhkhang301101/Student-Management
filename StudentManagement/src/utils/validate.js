@@ -51,6 +51,13 @@ export const validate = (rules, forms) => {
         }
       }
 
+      if (rule.loginAs) {
+        if ((forms[name] != "Student") && (forms[name] != "Teacher")) {
+          errorObject[name] = "You must enter Student or Teacher!";
+          break;
+        }
+      }
+
       if (rule.min || rule.max) {
         if (forms[name]?.length < rule.min || forms[name]?.length > rule.max) {
           errorObject[name] =
@@ -82,6 +89,11 @@ export const regexp = (pattern, message) => {
     message,
   };
 };
+
+export const loginAs = (message) => ({
+  loginAs: true,
+  message
+});
 
 export const minMax = (min, max, message) => ({
   min, max, message

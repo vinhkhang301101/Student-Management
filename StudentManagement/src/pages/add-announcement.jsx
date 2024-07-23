@@ -10,16 +10,9 @@ import Field from "../components/Field";
 import { ButtonCom } from "../components/Button";
 import { handleError } from "../utils/handleError";
 import { Button, Upload, message } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
-import { useAsync } from "../hooks/useAsync";
-import { fileService } from "../services/file"
 
 export const AddAnnouncements = () => {
-  const uploadRef = useRef()
-  const [file, setFile] = useState(null);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { excute: uploadFileService } = useAsync(fileService.upload);
   const { loading } = useQuery({
     enabled: false,
     limitDuration: 1000,
@@ -39,29 +32,25 @@ export const AddAnnouncements = () => {
 
   const onAddAnnouncement = async (ev) => {
     ev.preventDefault();
-    const formData = new FormData();
-    formData.append("file", file);
     try {
       if (announcementForm.validate()) {
         dispatch(addAnnouncementAction(announcementForm.values));
-        await uploadFileService(formData);
         message.success("Added announcement successfully!");
         announcementForm.reset();
-        setFile(null)
       }
     } catch (err) {
       handleError(err);
     }
   };
 
-  const onFileChange = (info) => {
-    console.log(info);
-    setFile(info.file);
-    if (info.file.status === "removed") {
-      setFile(null);
-      console.log("This file has been removed!");
-    }
-  };
+  // const onFileChange = (info) => {
+  //   console.log(info);
+  //   setFile(info.file);
+  //   if (info.file.status === "removed") {
+  //     setFile(null);
+  //     console.log("This file has been removed!");
+  //   }
+  // };
   
   return (
     <>
@@ -112,11 +101,11 @@ export const AddAnnouncements = () => {
                         />
                       </div>
                     </div>
-                    <div className="col-9">
+                    {/* <div className="col-9">
                       <div className="form-group">
                         <Upload
                           ref={uploadRef}
-                          accept="application/pdf, image/png, image/jpeg, image/jpg, .doc, .docx, .pptx"
+                          accept="application/pdf"
                           fileList={
                             file == null ? [] : [file]
                           }
@@ -126,7 +115,7 @@ export const AddAnnouncements = () => {
                           <Button icon={<UploadOutlined />}>Select file</Button>
                         </Upload>
                       </div>
-                    </div>
+                    </div> */}
                     {/* <div className="col-9">
                       <div className="form-group">
                         <Field

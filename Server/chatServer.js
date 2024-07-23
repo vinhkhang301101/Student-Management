@@ -4,15 +4,15 @@ import Chat from "./models/Chat.js";
 function handleOnlinePeople(wss, connection, req) {
   const clientProtocol = req.headers["sec-websocket-protocol"];
   connection._id = clientProtocol.split(", ")[1];
-  connection.fullname = clientProtocol.split(", ")[2];
-  console.log([...wss.clients].map((c) => c.fullname));
+  connection.userID = clientProtocol.split(", ")[2];
+  console.log([...wss.clients].map((c) => c.userID));
 
   [...wss.clients].forEach((client) => {
     client.send(
       JSON.stringify({
         online: [...wss.clients].map((c) => ({
-          userId: c._id,
-          username: c.fullname,
+          _id: c._id,
+          userID: c.userID,
         })),
       })
     );
@@ -21,6 +21,7 @@ function handleOnlinePeople(wss, connection, req) {
 
 async function handleSendMessage(message, wss, connection) {
   const messageData = JSON.parse(message.toString());
+  console.log(messageData);
   const { receiver, text } = messageData;
   if (receiver && text) {
     console.log("Connection ID is: ", connection._id);
@@ -50,12 +51,12 @@ function runServerChat(serverApp) {
   console.log("Chat Server is running!");
   const wss = new WebSocketServer({ server: serverApp });
 
-  wss.on("Connection", (connection, req) => {
+  wss.on("connection", (connection, req) => {
     console.log("+1 connection");
 
     handleOnlinePeople(wss, connection, req);
 
-    connection.on("Message", (message) =>
+    connection.on("message", (message) =>
       handleSendMessage(message, wss, connection)
     );
   });

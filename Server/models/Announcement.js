@@ -10,6 +10,12 @@ const announcementSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    files: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Files",
+      },
+    ],
   },
   {
     collection: "nb-announcements",
