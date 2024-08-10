@@ -1,14 +1,14 @@
 import React from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { PATH } from "../config/path";
-import { ButtonCom } from "../Components/Button";
+import { ButtonCom } from "../components/Button";
 import { required } from "../utils/validate";
 import { useQuery } from "../hooks/useQuery";
 import { classService } from "../services/class";
 import { useAsync } from "../hooks/useAsync";
 import { handleError } from "../utils/handleError";
 import { Spin, message } from "antd";
-import Field from "../Components/Field";
+import Field from "../components/Field";
 import { useForm } from "../hooks/useForm";
 
 const rules = {
@@ -25,7 +25,7 @@ export const EditClasses = () => {
     enabled: !!id,
   });
 
-  const classForm = useForm(rules, { initialValue: data });
+  const classForm = useForm(rules, { initialValue: data?.data });
 
   const { loading: updateLoading, excute: updateClass } = useAsync(
     classService.updateClass

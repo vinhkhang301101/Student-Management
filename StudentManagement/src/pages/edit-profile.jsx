@@ -1,8 +1,8 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { PATH } from "../config/path";
-import Field from "../Components/Field";
-import { ButtonCom } from "../Components/Button";
+import Field from "../components/Field";
+import { ButtonCom } from "../components/Button";
 import { useAuthRedux } from "../hooks/useAuthRedux";
 import { useForm } from "../hooks/useForm";
 import { regexp, required } from "../utils/validate";
@@ -13,7 +13,7 @@ import { object } from "../utils/object";
 import { message } from "antd";
 import { useDispatch } from "react-redux";
 import { setUserAction } from "../stores/auth";
-import { Select } from "../Components/Select";
+import { Select } from "../components/Select";
 import _, { first } from "lodash";
 
 const rules = {

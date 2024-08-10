@@ -112,12 +112,12 @@ export const Profile = () => {
                 </div>
                 <div className="col ml-md-n2 profile-user-info">
                   <h4 className="user-name mb-0">
-                    {user.fullname} - {user.userID}
+                    {user?.fullname} - {user?.userID}
                   </h4>
                   <div className="user-Location">
-                    <i className="fas fa-map-marker-alt" /> {user.address}
+                    <i className="fas fa-map-marker-alt" /> {user?.address}
                   </div>
-                  <div className="about-text">{user.role}</div>
+                  <div className="about-text">{user?.role}</div>
                 </div>
                 <div className="col-auto profile-btn">
                   <Link
@@ -150,43 +150,43 @@ export const Profile = () => {
                         <p className="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">
                           Full Name
                         </p>
-                        <p className="col-sm-9">{user.fullname}</p>
+                        <p className="col-sm-9">{user?.fullname}</p>
                       </div>
                       <div className="row">
                         <p className="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">
                           Email
                         </p>
-                        <p className="col-sm-9">{user.email}</p>
+                        <p className="col-sm-9">{user?.email}</p>
                       </div>
                       <div className="row">
                         <p className="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">
                           Teacher ID
                         </p>
-                        <p className="col-sm-9">{user.userID}</p>
+                        <p className="col-sm-9">{user?.userID}</p>
                       </div>
                       <div className="row">
                         <p className="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">
                           Date of Birth
                         </p>
-                        <p className="col-sm-9">{user.date}</p>
+                        <p className="col-sm-9">{user?.date}</p>
                       </div>
                       <div className="row">
                         <p className="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">
                           Email Address
                         </p>
-                        <p className="col-sm-9">{user.email}</p>
+                        <p className="col-sm-9">{user?.email}</p>
                       </div>
                       <div className="row">
                         <p className="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">
                           Phone Number
                         </p>
-                        <p className="col-sm-9">{user.phone}</p>
+                        <p className="col-sm-9">{user?.phone}</p>
                       </div>
                       <div className="row">
                         <p className="col-sm-3 text-muted text-sm-right mb-0">
                           Address
                         </p>
-                        <p className="col-sm-9 mb-0">{user.address}</p>
+                        <p className="col-sm-9 mb-0">{user?.address}</p>
                       </div>
                     </div>
                   </div>

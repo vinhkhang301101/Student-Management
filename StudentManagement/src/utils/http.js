@@ -16,14 +16,14 @@ http.interceptors.response.use(
     return res.data;
   },
   async (err) => {
-    if (err.response.status === 403 & err.response.data.message === "Token is expired!") {
+    if (err.response.status === 403 & err.response.data?.message === "Token is expired!") {
         try {
             const curRefreshToken = getToken().refreshToken
             const resToken = await authService.refreshToken({
               refreshToken: curRefreshToken,
             });
             setToken({
-              accessToken: resToken.data.accessToken,
+              accessToken: resToken.data?.accessToken,
               refreshToken: curRefreshToken
             })
             return api(err.config)

@@ -17,6 +17,9 @@ export const userService = {
   getUsers(data) {
     return http.get(`${USER_API}/all`, data);
   },
+  getUsersID(data) {
+    return http.get(`${USER_API}/all-users-id`, data);
+  },
   getAllStudents(data) {
     return http.get(`${USER_API}/all-students`, data);
   },

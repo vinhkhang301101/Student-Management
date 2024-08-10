@@ -2,20 +2,34 @@ import ApiError from "../utils/ApiError.js";
 import { catchAsync } from "../middlewares/async.js";
 import Announcement from "../models/Announcement.js";
 import Files from "../models/File.js";
+import User from "../models/User.js";
+import { handleError } from "../../StudentManagement/src/utils/handleError.js";
 
 class announcementController {
   // [POST] /announcement
   createAnnouncement = catchAsync(async (req, res, next) => {
-    const { title, description } = req.body;
+    const { title, description, userIDArr, isAll } = req.body;
     const announce = await Announcement.create({
       title,
       description,
+      users: userIDArr,
+      isAll,
     });
-
-    res.status(200).json({
-      success: true,
-      data: announce,
-    });
+    try {
+      await announce.save();
+      const users = await User.find({ _id: { $in: userIDArr } });
+      for (const user of users) {
+        user.announcements.push(announce);
+        user.markModified("announcements");
+        await user.save();
+      }
+      res.status(200).json({
+        success: true,
+      });
+    } catch (error) {
+      console.log(error);
+      throw new ApiError(400, "Failed to create!");
+    }
   });
 
   // [GET] /announcement/
@@ -26,6 +40,8 @@ class announcementController {
         announcementID: announcement._id,
         title: announcement.title,
         description: announcement.description,
+        users: announcement.userIDArr,
+        isAll: announcement.isAll,
         updatedAt: announcement.updatedAt,
       };
     });

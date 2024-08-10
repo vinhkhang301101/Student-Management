@@ -24,7 +24,7 @@ export const EditAnnouncements = () => {
     enabled: !!id,
   });
 
-  const announcementForm = useForm(rules, { initialValue: data });
+  const announcementForm = useForm(rules, { initialValue: data?.data });
 
   const { loading: updateLoading, excute: updateAnnouncement } =
     useAsync(announcementService.updateAnnouncement);

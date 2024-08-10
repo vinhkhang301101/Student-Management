@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { PATH } from "../config/path";
 import { useQuery } from "../hooks/useQuery";
-import { StudentList } from "../Components/StudentsList";
+import { StudentList } from "../components/StudentsList";
 import { userService } from "../services/user";
 import { useAuthRedux } from "../hooks/useAuthRedux";
 import { Spin } from "antd";
@@ -61,7 +61,7 @@ export const Students = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {data.data.map((e) => (
+                      {data?.data.map((e) => (
                         <StudentList key={e._id} {...e} />
                       ))}
                     </tbody>

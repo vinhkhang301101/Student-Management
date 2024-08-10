@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ChatList } from "../Components/ChatList/index.jsx";
+import { ChatList } from "../components/ChatList/index.jsx";
 import { Link } from "react-router-dom";
 import { uniqBy } from "lodash";
 import { CHAT_SERVER, CHAT_API, USER_API } from "../config/api.js";
 import { useAuthRedux } from "../hooks/useAuthRedux.js";
-import { ButtonCom } from "../Components/Button/index.jsx";
+import { ButtonCom } from "../components/Button/index.jsx";
 import { http } from "../utils/http.js";
 
 export const Inbox = () => {
@@ -27,8 +27,8 @@ export const Inbox = () => {
     console.log("Connected to Chat Server!");
     const ws = new WebSocket(CHAT_SERVER, [
       "draft",
-      `${user._id}`,
-      `${user.userID}`,
+      `${user?._id}`,
+      `${user?.userID}`,
     ]);
     setWs(ws);
     ws.addEventListener("message", handleMessage);
@@ -75,7 +75,7 @@ export const Inbox = () => {
       ...prev,
       {
         text: newMessageText,
-        sender: user._id,
+        sender: user?._id,
         receiver: selectedUserId,
         _id: Date.now(),
       },
@@ -92,7 +92,7 @@ export const Inbox = () => {
   useEffect(() => {
     http.get(`${USER_API}/people`).then((res) => {
       const offlinePeopleArr = res.people
-        .filter((p) => p._id !== user._id)
+        .filter((p) => p._id !== user?._id)
         .filter((p) => !Object.keys(onlinePeople).includes(p._id));
       const offlinePeople = {};
       offlinePeopleArr.forEach((p) => {
@@ -113,7 +113,7 @@ export const Inbox = () => {
   }, [selectedUserId]);
   
   const onlinePeopleExceptOurUser = { ...onlinePeople };
-  delete onlinePeopleExceptOurUser[user._id];
+  delete onlinePeopleExceptOurUser[user?._id];
 
   const messagesWithoutDupes = uniqBy(messages, "_id");
 
@@ -213,7 +213,7 @@ export const Inbox = () => {
                             <div
                               className={
                                 "message-data " +
-                                (messages.sender == user._id
+                                (messages.sender == user?._id
                                   ? "text-right"
                                   : "text-left")
                               }
@@ -223,7 +223,7 @@ export const Inbox = () => {
                             <div
                               className={
                                 "message " +
-                                (messages.sender == user._id
+                                (messages.sender == user?._id
                                   ? "my-message float-right"
                                   : "other-message float-left")
                               }

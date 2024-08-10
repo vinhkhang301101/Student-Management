@@ -36,7 +36,7 @@ export const EditStudents = () => {
     },
   });
 
-  const studentForm = useForm(rules, { initialValue: data.data });
+  const studentForm = useForm(rules, { initialValue: data?.data });
 
   const { loading: updateLoading, excute: updateStudentService } = useAsync(userService.updateStudents);
 

@@ -16,6 +16,17 @@ const announcementSchema = new mongoose.Schema(
         ref: "Files",
       },
     ],
+    users: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Users",
+      },
+    ],
+    isAll: {
+      type: String,
+      enum: ["user", "Student", "none"],
+      default: "none",
+    },
   },
   {
     collection: "nb-announcements",

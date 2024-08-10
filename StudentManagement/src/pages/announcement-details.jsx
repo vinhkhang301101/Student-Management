@@ -63,7 +63,7 @@ export const AnnouncementDetails = () => {
       const formData = new FormData();
       formData.append("id", id);
       formData.append("file", fileUploadToAnnouncement);
-      formData.append("title", data.data.title);
+      formData.append("title", data?.data.title);
 
       const responseUploadFile = await uploadFileService(formData);
       console.log(responseUploadFile);
@@ -121,8 +121,8 @@ export const AnnouncementDetails = () => {
             <div className="profile-header">
               <div className="row align-items-center">
                 <div className="col ml-md-n2">
-                  <h3 className="text-danger fw-bold">{data.data.title}</h3>
-                  <p className="post-date mb-0">{data.data.updatedAt}</p>
+                  <h3 className="text-danger fw-bold">{data?.data.title}</h3>
+                  <p className="post-date mb-0">{data?.data.updatedAt}</p>
                 </div>
                 {user?.role == "Teacher" ? (
                   <div className="col-auto profile-bt ">
@@ -156,8 +156,8 @@ export const AnnouncementDetails = () => {
                       <h5 className="card-title">
                         <span className="fw-bold">Description</span>
                       </h5>
-                      <span>{data.data.description}</span>
-                      {data.data.files.map((file) => (
+                      <span>{data?.data.description}</span>
+                      {data?.data.files.map((file) => (
                         <div key={file._id} className="card flex-fill mt-4">
                           <div className="card-header">
                             <div className="row align-items-center mt-2 mb-2">

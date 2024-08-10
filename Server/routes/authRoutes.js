@@ -9,6 +9,7 @@ router.get("/", jwtAuth, authController.getUser);
 router.get("/people", jwtAuth, authController.getPeople);
 router.get("/student/:id", jwtAuth, authController.getStudentById);
 router.get("/all", authController.getUsers);
+router.get("/all-users-id", authController.getUsersID);
 router.get("/all-students", authController.getAllStudents);
 router.post("/register", authController.register);
 router.post("/login", authController.login);

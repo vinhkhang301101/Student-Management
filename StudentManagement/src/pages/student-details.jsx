@@ -59,30 +59,30 @@ export const StudentDetails = () => {
                         <li>
                           <span className="title-span">Full Name: </span>
                           <span className="info-span">
-                            {data.data.fullname}
+                            {data?.data.fullname}
                           </span>
                         </li>
                         <li>
                           <span className="title-span">Mobile : </span>
-                          <span className="info-span">{data.data.phone}</span>
+                          <span className="info-span">{data?.data.phone}</span>
                         </li>
                         <li>
                           <span className="title-span">Email : </span>
-                          <span className="info-span">{data.data.email}</span>
+                          <span className="info-span">{data?.data.email}</span>
                         </li>
                         <li>
                           <span className="title-span">Gender : </span>
-                          <span className="info-span">{data.data.gender}</span>
+                          <span className="info-span">{data?.data.gender}</span>
                         </li>
                         <li>
                           <span className="title-span">DOB : </span>
-                          <span className="info-span">{data.data.date}</span>
+                          <span className="info-span">{data?.data.date}</span>
                         </li>
                       </ul>
                     </div>
                     <Link
                       to={generatePath(PATH.Students.EditStudents, {
-                        id: data.data._id,
+                        id: data?.data._id,
                       })}
                       className="btn btn-primary"
                     >

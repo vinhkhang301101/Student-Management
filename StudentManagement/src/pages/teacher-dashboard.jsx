@@ -4,12 +4,14 @@ import { PATH } from "../config/path";
 import { useQuery } from "../hooks/useQuery";
 import { announcementService } from "../services/announcement.js";
 import { classService } from "../services/class.js";
-import { AnnouncementFeed } from "../Components/AnnouncementFeed";
+import { AnnouncementFeed } from "../components/AnnouncementFeed";
 import { Calendar, Empty, Spin } from "antd";
-import { UpcomingClass } from "../Components/UpcomingClass/index.jsx";
+import { UpcomingClass } from "../components/UpcomingClass/index.jsx";
+import { useAuthRedux } from "../hooks/useAuthRedux.js";
 
 
 export const TeacherDashboard = () => {
+  const { user } = useAuthRedux()
   const { data: announcement, loading: announcementLoading } = useQuery({
     queryFn: () => announcementService.getAnnouncement(),
   });
@@ -32,7 +34,7 @@ export const TeacherDashboard = () => {
         <div className="page-header">
           <div className="row">
             <div className="col-sm-12">
-              <h3 className="page-title">Welcome D!</h3>
+              <h3 className="page-title">Welcome {user?.fullname}!</h3>
               <ul className="breadcrumb">
                 <li className="breadcrumb-item">
                   <Link to="">Home</Link>
@@ -65,7 +67,7 @@ export const TeacherDashboard = () => {
                     <div className="teaching-card">
                       {announcement?.data.length ? (
                         <ul className="activity-feed">
-                          {announcement.data.map((e) => (
+                          {announcement?.data.map((e) => (
                             <AnnouncementFeed key={e._id} {...e} />
                           ))}
                         </ul>
@@ -86,7 +88,7 @@ export const TeacherDashboard = () => {
                         </Empty>
                       )}
                       {/* <ul className="activity-feed">
-                        {data.data.map((e) => (
+                        {data?.data.map((e) => (
                           <AnnouncementFeed key={e._id} {...e} />
                         ))}
                       </ul> */}
@@ -116,7 +118,7 @@ export const TeacherDashboard = () => {
                         <tbody>
                           {classes?.data.length ? (
                             <ul className="activity-feed">
-                              {classes.data.map((e) => (
+                              {classes?.data.map((e) => (
                                 <UpcomingClass key={e._id} {...e} />
                               ))}
                             </ul>

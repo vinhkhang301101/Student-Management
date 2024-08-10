@@ -10,9 +10,9 @@ export const Sidebar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  if (!user) {
-    navigate(PATH.Login);
-  }
+//   if (!user) {
+//     navigate(PATH.Login);
+//   }
 
   return (
     <>
@@ -79,7 +79,6 @@ export const Sidebar = () => {
                         onClick={(ev) => {
                         ev.preventDefault();
                         dispatch(logoutAction());
-                        navigate(PATH.Login);
                         }}
                     >
                         <i className="fas fa-share" /> <span>Logout</span>{" "}
@@ -129,7 +128,6 @@ export const Sidebar = () => {
                         onClick={(ev) => {
                         ev.preventDefault();
                         dispatch(logoutAction());
-                        navigate(PATH.Login);
                         }}
                     >
                         <i className="fas fa-share" /> <span>Logout</span>{" "}

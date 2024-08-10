@@ -205,6 +205,24 @@ class authController {
     });
   });
 
+  // [GET] /all-users-id
+  getUsersID = catchAsync(async (req, res, next) => {
+    const users = await User.find();
+    const userArr = users.map((user, index) => {
+      return {
+        _id: user._id,
+        userID: user.userID,
+        fullname: user.fullname,
+        role: user.role,
+      };
+    });
+    userArr.splice(0, 1);
+    res.status(200).json({
+      success: true,
+      userArr,
+    });
+  });
+
   // [GET] /all-students
   getAllStudents = catchAsync(async (req, res, next) => {
     const user = await User.find({ role: "Student" });

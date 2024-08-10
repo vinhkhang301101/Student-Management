@@ -7,7 +7,7 @@ import { announcementService } from "../../services/announcement";
 import { useState } from "react";
 // import { handleError } from "../../utils/handleError";
 // import { useReload } from "../../hooks/useReload";
-// import { ButtonCom } from "../../Components/Button";
+// import { ButtonCom } from "../../components/Button";
 
 export const AnnouncementList = ({ announcementID, title, description, updatedAt }) => {
   const { user } = useAuthRedux();

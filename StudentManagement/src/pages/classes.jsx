@@ -57,7 +57,7 @@ export const Classes = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {data.data.map((e) => (
+                        {data?.data.map((e) => (
                           <ClassList key={e._id} {...e} />
                         ))}
                       </tbody>
@@ -88,7 +88,7 @@ export const Classes = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {data.data.map((e) => (
+                      {data?.data.map((e) => (
                         <ClassList key={e._id} {...e} />
                       ))}
                     </tbody>

@@ -64,6 +64,12 @@ const userSchema = new Schema(
       type: String,
       default: null,
     },
+    announcements: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Announcement",
+      },
+    ],
   },
   {
     collection: "nb-users",

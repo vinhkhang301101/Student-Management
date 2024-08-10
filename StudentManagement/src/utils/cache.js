@@ -10,8 +10,8 @@ export const localStorageCache = {
     let storeData = JSON.parse(localStorage.getItem(name));
     if (storeData) {
       let now = Date.now();
-      if (storeData.expired && storeData.expired - now > 0) {
-        return storeData.data;
+      if (storeData?.expired && storeData?.expired - now > 0) {
+        return storeData?.data;
       }
     }
   },
@@ -32,8 +32,8 @@ export const sessionStorageCache = {
     let storeData = JSON.parse(sessionStorage.getItem(name));
     if (storeData) {
       let now = Date.now();
-      if (storeData.expired && storeData.expired - now > 0) {
-        return storeData.data;
+      if (storeData?.expired && storeData?.expired - now > 0) {
+        return storeData?.data;
       }
     }
   },

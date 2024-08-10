@@ -2058,7 +2058,7 @@ footer p {
 	color: #333;
 }
 .notifications .noti-content {
-	height: 290px;
+	max-height: 290px;
 	width: 350px;
 	overflow-y: auto;
 	position: relative;
@@ -2166,7 +2166,7 @@ footer p {
 	padding: 8px;
 }
 .card-body .right-content {
-	max-width: 500px;
+	max-width: 420px;
 }
 .activity-feed {
     list-style: none;
